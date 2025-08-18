@@ -94,8 +94,9 @@ export default function App() {
 
   const initializeAuth = async () => {
     try {
+      console.log('Starting auth initialization...');
       const { session, error } = await authHelpers.getSession();
-      
+
       if (error) {
         console.error('Session initialization error:', error);
         setAuthInitialized(true);
