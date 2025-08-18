@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useEffect } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { CartItem, WishlistItem, User, AppContextType } from "../types";
 import { storage } from "../utils/storage";
 
