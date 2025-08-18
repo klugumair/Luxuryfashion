@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Mountain, Instagram, Twitter, Linkedin, Facebook } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
