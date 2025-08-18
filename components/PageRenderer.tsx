@@ -64,6 +64,8 @@ import { KidsGirls6To14YJeansPage } from "./pages/KidsGirls6To14YJeansPage";
 import { AccessoriesPage } from "./pages/AccessoriesPage";
 import { MenAccessoriesPage } from "./pages/MenAccessoriesPage";
 import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
+// Import Admin Pages
+import { AdminPanel } from "./pages/AdminPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
 
 interface PageRendererProps {
