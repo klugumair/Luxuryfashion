@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": false
+  },
+  "fmt": {
+    "files": {
+      "include": ["index.ts", "kv_store.ts"]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 120,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  },
+  "lint": {
+    "files": {
+      "include": ["index.ts", "kv_store.ts"]
+    },
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}

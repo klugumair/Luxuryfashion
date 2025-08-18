@@ -1,0 +1,252 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { Toaster } from "./components/ui/sonner";
+import { LoadingOverlay } from "./components/LoadingOverlay";
+import { PageRenderer } from "./components/PageRenderer";
+import {
+  AppProvider,
+  useAppContext,
+} from "./context/AppContext";
+import { createNavigationHandler } from "./utils/navigation";
+import { supabase, authHelpers } from "./utils/supabase/client";
+import { toast } from "sonner@2.0.3";
+
+// Re-export useAppContext for convenience
+export { useAppContext };
+
+export default function App() {
+  // Navigation state
+  const [currentPage, setCurrentPage] = useState("home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [authInitialized, setAuthInitialized] = useState(false);
+
+  // Create navigation handler
+  const handlePageChange = createNavigationHandler(
+    setCurrentPage,
+    setIsLoading,
+    setIsMenuOpen,
+    currentPage,
+    setSearchQuery,
+  );
+
+  // Initialize authentication
+  useEffect(() => {
+    initializeAuth();
+    
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_IN' && session?.user) {
+          const userData = {
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.user_metadata?.full_name || 
+                  session.user.user_metadata?.name || 
+                  session.user.email?.split("@")[0] || 
+                  "User",
+            avatar: session.user.user_metadata?.avatar_url || 
+                    session.user.user_metadata?.picture || 
+                    `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
+            provider: session.user.app_metadata?.provider || 'email'
+          };
+          
+          setUser(userData);
+          
+          // Only show welcome toast if not already authenticated
+          if (event === 'SIGNED_IN' && !user) {
+            toast.success("Welcome to Outlander!", {
+              description: `Signed in as ${userData.name}`,
+            });
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+          toast.info("Signed out successfully", {
+            description: "You've been logged out of your account"
+          });
+        } else if (event === 'TOKEN_REFRESHED') {
+          console.log('Token refreshed successfully');
+        }
+        
+        setAuthInitialized(true);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [user]);
+
+  const initializeAuth = async () => {
+    try {
+      const { session, error } = await authHelpers.getSession();
+      
+      if (error) {
+        console.error('Session initialization error:', error);
+        setAuthInitialized(true);
+        return;
+      }
+
+      if (session?.user) {
+        const userData = {
+          id: session.user.id,
+          email: session.user.email,
+          name: session.user.user_metadata?.full_name || 
+                session.user.user_metadata?.name || 
+                session.user.email?.split("@")[0] || 
+                "User",
+          avatar: session.user.user_metadata?.avatar_url || 
+                  session.user.user_metadata?.picture || 
+                  `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
+          provider: session.user.app_metadata?.provider || 'email'
+        };
+        
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+    } finally {
+      setAuthInitialized(true);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      const { error } = await authHelpers.signOut();
+      
+      if (error) {
+        toast.error("Logout failed", {
+          description: error.message
+        });
+      } else {
+        setUser(null);
+        // Navigate to home page after logout
+        handlePageChange("home");
+      }
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      toast.error("Logout error", {
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Show loading screen while auth initializes
+  if (!authInitialized) {
+    return <LoadingOverlay isLoading={true} />;
+  }
+
+  // Enhanced page transition variants
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+      scale: 0.98,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      scale: 0.98,
+      transition: {
+        duration: 0.3,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  };
+
+  return (
+    <AppProvider 
+      setCurrentPage={handlePageChange} 
+      setUser={setUser}
+    >
+      <div className="min-h-screen bg-gradient-to-br from-amber-50/50 via-white to-purple-50/50">
+        {/* Loading Overlay */}
+        <LoadingOverlay isLoading={isLoading} />
+
+        {/* Header */}
+        <Header
+          currentPage={currentPage}
+          setCurrentPage={handlePageChange}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          user={user}
+          isAuthenticated={!!user}
+          onLogin={() => handlePageChange("auth")}
+          onLogout={handleLogout}
+        />
+
+        {/* Main Content */}
+        <main className="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              className="min-h-[calc(100vh-140px)]"
+            >
+              <PageRenderer
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </main>
+
+        {/* Footer */}
+        <Footer setCurrentPage={handlePageChange} />
+
+        {/* Toast Notifications */}
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background:
+                "linear-gradient(135deg, #f59e0b 0%, #a855f7 100%)",
+              border: "none",
+              color: "white",
+              borderRadius: "12px",
+              padding: "16px",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+            },
+            duration: 4000,
+          }}
+        />
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            />
+          )}
+        </AnimatePresence>
+      </div>
+    </AppProvider>
+  );
+}
