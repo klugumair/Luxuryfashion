@@ -122,6 +122,7 @@ export default function App() {
     } catch (error) {
       console.error('Auth initialization error:', error);
     } finally {
+      console.log('Auth initialization completed');
       setAuthInitialized(true);
     }
   };
