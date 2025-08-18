@@ -1023,29 +1023,13 @@ export function Header({
                 </motion.button>
               )}
 
-              {/* Temporary Admin Panel Button - visible for everyone */}
-              <motion.button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log("Admin panel button clicked!");
-                  setCurrentPage("admin");
-                }}
-                className="ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Settings className="h-4 w-4" />
-                Admin Panel
-              </motion.button>
-
               {/* User Dropdown */}
               {isAuthenticated && user && (
                 <UserDropdown
                   isOpen={dropdowns.user}
                   user={user}
                   onLogout={onLogout}
-                  onNavigate={setCurrentPage}
+                  onNavigate={handleNavigation}
                 />
               )}
             </div>
