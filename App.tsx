@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
@@ -13,7 +13,7 @@ import {
 } from "./context/AppContext";
 import { createNavigationHandler } from "./utils/navigation";
 import { supabase, authHelpers } from "./utils/supabase/client";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 // Re-export useAppContext for convenience
 export { useAppContext };
