@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Menu, 
-  X, 
-  ArrowRight, 
-  ChevronRight, 
+import {
+  Menu,
+  X,
+  ArrowRight,
+  ChevronRight,
   ChevronDown,
   Mountain,
   ShoppingBag,
@@ -13,7 +13,8 @@ import {
   LogOut,
   Search,
   Share2,
-  Ruler
+  Ruler,
+  Settings
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
