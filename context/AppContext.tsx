@@ -1,7 +1,8 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import { toast } from "sonner";
-import { CartItem, WishlistItem, User, AppContextType } from "../types";
+import { CartItem, WishlistItem, User, AppContextType, Product, Category } from "../types";
 import { storage } from "../utils/storage";
+import { adminService } from "../utils/supabase/admin";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
