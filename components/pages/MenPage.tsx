@@ -233,6 +233,18 @@ export function MenPage() {
           />
         </motion.div>
       </main>
+
+      {/* Admin Features */}
+      <AdminFloatingButton
+        category="Men's Clothing"
+        onAddProduct={() => setShowQuickAdd(true)}
+      />
+
+      <QuickAddProduct
+        isOpen={showQuickAdd}
+        onClose={() => setShowQuickAdd(false)}
+        category="men"
+      />
     </div>
   );
 }
