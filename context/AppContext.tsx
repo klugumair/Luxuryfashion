@@ -211,6 +211,106 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     return wishlistItems.some((item) => item.id === itemId);
   };
 
+  // Admin functions
+  const addProduct = async (productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      setIsLoading(true);
+      const newProduct = await adminService.createProduct(productData);
+      if (newProduct) {
+        setProducts(prev => [newProduct, ...prev]);
+        toast.success("Product added successfully! 🎉", {
+          description: `${productData.name} has been added to the store`,
+        });
+      }
+    } catch (error: any) {
+      console.error("Error adding product:", error);
+      toast.error("Failed to add product", {
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateProduct = async (id: string, updates: Partial<Product>) => {
+    try {
+      setIsLoading(true);
+      const updatedProduct = await adminService.updateProduct(id, updates);
+      if (updatedProduct) {
+        setProducts(prev => prev.map(p => p.id === id ? updatedProduct : p));
+        toast.success("Product updated successfully! ✨", {
+          description: `${updatedProduct.name} has been updated`,
+        });
+      }
+    } catch (error: any) {
+      console.error("Error updating product:", error);
+      toast.error("Failed to update product", {
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteProduct = async (id: string) => {
+    try {
+      setIsLoading(true);
+      const productToDelete = products.find(p => p.id === id);
+      await adminService.deleteProduct(id);
+      setProducts(prev => prev.filter(p => p.id !== id));
+      toast.success("Product deleted successfully! 🗑️", {
+        description: `${productToDelete?.name || 'Product'} has been removed from the store`,
+      });
+    } catch (error: any) {
+      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product", {
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchProducts = async (category?: string) => {
+    try {
+      setIsLoading(true);
+      const fetchedProducts = await adminService.getProducts(category);
+      setProducts(fetchedProducts);
+    } catch (error: any) {
+      console.error("Error fetching products:", error);
+      toast.error("Failed to fetch products", {
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Check admin status when user changes
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (user?.id) {
+        try {
+          const adminStatus = await adminService.checkAdminStatus(user.id);
+          setIsAdmin(adminStatus);
+
+          // If admin, fetch categories
+          if (adminStatus) {
+            const fetchedCategories = await adminService.getCategories();
+            setCategories(fetchedCategories);
+          }
+        } catch (error) {
+          console.error("Error checking admin status:", error);
+          setIsAdmin(false);
+        }
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, [user]);
+
   // Computed values
   const cartTotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
