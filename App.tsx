@@ -39,12 +39,19 @@ export default function App() {
   // Initialize authentication
   useEffect(() => {
     initializeAuth();
-    
+
+    // Add a timeout fallback in case auth hangs
+    const authTimeout = setTimeout(() => {
+      console.warn('Auth initialization timeout - proceeding without auth');
+      setAuthInitialized(true);
+    }, 5000); // 5 second timeout
+
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.email);
-        
+        clearTimeout(authTimeout); // Clear timeout on successful auth
+
         if (event === 'SIGNED_IN' && session?.user) {
           const userData = {
             id: session.user.id,
