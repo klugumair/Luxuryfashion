@@ -310,6 +310,18 @@ export function KidsPage() {
           />
         </motion.div>
       </main>
+
+      {/* Admin Features */}
+      <AdminFloatingButton
+        category="Kids' Clothing"
+        onAddProduct={() => setShowQuickAdd(true)}
+      />
+
+      <QuickAddProduct
+        isOpen={showQuickAdd}
+        onClose={() => setShowQuickAdd(false)}
+        category="kids"
+      />
     </div>
   );
 }
