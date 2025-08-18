@@ -23,6 +23,35 @@ export interface User {
   email: string;
   name: string;
   avatar?: string;
+  role?: 'user' | 'admin';
+  provider?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  images: string[];
+  category: string;
+  subcategory?: string;
+  sizes: string[];
+  colors: string[];
+  inStock: boolean;
+  featured?: boolean;
+  tags?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  parentCategory?: string;
+  description?: string;
+  order: number;
 }
 
 export interface AppContextType {
@@ -47,6 +76,15 @@ export interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
+  isAdmin: boolean;
+
+  // Products state (for admin)
+  products: Product[];
+  categories: Category[];
+  addProduct: (product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateProduct: (id: string, product: Partial<Product>) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
+  fetchProducts: (category?: string) => Promise<void>;
 
   // UI state
   searchQuery: string;

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "../../App";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import { AnimatedEmoji } from "../animations";
-import { Heart, ShoppingCart, Trash2, Eye, Filter, Grid3X3, List } from "lucide-react";
+import { Heart, ShoppingCart, Trash2, Eye, Filter, Grid, List } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 interface WishlistItem {
@@ -217,7 +217,7 @@ export function WishlistPage() {
                     onClick={() => setViewMode('grid')}
                     className="p-2"
                   >
-                    <Grid3X3 className="w-4 h-4" />
+                    <Grid className="w-4 h-4" />
                   </Button>
                   <Button
                     variant={viewMode === 'list' ? 'default' : 'ghost'}

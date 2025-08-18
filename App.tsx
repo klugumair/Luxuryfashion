@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
@@ -13,7 +13,7 @@ import {
 } from "./context/AppContext";
 import { createNavigationHandler } from "./utils/navigation";
 import { supabase, authHelpers } from "./utils/supabase/client";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 // Re-export useAppContext for convenience
 export { useAppContext };
@@ -39,12 +39,19 @@ export default function App() {
   // Initialize authentication
   useEffect(() => {
     initializeAuth();
-    
+
+    // Add a timeout fallback in case auth hangs
+    const authTimeout = setTimeout(() => {
+      console.warn('Auth initialization timeout - proceeding without auth');
+      setAuthInitialized(true);
+    }, 5000); // 5 second timeout
+
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.email);
-        
+        clearTimeout(authTimeout); // Clear timeout on successful auth
+
         if (event === 'SIGNED_IN' && session?.user) {
           const userData = {
             id: session.user.id,
@@ -87,8 +94,9 @@ export default function App() {
 
   const initializeAuth = async () => {
     try {
+      console.log('Starting auth initialization...');
       const { session, error } = await authHelpers.getSession();
-      
+
       if (error) {
         console.error('Session initialization error:', error);
         setAuthInitialized(true);
@@ -114,6 +122,7 @@ export default function App() {
     } catch (error) {
       console.error('Auth initialization error:', error);
     } finally {
+      console.log('Auth initialization completed');
       setAuthInitialized(true);
     }
   };

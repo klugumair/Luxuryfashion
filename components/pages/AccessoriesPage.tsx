@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
 

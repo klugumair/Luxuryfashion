@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { 
-  Menu, 
-  X, 
-  ArrowRight, 
-  ChevronRight, 
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  X,
+  ArrowRight,
+  ChevronRight,
   ChevronDown,
   Mountain,
   ShoppingBag,
@@ -13,7 +13,8 @@ import {
   LogOut,
   Search,
   Share2,
-  Ruler
+  Ruler,
+  Settings
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
@@ -547,15 +548,18 @@ function KidsDropdown({
 }
 
 // User Dropdown Component
-function UserDropdown({ 
-  isOpen, 
-  user, 
-  onLogout 
-}: { 
-  isOpen: boolean; 
+function UserDropdown({
+  isOpen,
+  user,
+  onLogout,
+  onNavigate
+}: {
+  isOpen: boolean;
   user: User;
   onLogout: () => void;
+  onNavigate: (page: string) => void;
 }) {
+  const { isAdmin } = useAppContext();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -602,6 +606,7 @@ function UserDropdown({
             >
               <motion.button
                 variants={itemFadeIn}
+                onClick={() => onNavigate("account")}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-amber-50 hover:to-purple-50 transition-all duration-200 group"
                 whileHover={{ x: 2, scale: 1.005 }}
                 whileTap={{ scale: 0.98 }}
@@ -615,7 +620,7 @@ function UserDropdown({
                 </motion.div>
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Profile
-                  <AnimatedEmoji 
+                  <AnimatedEmoji
                     emoji="👤"
                     animation="pulse"
                     size="small"
@@ -624,6 +629,35 @@ function UserDropdown({
                 </span>
                 <ChevronRight className="h-4 w-4 text-amber-600 ml-auto" />
               </motion.button>
+
+              {/* Admin Panel Button (only for admins) */}
+              {isAdmin && (
+                <motion.button
+                  variants={itemFadeIn}
+                  onClick={() => onNavigate("admin")}
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-200 group"
+                  whileHover={{ x: 2, scale: 1.005 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <motion.div
+                    className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-purple-600 group-hover:from-purple-200 group-hover:to-blue-200"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Settings className="h-4 w-4" />
+                  </motion.div>
+                  <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
+                    Admin Panel
+                    <AnimatedEmoji
+                      emoji="⚡"
+                      animation="pulse"
+                      size="small"
+                      delay={0}
+                    />
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-purple-600 ml-auto" />
+                </motion.button>
+              )}
 
               <motion.button
                 variants={itemFadeIn}
@@ -641,7 +675,7 @@ function UserDropdown({
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Orders
                   <AnimatedEmoji 
-                    emoji="📦"
+                    emoji="����"
                     animation="bounce"
                     size="small"
                     delay={0.1}
@@ -989,12 +1023,29 @@ export function Header({
                 </motion.button>
               )}
 
+              {/* Temporary Admin Panel Button - visible for everyone */}
+              <motion.button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log("Admin panel button clicked!");
+                  setCurrentPage("admin");
+                }}
+                className="ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Settings className="h-4 w-4" />
+                Admin Panel
+              </motion.button>
+
               {/* User Dropdown */}
               {isAuthenticated && user && (
                 <UserDropdown
                   isOpen={dropdowns.user}
                   user={user}
                   onLogout={onLogout}
+                  onNavigate={setCurrentPage}
                 />
               )}
             </div>

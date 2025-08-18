@@ -1,14 +1,18 @@
-import { motion } from "motion/react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Crown, ArrowRight, Heart, Star, Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatedEmoji } from "../animations";
 import { ProductGrid } from "../ProductGrid";
 import { womenProducts } from "../constants";
 import { useAppContext } from "../../App";
+import { AdminFloatingButton } from "../AdminFloatingButton";
+import { QuickAddProduct } from "../QuickAddProduct";
 
 // Women's Collection Page
 export function WomenPage() {
-  const { setCurrentPage } = useAppContext();
+  const { setCurrentPage, isAdmin } = useAppContext();
+  const [showQuickAdd, setShowQuickAdd] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-amber-50 via-purple-50 to-rose-50">
       <main className="flex-1">
@@ -260,6 +264,18 @@ export function WomenPage() {
           />
         </motion.div>
       </main>
+
+      {/* Admin Features */}
+      <AdminFloatingButton
+        category="Women's Clothing"
+        onAddProduct={() => setShowQuickAdd(true)}
+      />
+
+      <QuickAddProduct
+        isOpen={showQuickAdd}
+        onClose={() => setShowQuickAdd(false)}
+        category="women"
+      />
     </div>
   );
 }

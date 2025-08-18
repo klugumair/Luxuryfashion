@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Instagram, Twitter, Facebook, Youtube, Mail, Users, Heart, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";

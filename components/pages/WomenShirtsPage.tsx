@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Shirt, ArrowRight, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatedEmoji } from "../animations";
