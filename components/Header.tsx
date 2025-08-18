@@ -1029,6 +1029,7 @@ export function Header({
                   isOpen={dropdowns.user}
                   user={user}
                   onLogout={onLogout}
+                  onNavigate={setCurrentPage}
                 />
               )}
             </div>
