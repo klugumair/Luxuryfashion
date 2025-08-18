@@ -547,15 +547,18 @@ function KidsDropdown({
 }
 
 // User Dropdown Component
-function UserDropdown({ 
-  isOpen, 
-  user, 
-  onLogout 
-}: { 
-  isOpen: boolean; 
+function UserDropdown({
+  isOpen,
+  user,
+  onLogout,
+  onNavigate
+}: {
+  isOpen: boolean;
   user: User;
   onLogout: () => void;
+  onNavigate: (page: string) => void;
 }) {
+  const { isAdmin } = useAppContext();
   return (
     <AnimatePresence>
       {isOpen && (
