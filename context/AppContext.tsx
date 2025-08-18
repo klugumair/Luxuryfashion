@@ -29,6 +29,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
+  // Admin state
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+
   // Determine which setUser to use
   const setUser = setUserFromProps || setUserState;
 
