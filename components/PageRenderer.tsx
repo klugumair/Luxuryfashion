@@ -100,6 +100,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <AuthPage />;
       case "account":
         return <AccountPage />;
+      case "admin":
+        return <AdminPanel />;
       case "size-guide":
         return <SizeGuidePage />;
       // Men's category pages
