@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { User, Package, Heart, Settings, LogOut, Edit, Camera, MapPin, Calendar } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Input } from "../ui/input";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 export function AccountPage() {
   const { user, setUser, cartItems, cartTotal, isAuthenticated } = useAppContext();

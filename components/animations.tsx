@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Enhanced Animated Emoji Component with larger sizes
 export const AnimatedEmoji = ({ 

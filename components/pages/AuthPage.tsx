@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Github, Chrome, MessageCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -7,7 +7,7 @@ import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { supabase, authHelpers } from "../../utils/supabase/client";
 
 export function AuthPage() {
