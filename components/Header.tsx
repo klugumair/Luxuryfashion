@@ -1025,7 +1025,12 @@ export function Header({
 
               {/* Temporary Admin Panel Button - visible for everyone */}
               <motion.button
-                onClick={() => setCurrentPage("admin")}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log("Admin panel button clicked!");
+                  setCurrentPage("admin");
+                }}
                 className="ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
