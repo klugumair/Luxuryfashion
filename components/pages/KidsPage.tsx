@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, Star, Smile, Zap, Gift } from "lucide-react";
 import { Button } from "../ui/button";
@@ -5,6 +6,8 @@ import { AnimatedEmoji } from "../animations";
 import { ProductGrid } from "../ProductGrid";
 import { kidsProducts } from "../constants";
 import { useAppContext } from "../../App";
+import { AdminFloatingButton } from "../AdminFloatingButton";
+import { QuickAddProduct } from "../QuickAddProduct";
 
 // Kids Collection Page  
 export function KidsPage() {
