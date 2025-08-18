@@ -11,7 +11,8 @@ import { QuickAddProduct } from "../QuickAddProduct";
 
 // Men's Collection Page
 export function MenPage() {
-  const { setCurrentPage } = useAppContext();
+  const { setCurrentPage, isAdmin } = useAppContext();
+  const [showQuickAdd, setShowQuickAdd] = useState(false);
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-amber-50 via-purple-50 to-rose-50">
       <main className="flex-1">
