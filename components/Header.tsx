@@ -675,7 +675,7 @@ function UserDropdown({
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Orders
                   <AnimatedEmoji 
-                    emoji="📦"
+                    emoji="����"
                     animation="bounce"
                     size="small"
                     delay={0.1}
@@ -1012,29 +1012,27 @@ export function Header({
                   <User className="h-5 w-5" />
                 </motion.button>
               ) : (
-                <div className="flex items-center gap-3">
-                  <motion.button
-                    onClick={onLogin}
-                    className="px-4 py-2 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <User className="h-4 w-4" />
-                    Sign In
-                  </motion.button>
-
-                  {/* Temporary Admin Panel Button */}
-                  <motion.button
-                    onClick={() => setCurrentPage("admin")}
-                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Settings className="h-4 w-4" />
-                    Admin Panel
-                  </motion.button>
-                </div>
+                <motion.button
+                  onClick={onLogin}
+                  className="px-4 py-2 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <User className="h-4 w-4" />
+                  Sign In
+                </motion.button>
               )}
+
+              {/* Temporary Admin Panel Button - visible for everyone */}
+              <motion.button
+                onClick={() => setCurrentPage("admin")}
+                className="ml-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Settings className="h-4 w-4" />
+                Admin Panel
+              </motion.button>
 
               {/* User Dropdown */}
               {isAuthenticated && user && (
