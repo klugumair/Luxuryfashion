@@ -606,6 +606,7 @@ function UserDropdown({
             >
               <motion.button
                 variants={itemFadeIn}
+                onClick={() => onNavigate("account")}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-amber-50 hover:to-purple-50 transition-all duration-200 group"
                 whileHover={{ x: 2, scale: 1.005 }}
                 whileTap={{ scale: 0.98 }}
@@ -619,7 +620,7 @@ function UserDropdown({
                 </motion.div>
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Profile
-                  <AnimatedEmoji 
+                  <AnimatedEmoji
                     emoji="👤"
                     animation="pulse"
                     size="small"
@@ -628,6 +629,35 @@ function UserDropdown({
                 </span>
                 <ChevronRight className="h-4 w-4 text-amber-600 ml-auto" />
               </motion.button>
+
+              {/* Admin Panel Button (only for admins) */}
+              {isAdmin && (
+                <motion.button
+                  variants={itemFadeIn}
+                  onClick={() => onNavigate("admin")}
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-200 group"
+                  whileHover={{ x: 2, scale: 1.005 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <motion.div
+                    className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-purple-600 group-hover:from-purple-200 group-hover:to-blue-200"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Settings className="h-4 w-4" />
+                  </motion.div>
+                  <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
+                    Admin Panel
+                    <AnimatedEmoji
+                      emoji="⚡"
+                      animation="pulse"
+                      size="small"
+                      delay={0}
+                    />
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-purple-600 ml-auto" />
+                </motion.button>
+              )}
 
               <motion.button
                 variants={itemFadeIn}
