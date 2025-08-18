@@ -8,7 +8,7 @@ import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import { AnimatedEmoji } from "../animations";
-import { Heart, ShoppingCart, Trash2, Eye, Filter, Grid3x3, List } from "lucide-react";
+import { Heart, ShoppingCart, Trash2, Eye, Filter, Grid, List } from "lucide-react";
 import { ImageWithFallback } from "../figma/ImageWithFallback";
 
 interface WishlistItem {
@@ -217,7 +217,7 @@ export function WishlistPage() {
                     onClick={() => setViewMode('grid')}
                     className="p-2"
                   >
-                    <Grid3x3 className="w-4 h-4" />
+                    <Grid className="w-4 h-4" />
                   </Button>
                   <Button
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
