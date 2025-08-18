@@ -23,6 +23,35 @@ export interface User {
   email: string;
   name: string;
   avatar?: string;
+  role?: 'user' | 'admin';
+  provider?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  images: string[];
+  category: string;
+  subcategory?: string;
+  sizes: string[];
+  colors: string[];
+  inStock: boolean;
+  featured?: boolean;
+  tags?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  parentCategory?: string;
+  description?: string;
+  order: number;
 }
 
 export interface AppContextType {
