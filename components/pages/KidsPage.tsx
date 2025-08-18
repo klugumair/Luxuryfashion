@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Heart, ArrowRight, Star, Smile, Zap, Gift } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatedEmoji } from "../animations";

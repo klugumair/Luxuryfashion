@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Search, Filter, Grid, List, SlidersHorizontal } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "../../App";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
