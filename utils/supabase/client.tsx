@@ -10,7 +10,25 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    flowType: 'pkce'
+    flowType: 'pkce',
+    storage: {
+      getItem: (key) => {
+        if (typeof window !== 'undefined') {
+          return window.localStorage.getItem(key);
+        }
+        return null;
+      },
+      setItem: (key, value) => {
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(key, value);
+        }
+      },
+      removeItem: (key) => {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem(key);
+        }
+      }
+    }
   },
   global: {
     headers: {
@@ -52,7 +70,11 @@ export const authHelpers = {
       email,
       password,
       options: {
-        data: userData
+        data: {
+          full_name: userData?.full_name || userData?.name || email.split('@')[0],
+          avatar_url: userData?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
+          ...userData
+        }
       }
     })
     return { data, error }
@@ -66,14 +88,15 @@ export const authHelpers = {
     return { data, error }
   },
 
-  async signInWithOAuth(provider: 'google' | 'github' | 'discord') {
+  async signInWithOAuth(provider: 'google') {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth`,
+        redirectTo: `${window.location.origin}`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
+          hd: undefined // Allow any Google domain
         }
       }
     })
@@ -119,6 +142,44 @@ export const authHelpers = {
   // Listen for auth state changes
   onAuthStateChange(callback: (event: string, session: any) => void) {
     return supabase.auth.onAuthStateChange(callback)
+  },
+
+  // Profile management
+  async createUserProfile(userId: string, profileData: any) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .insert({
+        user_id: userId,
+        first_name: profileData.first_name || '',
+        last_name: profileData.last_name || '',
+        avatar_url: profileData.avatar_url,
+        preferences: profileData.preferences || {}
+      })
+      .select()
+      .single();
+    
+    return { data, error };
+  },
+
+  async getUserProfile(userId: string) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    
+    return { data, error };
+  },
+
+  async updateUserProfile(userId: string, updates: any) {
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .update(updates)
+      .eq('user_id', userId)
+      .select()
+      .single();
+    
+    return { data, error };
   }
 }
 

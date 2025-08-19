@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Github, Chrome, MessageCircle } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Chrome } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card } from "../ui/card";
@@ -67,6 +67,16 @@ export function AuthPage() {
     };
     
     setUser(user);
+    
+    // Create or update user profile in database
+    authHelpers.createUserProfile(user.id, {
+      first_name: user.name.split(' ')[0] || user.name,
+      last_name: user.name.split(' ').slice(1).join(' ') || '',
+      avatar_url: user.avatar
+    }).catch(error => {
+      console.error('Error creating user profile:', error);
+    });
+    
     toast.success("Welcome to Outlander!", {
       description: `Signed in as ${user.name}`,
     });
@@ -149,14 +159,14 @@ export function AuthPage() {
     }
   };
 
-  const handleSocialAuth = async (provider: 'google' | 'github' | 'discord') => {
+  const handleSocialAuth = async (provider: 'google') => {
     setSocialLoading(provider);
     
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
+        provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: `${window.location.origin}`,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
@@ -165,34 +175,20 @@ export function AuthPage() {
       });
 
       if (error) {
-        // Handle specific provider configuration errors
-        if (error.message.includes('provider is not enabled') || error.message.includes('Unsupported provider')) {
-          toast.error(`${provider.charAt(0).toUpperCase() + provider.slice(1)} not configured`, {
-            description: `${provider.charAt(0).toUpperCase() + provider.slice(1)} authentication is not set up in this project. Please use email/password authentication.`
-          });
-        } else {
-          toast.error(`${provider} authentication failed`, {
-            description: error.message
-          });
-        }
+        toast.error("Google authentication failed", {
+          description: error.message
+        });
       } else {
-        toast.info(`Redirecting to ${provider}...`, {
+        toast.info("Redirecting to Google...", {
           description: "Please complete authentication in the popup window"
         });
       }
     } catch (error: any) {
-      console.error(`${provider} auth error:`, error);
+      console.error('Google auth error:', error);
       
-      // Handle network or other errors
-      if (error.message?.includes('provider is not enabled') || error.message?.includes('Unsupported provider')) {
-        toast.error("Social authentication not available", {
-          description: "Social login providers are not configured. Please use email/password authentication."
-        });
-      } else {
-        toast.error("Authentication error", {
-          description: error.message || "Please try again later"
-        });
-      }
+      toast.error("Authentication error", {
+        description: error.message || "Please try again later"
+      });
     } finally {
       setSocialLoading(null);
     }
@@ -264,36 +260,6 @@ export function AuthPage() {
                 <Chrome className="w-5 h-5 mr-2" />
               )}
               Continue with Google
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleSocialAuth("github")}
-              disabled={socialLoading !== null}
-              className="w-full h-12 text-gray-700 border-2 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200"
-            >
-              {socialLoading === 'github' ? (
-                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
-              ) : (
-                <Github className="w-5 h-5 mr-2" />
-              )}
-              Continue with GitHub
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleSocialAuth("discord")}
-              disabled={socialLoading !== null}
-              className="w-full h-12 text-gray-700 border-2 hover:border-rose-300 hover:bg-rose-50 transition-all duration-200"
-            >
-              {socialLoading === 'discord' ? (
-                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
-              ) : (
-                <MessageCircle className="w-5 h-5 mr-2" />
-              )}
-              Continue with Discord
             </Button>
           </div>
 
@@ -492,19 +458,19 @@ export function AuthPage() {
           <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
             <div className="text-center">
               <AnimatedEmoji emoji="ℹ️" animation="pulse" size="small" className="mb-3" />
-              <h3 className="font-bold text-blue-800 mb-2">Social Authentication Setup</h3>
+              <h3 className="font-bold text-blue-800 mb-2">Google Authentication Enabled</h3>
               <p className="text-sm text-blue-600 mb-3">
-                To enable social login providers, configure them in your Supabase dashboard:
+                Google authentication is now enabled for this project:
               </p>
               <div className="text-xs text-blue-500 space-y-1">
-                <p>1. Go to Authentication → Providers in Supabase</p>
-                <p>2. Enable Google, GitHub, or Discord providers</p>
-                <p>3. Add your OAuth app credentials</p>
-                <p>4. Set redirect URLs for each provider</p>
+                <p>✅ Google OAuth is configured and ready</p>
+                <p>✅ Email/password authentication is enabled</p>
+                <p>✅ User data is automatically saved to Supabase</p>
+                <p>✅ Admin roles are supported through the database</p>
               </div>
               <div className="mt-3 text-xs text-blue-400">
                 <AnimatedEmoji emoji="🔧" animation="wiggle" size="small" className="mr-1" />
-                For now, use email/password authentication
+                Choose Google for quick sign-in or email/password for traditional authentication
               </div>
             </div>
           </Card>

@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { CartItem, WishlistItem, User, AppContextType, Product, Category } from "../types";
 import { storage } from "../utils/storage";
 import { adminService } from "../utils/supabase/admin";
+import { supabase } from "../utils/supabase/client";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -46,6 +47,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     if (setUserFromProps && savedUser) {
       setUserFromProps(savedUser);
     }
+
+    // Load data from database if user is authenticated
+    if (savedUser?.id) {
+      loadUserDataFromDatabase(savedUser.id);
+    }
   }, []);
 
   // Save data to localStorage when state changes
@@ -59,7 +65,41 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
 
   useEffect(() => {
     storage.saveUser(user);
+    
+    // Sync cart and wishlist to database when user changes
+    if (user?.id) {
+      syncDataToDatabase(user.id);
+      loadUserDataFromDatabase(user.id);
+    }
   }, [user]);
+
+  // Database sync functions
+  const syncDataToDatabase = async (userId: string) => {
+    try {
+      // Sync cart to database
+      await adminService.saveCartToDatabase(userId, cartItems);
+    } catch (error) {
+      console.error("Error syncing data to database:", error);
+    }
+  };
+
+  const loadUserDataFromDatabase = async (userId: string) => {
+    try {
+      // Load cart from database
+      const dbCart = await adminService.loadCartFromDatabase(userId);
+      if (dbCart.length > 0) {
+        setCartItems(dbCart);
+      }
+
+      // Load wishlist from database
+      const dbWishlist = await adminService.loadWishlistFromDatabase(userId);
+      if (dbWishlist.length > 0) {
+        setWishlistItems(dbWishlist);
+      }
+    } catch (error) {
+      console.error("Error loading user data from database:", error);
+    }
+  };
 
   // Cart functions
   const addToCart = (item: Omit<CartItem, "quantity">) => {
@@ -80,6 +120,12 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       } else {
         const newItem: CartItem = { ...item, quantity: 1 };
         setCartItems((prev) => [...prev, newItem]);
+        
+        // Sync to database if user is logged in
+        if (user?.id) {
+          syncDataToDatabase(user.id);
+        }
+        
         toast.success("Added to cart! ✨", {
           description: `${item.name} has been added to your cart`,
           duration: 3000,
@@ -99,6 +145,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     try {
       const item = cartItems.find((item) => item.id === itemId);
       setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+
+      // Sync to database if user is logged in
+      if (user?.id) {
+        syncDataToDatabase(user.id);
+      }
 
       if (item) {
         toast.success("Removed from cart 🗑️", {
@@ -163,6 +214,12 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       }
 
       setWishlistItems((prev) => [...prev, item]);
+      
+      // Sync to database if user is logged in
+      if (user?.id) {
+        adminService.saveWishlistToDatabase(user.id, item.id);
+      }
+      
       toast.success("Added to wishlist! 💝", {
         description: `${item.name} has been saved to your wishlist`,
         duration: 3000,
@@ -181,6 +238,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     try {
       const item = wishlistItems.find((item) => item.id === itemId);
       setWishlistItems((prev) => prev.filter((item) => item.id !== itemId));
+
+      // Sync to database if user is logged in
+      if (user?.id) {
+        adminService.removeFromWishlistDatabase(user.id, itemId);
+      }
 
       if (item) {
         toast.success("Removed from wishlist 💔", {
