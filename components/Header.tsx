@@ -838,7 +838,6 @@ export function Header({
                 text="Outlander"
                 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-purple-600"
                 delay={0}
-                speed={100}
               />
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
