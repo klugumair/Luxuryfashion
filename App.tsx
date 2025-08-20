@@ -14,6 +14,7 @@ import {
 import { createNavigationHandler } from "./utils/navigation";
 import { supabase, authHelpers } from "./utils/supabase/client";
 import { toast } from "sonner";
+import { User } from "./types";
 
 // Re-export useAppContext for convenience
 export { useAppContext };
