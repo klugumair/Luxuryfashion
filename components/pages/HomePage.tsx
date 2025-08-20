@@ -10,10 +10,7 @@ import {
   Shield,
   RefreshCcw,
   Users,
-  Award,
   Sparkles,
-  ArrowRight,
-  TrendingUp,
   Clock,
   MapPin,
   Quote,
@@ -31,7 +28,6 @@ interface HomePageProps {
 
 export const HomePage = ({ setCurrentPage }: HomePageProps) => {
   const { addToCart, setSelectedProduct } = useAppContext();
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
