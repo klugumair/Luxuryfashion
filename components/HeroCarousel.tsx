@@ -70,7 +70,7 @@ export const HeroCarousel = ({
     autoplaySpeed,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    beforeChange: (current: number, next: number) => setCurrentSlide(next),
+    beforeChange: (_current: number, next: number) => setCurrentSlide(next),
     customPaging: (i: number) => (
       <motion.button
         whileHover={{ scale: 1.2 }}
