@@ -1008,6 +1008,17 @@ export function Header({
               )}
             </motion.button>
 
+            {/* Admin Panel Button */}
+            <motion.button
+              onClick={() => setCurrentPage("admin")}
+              className="p-2 text-zinc-600 hover:text-amber-600 hover:bg-amber-50 border border-amber-200 hover:border-amber-400 rounded-lg transition-all duration-200 bg-white/60 backdrop-blur-sm"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Admin Panel"
+            >
+              <Settings className="h-4 w-4" />
+            </motion.button>
+
             {/* User Button */}
             <div className="relative" data-dropdown>
               {isAuthenticated && user ? (
