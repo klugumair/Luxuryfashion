@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -31,7 +31,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date());
+      // Timer for any future functionality
     }, 1000);
     return () => clearInterval(timer);
   }, []);
