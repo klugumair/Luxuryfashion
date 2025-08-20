@@ -845,7 +845,7 @@ export function Header({
                 transition={{ delay: 1.2 }}
                 className="text-xs text-zinc-500 flex items-center gap-1 -mt-1"
               >
-                <AnimatedEmoji emoji="🌟" animation="twinkle" size="small" delay={1.5} />
+                <AnimatedEmoji emoji="🌟" animation="pulse" size="small" delay={1.5} />
                 Summer Collection
                 <AnimatedEmoji emoji="☀️" animation="pulse" size="small" delay={1.8} />
               </motion.p>
