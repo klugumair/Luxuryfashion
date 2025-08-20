@@ -1151,6 +1151,17 @@ export function Header({
                     <Share2 className="h-4 w-4" />
                     Social Media
                   </motion.button>
+
+                  <motion.button
+                    onClick={() => handleNavigation("admin")}
+                    className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.0 }}
+                  >
+                    <Settings className="h-4 w-4" />
+                    Admin Panel
+                  </motion.button>
                 </div>
               </div>
             </motion.nav>
