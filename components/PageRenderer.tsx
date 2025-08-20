@@ -90,7 +90,7 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
       case "social-handle":
         return <SocialHandlePage />;
       case "cart":
-        return <CartPage />;
+        return <CartPage setCurrentPage={handlePageChange} />;
       case "checkout":
         return <CheckoutPage setCurrentPage={handlePageChange} />;
       case "wishlist":
