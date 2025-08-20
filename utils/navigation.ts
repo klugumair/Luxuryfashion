@@ -13,6 +13,7 @@ export const VALID_PAGES = [
   "search",
   "auth",
   "account",
+  "admin",
   "size-guide",
   // Men's category pages
   "men-tshirts",
