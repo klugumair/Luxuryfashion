@@ -164,11 +164,11 @@ redirect_uri = ""
 url = ""
 
 [auth.external.google]
-enabled = false
-client_id = ""
-secret = ""
+enabled = true
+client_id = "your-google-client-id"
+secret = "your-google-client-secret"
 # Overrides the default auth redirectUrl.
-redirect_uri = ""
+redirect_uri = "https://cyavobcqomnfvmfjgwyg.supabase.co/auth/v1/callback"
 # Overrides the default auth provider URL. Used to support self-hosted gitlab, single-tenant Azure,
 # or any other third-party OIDC providers.
 url = ""

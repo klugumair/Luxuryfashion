@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { projectId, publicAnonKey } from './info'
+import { toast } from 'sonner'
 
 // Create the Supabase URL and client
 const supabaseUrl = `https://${projectId}.supabase.co`
@@ -11,6 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
+    redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
     storage: {
       getItem: (key) => {
         if (typeof window !== 'undefined') {
@@ -89,18 +91,29 @@ export const authHelpers = {
   },
 
   async signInWithOAuth(provider: 'google') {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}`,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-          hd: undefined // Allow any Google domain
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+          skipBrowserRedirect: false
         }
+      })
+      
+      if (error) {
+        console.error('OAuth error:', error)
+        throw error
       }
-    })
-    return { data, error }
+      
+      return { data, error }
+    } catch (error) {
+      console.error('OAuth sign-in error:', error)
+      return { data: null, error }
+    }
   },
 
   async signOut() {
@@ -137,6 +150,36 @@ export const authHelpers = {
       data: updates
     })
     return { data, error }
+  },
+
+  // Enhanced session management
+  async refreshSession() {
+    const { data, error } = await supabase.auth.refreshSession()
+    return { data, error }
+  },
+
+  async exchangeCodeForSession(authCode: string) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(authCode)
+    return { data, error }
+  },
+
+  // Get user with enhanced error handling
+  async getUserWithRetry(maxRetries = 3) {
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
+        return { user, error: null }
+      } catch (error) {
+        console.warn(`Get user attempt ${i + 1} failed:`, error)
+        if (i === maxRetries - 1) {
+          return { user: null, error }
+        }
+        // Wait before retry
+        await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)))
+      }
+    }
+    return { user: null, error: new Error('Max retries exceeded') }
   },
 
   // Listen for auth state changes

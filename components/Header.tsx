@@ -616,7 +616,15 @@ function UserDropdown({
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <User className="h-4 w-4" />
+                  {user.avatar ? (
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name}
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <User className="h-4 w-4" />
+                  )}
                 </motion.div>
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Profile

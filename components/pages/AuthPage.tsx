@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Chrome } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Chrome, Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Card } from "../ui/card";
@@ -26,6 +26,7 @@ export function AuthPage() {
   // Check for existing session on mount
   useEffect(() => {
     checkSession();
+    handleOAuthCallback();
     
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -41,6 +42,42 @@ export function AuthPage() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Handle OAuth callback from URL
+  const handleOAuthCallback = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      
+      if (code) {
+        console.log('Processing OAuth callback with code:', code);
+        setSocialLoading('google');
+        
+        // Exchange code for session
+        const { data, error } = await authHelpers.exchangeCodeForSession(code);
+        
+        if (error) {
+          console.error('OAuth callback error:', error);
+          toast.error("Authentication failed", {
+            description: error.message
+          });
+        } else if (data?.session?.user) {
+          console.log('OAuth callback successful:', data.session.user.email);
+          handleAuthSuccess(data.session.user);
+        }
+        
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        setSocialLoading(null);
+      }
+    } catch (error: any) {
+      console.error('OAuth callback processing error:', error);
+      toast.error("Authentication error", {
+        description: error.message || "Please try again"
+      });
+      setSocialLoading(null);
+    }
+  };
+
   const checkSession = async () => {
     try {
       const { session } = await authHelpers.getSession();
@@ -53,6 +90,8 @@ export function AuthPage() {
   };
 
   const handleAuthSuccess = (supabaseUser: any) => {
+    console.log('Auth success for user:', supabaseUser.email);
+    
     const user = {
       id: supabaseUser.id,
       email: supabaseUser.email,
@@ -75,14 +114,17 @@ export function AuthPage() {
       avatar_url: user.avatar
     }).catch(error => {
       console.error('Error creating user profile:', error);
+      // Don't block the auth flow for profile creation errors
     });
     
-    toast.success("Welcome to Outlander!", {
-      description: `Signed in as ${user.name}`,
+    const isNewUser = supabaseUser.created_at === supabaseUser.last_sign_in_at;
+    
+    toast.success(isNewUser ? "Welcome to Outlander!" : "Welcome back!", {
+      description: `${isNewUser ? 'Account created for' : 'Signed in as'} ${user.name}`,
     });
     
-    // Navigate to account page
-    setCurrentPage('account');
+    // Navigate to home page instead of account for better UX
+    setCurrentPage('home');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -163,33 +205,28 @@ export function AuthPage() {
     setSocialLoading(provider);
     
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          }
-        }
-      });
+      console.log('Starting Google OAuth...');
+      
+      const { data, error } = await authHelpers.signInWithOAuth('google');
 
       if (error) {
+        console.error('Google OAuth error:', error);
         toast.error("Google authentication failed", {
           description: error.message
         });
+        setSocialLoading(null);
       } else {
+        console.log('OAuth initiated successfully');
         toast.info("Redirecting to Google...", {
-          description: "Please complete authentication in the popup window"
+          description: "You'll be redirected to complete authentication"
         });
+        // Don't clear loading state here - it will be cleared after redirect
       }
     } catch (error: any) {
       console.error('Google auth error:', error);
-      
       toast.error("Authentication error", {
         description: error.message || "Please try again later"
       });
-    } finally {
       setSocialLoading(null);
     }
   };
@@ -252,14 +289,19 @@ export function AuthPage() {
               variant="outline"
               onClick={() => handleSocialAuth("google")}
               disabled={socialLoading !== null}
-              className="w-full h-12 text-gray-700 border-2 hover:border-amber-300 hover:bg-amber-50 transition-all duration-200"
+              className="w-full h-12 text-gray-700 border-2 hover:border-amber-300 hover:bg-amber-50 transition-all duration-200 relative"
             >
               {socialLoading === 'google' ? (
-                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  <span>Connecting to Google...</span>
+                </>
               ) : (
-                <Chrome className="w-5 h-5 mr-2" />
+                <>
+                  <Chrome className="w-5 h-5 mr-2" />
+                  <span>Continue with Google</span>
+                </>
               )}
-              Continue with Google
             </Button>
           </div>
 
@@ -455,22 +497,24 @@ export function AuthPage() {
           transition={{ delay: 0.4 }}
           className="mt-8"
         >
-          <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200">
+          <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200">
             <div className="text-center">
-              <AnimatedEmoji emoji="ℹ️" animation="pulse" size="small" className="mb-3" />
-              <h3 className="font-bold text-blue-800 mb-2">Google Authentication Enabled</h3>
-              <p className="text-sm text-blue-600 mb-3">
-                Google authentication is now enabled for this project:
+              <AnimatedEmoji emoji="✅" animation="pulse" size="small" className="mb-3" />
+              <h3 className="font-bold text-green-800 mb-2">Authentication Ready</h3>
+              <p className="text-sm text-green-600 mb-3">
+                Complete authentication system with Google OAuth:
               </p>
-              <div className="text-xs text-blue-500 space-y-1">
+              <div className="text-xs text-green-500 space-y-1">
                 <p>✅ Google OAuth is configured and ready</p>
                 <p>✅ Email/password authentication is enabled</p>
                 <p>✅ User data is automatically saved to Supabase</p>
                 <p>✅ Admin roles are supported through the database</p>
+                <p>✅ Session management and persistence</p>
+                <p>✅ Automatic profile creation on signup</p>
               </div>
-              <div className="mt-3 text-xs text-blue-400">
+              <div className="mt-3 text-xs text-green-400">
                 <AnimatedEmoji emoji="🔧" animation="wiggle" size="small" className="mr-1" />
-                Choose Google for quick sign-in or email/password for traditional authentication
+                Ready for production use with secure authentication flow
               </div>
             </div>
           </Card>

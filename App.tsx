@@ -39,6 +39,7 @@ export default function App() {
   // Initialize authentication
   useEffect(() => {
     initializeAuth();
+    handleAuthRedirect();
 
     // Add a timeout fallback in case auth hangs
     const authTimeout = setTimeout(() => {
@@ -91,6 +92,41 @@ export default function App() {
       subscription.unsubscribe();
     };
   }, [user]);
+
+  // Handle OAuth redirect
+  const handleAuthRedirect = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      const error = urlParams.get('error');
+      const errorDescription = urlParams.get('error_description');
+      
+      if (error) {
+        console.error('OAuth error from URL:', error, errorDescription);
+        toast.error("Authentication failed", {
+          description: errorDescription || error
+        });
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      }
+      
+      if (code) {
+        console.log('Processing OAuth redirect with code');
+        setIsLoading(true);
+        
+        // The auth state change listener will handle the rest
+        // Just clean up the URL
+        setTimeout(() => {
+          window.history.replaceState({}, document.title, window.location.pathname);
+          setIsLoading(false);
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error('Error handling auth redirect:', error);
+      setIsLoading(false);
+    }
+  };
 
   const initializeAuth = async () => {
     try {

@@ -118,6 +118,12 @@ export function AccountPage() {
                   size="sm"
                   variant="outline"
                   className="absolute -bottom-2 -right-2 rounded-full w-8 h-8 p-0"
+                  onClick={() => {
+                    // Future: implement avatar upload
+                    toast.info("Avatar upload coming soon!", {
+                      description: "This feature will be available in the next update"
+                    });
+                  }}
                 >
                   <Camera className="w-4 h-4" />
                 </Button>
@@ -159,9 +165,9 @@ export function AccountPage() {
                         <AnimatedEmoji emoji="✅" animation="pulse" size="small" className="mr-1" />
                         Verified
                       </Badge>
-                      <Badge variant="outline">
-                        <Crown className="w-3 h-3 mr-1" />
-                        Premium Member
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                        <AnimatedEmoji emoji={user?.provider === 'google' ? '🔗' : '📧'} animation="pulse" size="small" className="mr-1" />
+                        {user?.provider === 'google' ? 'Google Account' : 'Email Account'}
                       </Badge>
                     </div>
                   </div>

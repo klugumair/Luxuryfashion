@@ -327,5 +327,53 @@ export const adminService = {
       console.error('Error loading wishlist from database:', error);
       return [];
     }
+  },
+
+  // Profile management
+  async createUserProfile(userId: string, profileData: any) {
+    try {
+      // Check if profile already exists
+      const { data: existingProfile } = await supabase
+        .from('user_profiles')
+        .select('id')
+        .eq('user_id', userId)
+        .single();
+      
+      if (existingProfile) {
+        // Update existing profile
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .update({
+            first_name: profileData.first_name || '',
+            last_name: profileData.last_name || '',
+            avatar_url: profileData.avatar_url,
+            preferences: profileData.preferences || {},
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', userId)
+          .select()
+          .single();
+        
+        return { data, error };
+      } else {
+        // Create new profile
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .insert({
+            user_id: userId,
+            first_name: profileData.first_name || '',
+            last_name: profileData.last_name || '',
+            avatar_url: profileData.avatar_url,
+            preferences: profileData.preferences || {}
+          })
+          .select()
+          .single();
+        
+        return { data, error };
+      }
+    } catch (error) {
+      console.error('Error creating/updating user profile:', error);
+      return { data: null, error };
+    }
   }
 };
