@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { AnimatedEmoji } from "./animations";
 
 interface HeroSlide {
   id: string;
