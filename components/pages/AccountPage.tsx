@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Package, Heart, Settings, LogOut, Edit, Camera, MapPin, Calendar } from "lucide-react";
+import { User, Package, Heart, Settings, LogOut, Edit, Camera, MapPin, Calendar, Crown } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
