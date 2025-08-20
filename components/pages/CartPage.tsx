@@ -6,18 +6,14 @@ import { Separator } from "../ui/separator";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
 
-interface CartPageProps {
-  setCurrentPage?: (page: string) => void;
-}
-
-export function CartPage({ setCurrentPage }: CartPageProps) {
-  const {
-    cartItems,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    cartTotal,
-    cartCount
+export function CartPage() {
+  const { 
+    cartItems, 
+    removeFromCart, 
+    updateQuantity, 
+    clearCart, 
+    cartTotal, 
+    cartCount 
   } = useAppContext();
 
   const shippingCost = cartTotal > 75 ? 0 : 9.99;
@@ -233,13 +229,12 @@ export function CartPage({ setCurrentPage }: CartPageProps) {
                 </div>
               </div>
 
-              <Button
-                onClick={() => setCurrentPage?.("checkout")}
+              <Button 
                 className="w-full mt-6 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 font-bold h-12 rounded-full"
                 size="lg"
               >
                 <CreditCard className="w-5 h-5 mr-2" />
-                Proceed to Checkout
+                Checkout
                 <AnimatedEmoji emoji="💳" animation="bounce" size="small" className="ml-2" />
               </Button>
 
