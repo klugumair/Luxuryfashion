@@ -7,6 +7,7 @@ export const VALID_PAGES = [
   "accessories",
   "social-handle",
   "cart",
+  "checkout",
   "wishlist",
   "product-detail",
   "search",
