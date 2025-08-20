@@ -33,7 +33,6 @@ export default function App() {
     setIsLoading,
     setIsMenuOpen,
     currentPage,
-    setSearchQuery,
   );
 
   // Initialize authentication
