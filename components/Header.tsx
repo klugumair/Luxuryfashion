@@ -16,7 +16,6 @@ import {
   Ruler,
   Settings
 } from "lucide-react";
-import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
 import { staggerContainer, itemFadeIn, navigationItems, menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "./constants";
 import { useAppContext } from "../App";
