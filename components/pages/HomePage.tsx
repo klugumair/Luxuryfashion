@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Star,
@@ -10,10 +10,7 @@ import {
   Shield,
   RefreshCcw,
   Users,
-  Award,
   Sparkles,
-  ArrowRight,
-  TrendingUp,
   Clock,
   MapPin,
   Quote,
@@ -31,11 +28,10 @@ interface HomePageProps {
 
 export const HomePage = ({ setCurrentPage }: HomePageProps) => {
   const { addToCart, setSelectedProduct } = useAppContext();
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date());
+      // Timer for any future functionality
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -113,7 +109,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
     }
   ];
 
-  const categories = [
+  const _categories = [
     {
       name: "Summer Collection",
       emoji: "☀️",

@@ -14,6 +14,7 @@ import {
 import { createNavigationHandler } from "./utils/navigation";
 import { supabase, authHelpers } from "./utils/supabase/client";
 import { toast } from "sonner";
+import { User } from "./types";
 
 // Re-export useAppContext for convenience
 export { useAppContext };
@@ -22,9 +23,8 @@ export default function App() {
   // Navigation state
   const [currentPage, setCurrentPage] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [authInitialized, setAuthInitialized] = useState(false);
 
   // Create navigation handler
@@ -33,7 +33,6 @@ export default function App() {
     setIsLoading,
     setIsMenuOpen,
     currentPage,
-    setSearchQuery,
   );
 
   // Initialize authentication
@@ -55,13 +54,13 @@ export default function App() {
         if (event === 'SIGNED_IN' && session?.user) {
           const userData = {
             id: session.user.id,
-            email: session.user.email,
-            name: session.user.user_metadata?.full_name || 
-                  session.user.user_metadata?.name || 
-                  session.user.email?.split("@")[0] || 
+            email: session.user.email || '',
+            name: session.user.user_metadata?.full_name ||
+                  session.user.user_metadata?.name ||
+                  session.user.email?.split("@")[0] ||
                   "User",
-            avatar: session.user.user_metadata?.avatar_url || 
-                    session.user.user_metadata?.picture || 
+            avatar: session.user.user_metadata?.avatar_url ||
+                    session.user.user_metadata?.picture ||
                     `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
             provider: session.user.app_metadata?.provider || 'email'
           };
@@ -106,13 +105,13 @@ export default function App() {
       if (session?.user) {
         const userData = {
           id: session.user.id,
-          email: session.user.email,
-          name: session.user.user_metadata?.full_name || 
-                session.user.user_metadata?.name || 
-                session.user.email?.split("@")[0] || 
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name ||
+                session.user.user_metadata?.name ||
+                session.user.email?.split("@")[0] ||
                 "User",
-          avatar: session.user.user_metadata?.avatar_url || 
-                  session.user.user_metadata?.picture || 
+          avatar: session.user.user_metadata?.avatar_url ||
+                  session.user.user_metadata?.picture ||
                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
           provider: session.user.app_metadata?.provider || 'email'
         };

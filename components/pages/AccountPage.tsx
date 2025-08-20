@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Package, Heart, Settings, LogOut, Edit, Camera, MapPin, Calendar } from "lucide-react";
+import { User, Package, Heart, Settings, LogOut, Edit, Camera, Calendar, Crown } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
@@ -12,7 +12,7 @@ import { AnimatedEmoji } from "../animations";
 import { toast } from "sonner";
 
 export function AccountPage() {
-  const { user, setUser, cartItems, cartTotal, isAuthenticated } = useAppContext();
+  const { user, setUser, cartItems, isAuthenticated } = useAppContext();
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     name: user?.name || "",

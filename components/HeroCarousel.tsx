@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { AnimatedEmoji } from "./animations";
 
 interface HeroSlide {
   id: string;
@@ -71,7 +70,7 @@ export const HeroCarousel = ({
     autoplaySpeed,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    beforeChange: (current: number, next: number) => setCurrentSlide(next),
+    beforeChange: (_current: number, next: number) => setCurrentSlide(next),
     customPaging: (i: number) => (
       <motion.button
         whileHover={{ scale: 1.2 }}

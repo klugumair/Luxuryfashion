@@ -73,27 +73,21 @@ export const createNavigationHandler = (
   setCurrentPage: (page: string) => void,
   setIsLoading: (loading: boolean) => void,
   setIsMenuOpen: (open: boolean) => void,
-  currentPage: string,
-  setSearchQuery: (query: string) => void
+  currentPage: string
 ) => {
   return (page: string) => {
     if (isValidPage(page)) {
       // Add loading state for smooth transitions
       setIsLoading(true);
-      
+
       // Close mobile menu when navigating
       setIsMenuOpen(false);
-
-      // Reset search when leaving search page
-      if (currentPage === "search" && page !== "search") {
-        setSearchQuery("");
-      }
 
       // Smooth transition with slight delay
       setTimeout(() => {
         setCurrentPage(page);
         setIsLoading(false);
-        
+
         // Scroll to top on page change
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 150);

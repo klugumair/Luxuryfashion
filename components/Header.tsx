@@ -16,7 +16,6 @@ import {
   Ruler,
   Settings
 } from "lucide-react";
-import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
 import { staggerContainer, itemFadeIn, navigationItems, menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "./constants";
 import { useAppContext } from "../App";
@@ -839,7 +838,6 @@ export function Header({
                 text="Outlander"
                 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-purple-600"
                 delay={0}
-                speed={100}
               />
               <motion.p
                 initial={{ opacity: 0, y: 5 }}
@@ -847,7 +845,7 @@ export function Header({
                 transition={{ delay: 1.2 }}
                 className="text-xs text-zinc-500 flex items-center gap-1 -mt-1"
               >
-                <AnimatedEmoji emoji="🌟" animation="twinkle" size="small" delay={1.5} />
+                <AnimatedEmoji emoji="🌟" animation="pulse" size="small" delay={1.5} />
                 Summer Collection
                 <AnimatedEmoji emoji="☀️" animation="pulse" size="small" delay={1.8} />
               </motion.p>
@@ -877,12 +875,6 @@ export function Header({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <AnimatedEmoji
-                    emoji={item.emoji}
-                    animation="bounce"
-                    size="small"
-                    delay={index * 0.1}
-                  />
                   {item.name}
                   {item.hasDropdown && (
                     <motion.div
@@ -1095,12 +1087,6 @@ export function Header({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center gap-3">
-                      <AnimatedEmoji
-                        emoji={item.emoji}
-                        animation="bounce"
-                        size="small"
-                        delay={index * 0.1}
-                      />
                       {item.name}
                     </div>
                     {item.hasDropdown && (

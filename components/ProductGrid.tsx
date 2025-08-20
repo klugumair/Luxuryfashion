@@ -69,13 +69,10 @@ export function ProductGrid({ title, subtitle, products }: {
   const handleProductClick = (product: any) => {
     // Handle different price formats
     let price = 0;
-    let priceString = "";
     if (typeof product.price === 'string') {
       price = parseFloat(product.price.replace('$', ''));
-      priceString = product.price;
     } else if (typeof product.price === 'number') {
       price = product.price;
-      priceString = `$${price}`;
     }
 
     // Convert any product format to the format expected by ProductDetailPage
