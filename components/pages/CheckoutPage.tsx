@@ -25,6 +25,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../ui/textarea';
 import { useAppContext } from '../../App';
 import { toast } from 'sonner';
+import { countries, getStatesByCountryCode, Country, State } from '../../utils/countries-states';
 
 interface CheckoutPageProps {
   setCurrentPage: (page: string) => void;
@@ -50,7 +51,7 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
     city: '',
     state: '',
     zipCode: '',
-    country: 'United States'
+    country: 'US'
   });
 
   const [shippingForm, setShippingForm] = useState({
@@ -60,7 +61,7 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
     city: '',
     state: '',
     zipCode: '',
-    country: 'United States'
+    country: 'US'
   });
 
   const [paymentForm, setPaymentForm] = useState({
@@ -77,6 +78,8 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showCvv, setShowCvv] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [availableBillingStates, setAvailableBillingStates] = useState<State[]>([]);
+  const [availableShippingStates, setAvailableShippingStates] = useState<State[]>([]);
 
   // Pricing calculations
   const shippingCost = shippingMethod === 'express' ? 19.99 : cartTotal > 75 ? 0 : 9.99;
@@ -177,6 +180,27 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
   const prevStep = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
+
+  // Update available states when country changes
+  useEffect(() => {
+    const billingStates = getStatesByCountryCode(billingForm.country);
+    setAvailableBillingStates(billingStates);
+
+    // Reset state if it's not available in the new country
+    if (billingStates.length > 0 && !billingStates.some(state => state.code === billingForm.state)) {
+      setBillingForm(prev => ({ ...prev, state: '' }));
+    }
+  }, [billingForm.country]);
+
+  useEffect(() => {
+    const shippingStates = getStatesByCountryCode(shippingForm.country);
+    setAvailableShippingStates(shippingStates);
+
+    // Reset state if it's not available in the new country
+    if (shippingStates.length > 0 && !shippingStates.some(state => state.code === shippingForm.state)) {
+      setShippingForm(prev => ({ ...prev, state: '' }));
+    }
+  }, [shippingForm.country]);
 
   // Copy billing to shipping
   useEffect(() => {
@@ -394,19 +418,30 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="state">State *</Label>
-                          <Select value={billingForm.state} onValueChange={(value) => setBillingForm(prev => ({ ...prev, state: value }))}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select state" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="NY">New York</SelectItem>
-                              <SelectItem value="CA">California</SelectItem>
-                              <SelectItem value="TX">Texas</SelectItem>
-                              <SelectItem value="FL">Florida</SelectItem>
-                              <SelectItem value="WA">Washington</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <Label htmlFor="state">State/Province *</Label>
+                          {availableBillingStates.length > 0 ? (
+                            <Select value={billingForm.state} onValueChange={(value) => setBillingForm(prev => ({ ...prev, state: value }))}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select state/province" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {availableBillingStates.map((state) => (
+                                  <SelectItem key={state.code} value={state.code}>
+                                    {state.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <Input
+                              id="state"
+                              name="state"
+                              value={billingForm.state}
+                              onChange={handleBillingChange}
+                              placeholder="Enter state/province"
+                              required
+                            />
+                          )}
                         </div>
                       </div>
 
@@ -428,10 +463,12 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="United States">United States</SelectItem>
-                              <SelectItem value="Canada">Canada</SelectItem>
-                              <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+                            <SelectContent className="max-h-48 overflow-y-auto">
+                              {countries.map((country) => (
+                                <SelectItem key={country.code} value={country.code}>
+                                  {country.name}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </div>
@@ -518,19 +555,30 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                               />
                             </div>
                             <div>
-                              <Label htmlFor="shippingState">State *</Label>
-                              <Select value={shippingForm.state} onValueChange={(value) => setShippingForm(prev => ({ ...prev, state: value }))}>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select state" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="NY">New York</SelectItem>
-                                  <SelectItem value="CA">California</SelectItem>
-                                  <SelectItem value="TX">Texas</SelectItem>
-                                  <SelectItem value="FL">Florida</SelectItem>
-                                  <SelectItem value="WA">Washington</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <Label htmlFor="shippingState">State/Province *</Label>
+                              {availableShippingStates.length > 0 ? (
+                                <Select value={shippingForm.state} onValueChange={(value) => setShippingForm(prev => ({ ...prev, state: value }))}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select state/province" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {availableShippingStates.map((state) => (
+                                      <SelectItem key={state.code} value={state.code}>
+                                        {state.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              ) : (
+                                <Input
+                                  id="shippingState"
+                                  name="state"
+                                  value={shippingForm.state}
+                                  onChange={handleShippingChange}
+                                  placeholder="Enter state/province"
+                                  required
+                                />
+                              )}
                             </div>
                           </div>
 
@@ -551,10 +599,12 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                                 <SelectTrigger>
                                   <SelectValue />
                                 </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="United States">United States</SelectItem>
-                                  <SelectItem value="Canada">Canada</SelectItem>
-                                  <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+                                <SelectContent className="max-h-48 overflow-y-auto">
+                                  {countries.map((country) => (
+                                    <SelectItem key={country.code} value={country.code}>
+                                      {country.name}
+                                    </SelectItem>
+                                  ))}
                                 </SelectContent>
                               </Select>
                             </div>
