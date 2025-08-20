@@ -105,13 +105,13 @@ export default function App() {
       if (session?.user) {
         const userData = {
           id: session.user.id,
-          email: session.user.email,
-          name: session.user.user_metadata?.full_name || 
-                session.user.user_metadata?.name || 
-                session.user.email?.split("@")[0] || 
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name ||
+                session.user.user_metadata?.name ||
+                session.user.email?.split("@")[0] ||
                 "User",
-          avatar: session.user.user_metadata?.avatar_url || 
-                  session.user.user_metadata?.picture || 
+          avatar: session.user.user_metadata?.avatar_url ||
+                  session.user.user_metadata?.picture ||
                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
           provider: session.user.app_metadata?.provider || 'email'
         };
