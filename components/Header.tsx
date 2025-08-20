@@ -1087,12 +1087,6 @@ export function Header({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center gap-3">
-                      <AnimatedEmoji
-                        emoji={item.emoji}
-                        animation="bounce"
-                        size="small"
-                        delay={index * 0.1}
-                      />
                       {item.name}
                     </div>
                     {item.hasDropdown && (
