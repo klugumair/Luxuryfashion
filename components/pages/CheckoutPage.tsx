@@ -94,6 +94,12 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
     }
   }, [cartItems.length, setCurrentPage]);
 
+  // Initialize available states on component mount
+  useEffect(() => {
+    setAvailableBillingStates(getStatesByCountryCode(billingForm.country));
+    setAvailableShippingStates(getStatesByCountryCode(shippingForm.country));
+  }, []);
+
   const handleBillingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBillingForm(prev => ({
       ...prev,
