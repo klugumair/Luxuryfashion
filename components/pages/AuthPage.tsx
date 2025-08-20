@@ -496,29 +496,7 @@ export function AuthPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="mt-8"
-        >
-          <Card className="p-6 bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200">
-            <div className="text-center">
-              <AnimatedEmoji emoji="✅" animation="pulse" size="small" className="mb-3" />
-              <h3 className="font-bold text-green-800 mb-2">Authentication Ready</h3>
-              <p className="text-sm text-green-600 mb-3">
-                Complete authentication system with Google OAuth:
-              </p>
-              <div className="text-xs text-green-500 space-y-1">
-                <p>✅ Google OAuth is configured and ready</p>
-                <p>✅ Email/password authentication is enabled</p>
-                <p>✅ User data is automatically saved to Supabase</p>
-                <p>✅ Admin roles are supported through the database</p>
-                <p>✅ Session management and persistence</p>
-                <p>✅ Automatic profile creation on signup</p>
-              </div>
-              <div className="mt-3 text-xs text-green-400">
-                <AnimatedEmoji emoji="🔧" animation="wiggle" size="small" className="mr-1" />
-                Ready for production use with secure authentication flow
-              </div>
-            </div>
-          </Card>
-        </motion.div>
+        />
       </div>
     </div>
   );
