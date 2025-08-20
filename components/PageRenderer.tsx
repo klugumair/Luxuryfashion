@@ -5,7 +5,6 @@ import { WomenPage } from "./pages/WomenPage";
 import { KidsPage } from "./pages/KidsPage";
 import { SocialHandlePage } from "./pages/SocialHandlePage";
 import { CartPage } from "./pages/CartPage";
-import { CheckoutPage } from "./pages/CheckoutPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { SearchPage } from "./pages/SearchPage";
 import { AuthPage } from "./pages/AuthPage";
@@ -90,9 +89,7 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
       case "social-handle":
         return <SocialHandlePage />;
       case "cart":
-        return <CartPage setCurrentPage={handlePageChange} />;
-      case "checkout":
-        return <CheckoutPage setCurrentPage={handlePageChange} />;
+        return <CartPage />;
       case "wishlist":
         return <WishlistPage />;
       case "product-detail":
