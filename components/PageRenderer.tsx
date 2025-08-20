@@ -99,7 +99,7 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
       case "auth":
         return <AuthPage />;
       case "account":
-        return <AccountPage />;
+        return <AccountPage setCurrentPage={handlePageChange} />;
       case "admin":
         return <AdminPanel />;
       case "size-guide":

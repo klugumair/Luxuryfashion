@@ -115,12 +115,29 @@ export default function App() {
         console.log('Processing OAuth redirect with code');
         setIsLoading(true);
         
-        // The auth state change listener will handle the rest
-        // Just clean up the URL
-        setTimeout(() => {
-          window.history.replaceState({}, document.title, window.location.pathname);
-          setIsLoading(false);
-        }, 2000);
+        try {
+          // Exchange code for session
+          const { data, error: exchangeError } = await authHelpers.exchangeCodeForSession(code);
+          
+          if (exchangeError) {
+            console.error('Code exchange error:', exchangeError);
+            toast.error("Authentication failed", {
+              description: exchangeError.message
+            });
+          } else if (data?.session?.user) {
+            console.log('OAuth successful for:', data.session.user.email);
+            // The auth state change listener will handle the user setup
+          }
+        } catch (exchangeError: any) {
+          console.error('Code exchange failed:', exchangeError);
+          toast.error("Authentication failed", {
+            description: exchangeError.message || "Please try again"
+          });
+        }
+        
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        setIsLoading(false);
       }
     } catch (error: any) {
       console.error('Error handling auth redirect:', error);

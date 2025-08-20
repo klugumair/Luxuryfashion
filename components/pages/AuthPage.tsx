@@ -64,12 +64,29 @@ export function AuthPage() {
           console.log('OAuth callback successful:', data.session.user.email);
           handleAuthSuccess(data.session.user);
         }
+        try {
+          // Exchange code for session
+          const { data, error: exchangeError } = await authHelpers.exchangeCodeForSession(code);
+          
+          if (exchangeError) {
+            console.error('Code exchange error:', exchangeError);
+            toast.error("Authentication failed", {
+              description: exchangeError.message
+            });
+          } else if (data?.session?.user) {
+            console.log('OAuth successful for:', data.session.user.email);
+            handleAuthSuccess(data.session.user);
+          }
+        } catch (exchangeError: any) {
+          console.error('Code exchange failed:', exchangeError);
+          toast.error("Authentication failed", {
+            description: exchangeError.message || "Please try again"
+          });
+        }
         
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
-        setSocialLoading(null);
-      }
-    } catch (error: any) {
+        setIsLoading(false);
       console.error('OAuth callback processing error:', error);
       toast.error("Authentication error", {
         description: error.message || "Please try again"

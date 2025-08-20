@@ -11,8 +11,15 @@ import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
 import { toast } from "sonner";
 
-export function AccountPage() {
-  const { user, setUser, cartItems, cartTotal, isAuthenticated } = useAppContext();
+interface AccountPageProps {
+  setCurrentPage?: (page: string) => void;
+}
+
+export function AccountPage({ setCurrentPage }: AccountPageProps = {}) {
+  const { user, setUser, cartItems, cartTotal, isAuthenticated, setCurrentPage: contextSetCurrentPage } = useAppContext();
+  
+  // Use the prop if provided, otherwise use context
+  const navigateToPage = setCurrentPage || contextSetCurrentPage;
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     name: user?.name || "",
@@ -67,7 +74,7 @@ export function AccountPage() {
           <h1 className="text-3xl font-black mb-4">Access Required</h1>
           <p className="text-gray-600 mb-8">Please sign in to access your account.</p>
           <Button 
-            onClick={() => window.history.pushState({}, '', '/auth')}
+            onClick={() => setCurrentPage("auth")}
             size="lg"
             className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 rounded-full font-bold"
           >
