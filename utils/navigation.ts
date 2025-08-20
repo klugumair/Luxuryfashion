@@ -7,11 +7,13 @@ export const VALID_PAGES = [
   "accessories",
   "social-handle",
   "cart",
+  "checkout",
   "wishlist",
   "product-detail",
   "search",
   "auth",
   "account",
+  "admin",
   "size-guide",
   // Men's category pages
   "men-tshirts",
