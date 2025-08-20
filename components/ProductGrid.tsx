@@ -73,7 +73,6 @@ export function ProductGrid({ title, subtitle, products }: {
       price = parseFloat(product.price.replace('$', ''));
     } else if (typeof product.price === 'number') {
       price = product.price;
-      priceString = `$${price}`;
     }
 
     // Convert any product format to the format expected by ProductDetailPage
