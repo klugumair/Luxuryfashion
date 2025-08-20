@@ -109,7 +109,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
     }
   ];
 
-  const categories = [
+  const _categories = [
     {
       name: "Summer Collection",
       emoji: "☀️",
