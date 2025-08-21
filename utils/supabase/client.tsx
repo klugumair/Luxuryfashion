@@ -92,13 +92,17 @@ export const authHelpers = {
 
   async signInWithOAuth(provider: 'google') {
     try {
+      // Clear any existing session first to allow account switching
+      await supabase.auth.signOut({ scope: 'local' });
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}`,
           queryParams: {
             access_type: 'offline',
-            prompt: 'consent',
+            prompt: 'select_account', // Force account selection
+            include_granted_scopes: 'true'
           },
           skipBrowserRedirect: false
         }
