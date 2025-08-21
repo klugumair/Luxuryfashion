@@ -20,11 +20,14 @@ import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
 import { staggerContainer, itemFadeIn, navigationItems, menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "./constants";
 import { useAppContext } from "../App";
+import { signInWithGoogleAccountSelection } from "../utils/supabase/client";
 
 // User interface
 interface User {
   email: string;
   name: string;
+  provider?: string;
+  avatar?: string;
 }
 
 // Men's Subcategory Dropdown Component
