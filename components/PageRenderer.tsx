@@ -9,6 +9,7 @@ import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { SearchPage } from "./pages/SearchPage";
 import AuthPage from "./pages/AuthPage";
 import { AccountPage } from "./pages/AccountPage";
+import AuthTest from "./test/AuthTest";
 import { SizeGuidePage } from "./pages/SizeGuidePage";
 import { WishlistPage } from "./pages/WishlistPage";
 // Import Men's Category Pages
@@ -67,8 +68,7 @@ import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
 // Import Admin Pages
 import { AdminPanel } from "./pages/AdminPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
-// Import Test Components
-import { AuthTest } from "./test/AuthTest";
+// AuthTest already imported above as default import
 
 interface PageRendererProps {
   currentPage: string;

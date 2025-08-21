@@ -5,17 +5,6 @@ export const adminService = {
   // Check if user is admin
   async checkAdminStatus(userId: string): Promise<boolean> {
     try {
-      // First check if user email is the specific admin email
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-      if (userError || !userData.user) {
-        return false;
-      }
-      
-      // Only allow admin access to the specific email
-      if (userData.user.email !== 'umairjalbani80@gmail.com') {
-        return false;
-      }
-      
       const { data, error } = await supabase
         .from('user_roles')
         .select('role')
@@ -23,18 +12,8 @@ export const adminService = {
         .single();
 
       if (error) {
-        // If no role exists for the admin email, create one
-        if (userData.user.email === 'umairjalbani80@gmail.com') {
-          const { error: insertError } = await supabase
-            .from('user_roles')
-            .insert({ user_id: userId, role: 'admin' });
-          
-          if (insertError) {
-            console.error('Error creating admin role:', insertError);
-            return false;
-          }
-          return true;
-        }
+        // If no role exists, user is not admin
+        console.log('No role found for user:', userId);
         return false;
       }
 
