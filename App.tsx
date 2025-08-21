@@ -38,60 +38,77 @@ export default function App() {
 
   // Initialize authentication
   useEffect(() => {
-    initializeAuth();
-    handleAuthRedirect();
+    let authTimeout;
 
-    // Add a timeout fallback in case auth hangs
-    const authTimeout = setTimeout(() => {
-      console.warn('Auth initialization timeout - proceeding without auth');
-      setAuthInitialized(true);
-    }, 5000); // 5 second timeout
+    const initializeAuthFlow = async () => {
+      // Handle OAuth redirect first
+      await handleAuthRedirect();
+
+      // Then initialize regular auth
+      await initializeAuth();
+
+      // Add a timeout fallback in case auth hangs
+      authTimeout = setTimeout(() => {
+        console.warn('Auth initialization timeout - proceeding without auth');
+        setAuthInitialized(true);
+      }, 8000); // 8 second timeout
+    };
+
+    initializeAuthFlow();
 
     // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.email);
-        clearTimeout(authTimeout); // Clear timeout on successful auth
+        if (authTimeout) clearTimeout(authTimeout); // Clear timeout on successful auth
 
         if (event === 'SIGNED_IN' && session?.user) {
           const userData = {
             id: session.user.id,
             email: session.user.email,
-            name: session.user.user_metadata?.full_name || 
-                  session.user.user_metadata?.name || 
-                  session.user.email?.split("@")[0] || 
+            name: session.user.user_metadata?.full_name ||
+                  session.user.user_metadata?.name ||
+                  session.user.email?.split("@")[0] ||
                   "User",
-            avatar: session.user.user_metadata?.avatar_url || 
-                    session.user.user_metadata?.picture || 
+            avatar: session.user.user_metadata?.avatar_url ||
+                    session.user.user_metadata?.picture ||
                     `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
             provider: session.user.app_metadata?.provider || 'email'
           };
-          
+
           setUser(userData);
-          
-          // Only show welcome toast if not already authenticated
-          if (event === 'SIGNED_IN' && !user) {
+
+          // Show welcome toast for new sign-ins (not on page refresh)
+          if (!user && event === 'SIGNED_IN') {
             toast.success("Welcome to Outlander!", {
               description: `Signed in as ${userData.name}`,
             });
           }
+
+          // Navigate away from auth page if on it
+          if (currentPage === 'auth') {
+            handlePageChange('home');
+          }
         } else if (event === 'SIGNED_OUT') {
           setUser(null);
-          toast.info("Signed out successfully", {
-            description: "You've been logged out of your account"
-          });
+          if (currentPage !== 'auth') {
+            toast.info("Signed out successfully", {
+              description: "You've been logged out of your account"
+            });
+          }
         } else if (event === 'TOKEN_REFRESHED') {
           console.log('Token refreshed successfully');
         }
-        
+
         setAuthInitialized(true);
       }
     );
 
     return () => {
+      if (authTimeout) clearTimeout(authTimeout);
       subscription.unsubscribe();
     };
-  }, [user]);
+  }, []);
 
   // Handle OAuth redirect
   const handleAuthRedirect = async () => {
@@ -100,7 +117,7 @@ export default function App() {
       const code = urlParams.get('code');
       const error = urlParams.get('error');
       const errorDescription = urlParams.get('error_description');
-      
+
       if (error) {
         console.error('OAuth error from URL:', error, errorDescription);
         toast.error("Authentication failed", {
@@ -110,15 +127,15 @@ export default function App() {
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
       }
-      
+
       if (code) {
-        console.log('Processing OAuth redirect with code');
+        console.log('Processing OAuth redirect with code:', code);
         setIsLoading(true);
-        
+
         try {
-          // Exchange code for session
-          const { data, error: exchangeError } = await authHelpers.exchangeCodeForSession(code);
-          
+          // Exchange code for session - let Supabase handle this automatically
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
           if (exchangeError) {
             console.error('Code exchange error:', exchangeError);
             toast.error("Authentication failed", {
@@ -127,14 +144,17 @@ export default function App() {
           } else if (data?.session?.user) {
             console.log('OAuth successful for:', data.session.user.email);
             // The auth state change listener will handle the user setup
+            toast.success("Authentication successful!", {
+              description: "Welcome to Outlander"
+            });
           }
         } catch (exchangeError: any) {
           console.error('Code exchange failed:', exchangeError);
           toast.error("Authentication failed", {
-            description: exchangeError.message || "Please try again"
+            description: exchangeError.message || "Please try signing in again"
           });
         }
-        
+
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
         setIsLoading(false);
@@ -148,7 +168,9 @@ export default function App() {
   const initializeAuth = async () => {
     try {
       console.log('Starting auth initialization...');
-      const { session, error } = await authHelpers.getSession();
+
+      // First try to get the current session
+      const { data: { session }, error } = await supabase.auth.getSession();
 
       if (error) {
         console.error('Session initialization error:', error);
@@ -157,20 +179,24 @@ export default function App() {
       }
 
       if (session?.user) {
+        console.log('Found existing session for:', session.user.email);
         const userData = {
           id: session.user.id,
           email: session.user.email,
-          name: session.user.user_metadata?.full_name || 
-                session.user.user_metadata?.name || 
-                session.user.email?.split("@")[0] || 
+          name: session.user.user_metadata?.full_name ||
+                session.user.user_metadata?.name ||
+                session.user.email?.split("@")[0] ||
                 "User",
-          avatar: session.user.user_metadata?.avatar_url || 
-                  session.user.user_metadata?.picture || 
+          avatar: session.user.user_metadata?.avatar_url ||
+                  session.user.user_metadata?.picture ||
                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
           provider: session.user.app_metadata?.provider || 'email'
         };
-        
+
         setUser(userData);
+        console.log('User initialized from session:', userData.email);
+      } else {
+        console.log('No existing session found');
       }
     } catch (error) {
       console.error('Auth initialization error:', error);

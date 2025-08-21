@@ -93,17 +93,24 @@ export default function AuthPage() {
   };
 
   const handleGoogleSignIn = async () => {
+    if (isLoading) return; // Prevent double clicks
+
     setIsLoading(true);
     try {
+      console.log('Initiating Google OAuth...');
       const { data, error } = await authHelpers.signInWithOAuth('google');
-      
+
       if (error) {
+        console.error('Google OAuth error:', error);
         toast.error('Google sign-in failed', {
-          description: error.message
+          description: error.message || 'Please try again'
         });
         setIsLoading(false);
+      } else {
+        console.log('Google OAuth initiated successfully');
+        // Don't set loading to false here as we're redirecting
+        // Loading will be cleared when the redirect completes
       }
-      // Don't set loading to false here as we're redirecting
     } catch (error: any) {
       console.error('Google OAuth error:', error);
       toast.error('Google sign-in error', {
