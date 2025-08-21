@@ -109,6 +109,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <SizeGuidePage />;
       case "auth-test":
         return <AuthTest />;
+      case "oauth-debug":
+        return <OAuthDebug />;
       // Men's category pages
       case "men-tshirts":
         return <MenTShirtsPage />;
