@@ -42,6 +42,42 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // Edge Function URL
 export const EDGE_FUNCTION_URL = `${supabaseUrl}/functions/v1/make-server`
 
+// Helper function to force Google account selection
+export const signInWithGoogleAccountSelection = async () => {
+  try {
+    // Clear any existing session and local storage
+    await supabase.auth.signOut({ scope: 'global' });
+
+    // Clear local storage items that might interfere
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('sb-cyavobcqomnfvmfjgwyg-auth-token');
+      sessionStorage.clear();
+    }
+
+    // Small delay to ensure cleanup
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'select_account consent', // Force account selection AND consent
+          include_granted_scopes: 'true',
+          hd: '', // Remove any domain hints
+        },
+        skipBrowserRedirect: false
+      }
+    });
+
+    return { data, error };
+  } catch (error) {
+    console.error('Google account selection error:', error);
+    return { data: null, error };
+  }
+};
+
 // Helper function to call edge functions
 export const callEdgeFunction = async (path: string = '', options: RequestInit = {}) => {
   try {
