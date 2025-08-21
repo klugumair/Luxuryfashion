@@ -44,6 +44,9 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     setCartItems(storage.loadCart());
     setWishlistItems(storage.loadWishlist());
 
+    // Initialize database on app startup
+    initializeDatabase();
+
     // Set up Supabase auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
