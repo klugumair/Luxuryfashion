@@ -106,6 +106,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <AccountPage setCurrentPage={handlePageChange} />;
       case "admin":
         return <AdminPanel />;
+      case "add-product":
+        return <AddProductPage />;
       case "size-guide":
         return <SizeGuidePage />;
       case "auth-test":
