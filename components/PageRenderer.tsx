@@ -68,6 +68,7 @@ import { MenAccessoriesPage } from "./pages/MenAccessoriesPage";
 import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
 // Import Admin Pages
 import { AdminPanel } from "./pages/AdminPanel";
+import AddProductPage from "./pages/AddProductPage";
 import { ErrorBoundary } from "./ErrorBoundary";
 // AuthTest already imported above as default import
 
@@ -105,6 +106,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <AccountPage setCurrentPage={handlePageChange} />;
       case "admin":
         return <AdminPanel />;
+      case "add-product":
+        return <AddProductPage />;
       case "size-guide":
         return <SizeGuidePage />;
       case "auth-test":

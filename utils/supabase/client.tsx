@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/auth?provider=google` : undefined,
+    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/auth` : undefined,
     storage: {
       getItem: (key) => {
         if (typeof window !== 'undefined') {
@@ -69,18 +69,30 @@ export const callEdgeFunction = async (path: string = '', options: RequestInit =
 // Authentication helpers
 export const authHelpers = {
   async signUp(email: string, password: string, userData?: any) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: userData?.full_name || userData?.name || email.split('@')[0],
-          avatar_url: userData?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
-          ...userData
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: userData?.full_name || userData?.name || email.split('@')[0],
+            avatar_url: userData?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
+            ...userData
+          }
         }
+      })
+
+      if (error) {
+        console.error('Sign up error:', error)
+      } else {
+        console.log('Sign up successful:', data?.user?.id)
       }
-    })
-    return { data, error }
+
+      return { data, error }
+    } catch (err: any) {
+      console.error('Sign up exception:', err)
+      return { data: null, error: err }
+    }
   },
 
   async signIn(email: string, password: string) {
@@ -91,35 +103,7 @@ export const authHelpers = {
     return { data, error }
   },
 
-  async signInWithOAuth(provider: 'google') {
-    try {
-      // Clear any existing session first to prevent conflicts
-      await this.clearAuthState();
-
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth?provider=google`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'select_account', // Force account selection
-            hd: undefined, // Remove any domain restrictions
-          },
-          skipBrowserRedirect: false
-        }
-      })
-
-      if (error) {
-        console.error('OAuth error:', error)
-        throw error
-      }
-
-      return { data, error }
-    } catch (error) {
-      console.error('OAuth sign-in error:', error)
-      return { data: null, error }
-    }
-  },
+  // Google OAuth removed - using email/password only
 
   async signOut() {
     const { error } = await supabase.auth.signOut()
@@ -163,24 +147,10 @@ export const authHelpers = {
     return { data, error }
   },
 
-  // Clear all auth state before OAuth
+  // Clear auth state
   async clearAuthState() {
     try {
-      // Clear local session
       await supabase.auth.signOut({ scope: 'local' });
-
-      // Clear any stored auth data
-      if (typeof window !== 'undefined') {
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('sb-')) {
-            keysToRemove.push(key);
-          }
-        }
-        keysToRemove.forEach(key => localStorage.removeItem(key));
-      }
-
       return { error: null };
     } catch (error) {
       console.warn('Error clearing auth state:', error);
