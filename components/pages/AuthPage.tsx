@@ -6,7 +6,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Separator } from '../ui/separator';
-import { authHelpers } from '../../utils/supabase/client';
+import { authHelpers, signInWithGoogleAccountSelection } from '../../utils/supabase/client';
 import { toast } from 'sonner';
 import { AnimatedEmoji } from '../animations';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
@@ -97,8 +97,10 @@ export default function AuthPage() {
 
     setIsLoading(true);
     try {
-      console.log('Initiating Google OAuth...');
-      const { data, error } = await authHelpers.signInWithOAuth('google');
+      console.log('Initiating Google OAuth with account selection...');
+
+      // Use the improved Google sign-in that forces account selection
+      const { data, error } = await signInWithGoogleAccountSelection();
 
       if (error) {
         console.error('Google OAuth error:', error);
@@ -108,6 +110,9 @@ export default function AuthPage() {
         setIsLoading(false);
       } else {
         console.log('Google OAuth initiated successfully');
+        toast.info('Redirecting to Google...', {
+          description: 'Please select your Google account'
+        });
         // Don't set loading to false here as we're redirecting
         // Loading will be cleared when the redirect completes
       }
