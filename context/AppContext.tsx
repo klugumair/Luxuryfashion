@@ -38,20 +38,91 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   // Determine which setUser to use
   const setUser = setUserFromProps || setUserState;
 
-  // Load data from localStorage on mount
+  // Load data from localStorage on mount and set up auth listener
   useEffect(() => {
     setCartItems(storage.loadCart());
     setWishlistItems(storage.loadWishlist());
-    const savedUser = storage.loadUser();
-    setUserState(savedUser);
-    if (setUserFromProps && savedUser) {
-      setUserFromProps(savedUser);
-    }
 
-    // Load data from database if user is authenticated
-    if (savedUser?.id) {
-      loadUserDataFromDatabase(savedUser.id);
-    }
+    // Set up Supabase auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email);
+
+        if (session?.user) {
+          // User is signed in
+          const userData: User = {
+            id: session.user.id,
+            email: session.user.email || '',
+            name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || '',
+            avatar: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
+          };
+
+          setUserState(userData);
+          if (setUserFromProps) {
+            setUserFromProps(userData);
+          }
+
+          // Load user data from database
+          loadUserDataFromDatabase(session.user.id);
+
+          // Show success message on sign in (not on initial load)
+          if (event === 'SIGNED_IN') {
+            toast.success(`Welcome back, ${userData.name}! 🎉`, {
+              description: 'You have been signed in successfully',
+              duration: 3000,
+            });
+          }
+        } else {
+          // User is signed out
+          const savedUser = storage.loadUser();
+          if (savedUser && event === 'SIGNED_OUT') {
+            // Clear user data
+            setUserState(null);
+            if (setUserFromProps) {
+              setUserFromProps(null);
+            }
+
+            // Keep local cart and wishlist for now, but don't sync to database
+            toast.info('Signed out successfully', {
+              description: 'Your cart and wishlist are saved locally',
+              duration: 3000,
+            });
+          } else if (!savedUser) {
+            // No saved user, load from localStorage if exists
+            const localUser = storage.loadUser();
+            if (localUser) {
+              setUserState(localUser);
+              if (setUserFromProps) {
+                setUserFromProps(localUser);
+              }
+            }
+          }
+        }
+      }
+    );
+
+    // Initial auth check
+    const checkAuth = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error getting session:', error);
+        const savedUser = storage.loadUser();
+        if (savedUser) {
+          setUserState(savedUser);
+          if (setUserFromProps) {
+            setUserFromProps(savedUser);
+          }
+        }
+      }
+      // The auth state change listener will handle the session
+    };
+
+    checkAuth();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Save data to localStorage when state changes
