@@ -5,19 +5,17 @@ export const adminService = {
   // Check if user is admin
   async checkAdminStatus(userId: string): Promise<boolean> {
     try {
-      const { data, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', userId)
-        .single();
+      // Use a direct query without relying on complex RLS policies
+      const { data, error } = await supabase.rpc('check_user_admin_status', {
+        user_id: userId
+      });
 
       if (error) {
-        // If no role exists, user is not admin
-        console.log('No role found for user:', userId);
+        console.log('Could not check admin status, assuming user role:', error.message);
         return false;
       }
 
-      return data?.role === 'admin';
+      return data === true;
     } catch (error) {
       console.error('Error checking admin status:', error);
       return false;
