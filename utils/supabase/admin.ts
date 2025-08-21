@@ -175,14 +175,15 @@ export const adminService = {
         .order('sort_order', { ascending: true });
 
       if (error) {
-        console.error('Error fetching categories:', error);
-        return this.getMockCategories();
+        console.error('Database error fetching categories:', error.message || error);
+        throw new Error(`Database error: ${error.message || 'Unknown database error'}`);
       }
 
       return data?.map(this.mapDatabaseCategoryToCategory) || [];
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      return this.getMockCategories();
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      console.error('Error in getCategories:', errorMessage);
+      throw new Error(`Failed to fetch categories: ${errorMessage}`);
     }
   },
 
