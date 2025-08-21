@@ -4,6 +4,7 @@ import { CartItem, WishlistItem, User, AppContextType, Product, Category } from 
 import { storage } from "../utils/storage";
 import { adminService } from "../utils/supabase/admin";
 import { supabase } from "../utils/supabase/client";
+import { initializeDatabase, testDatabaseConnection } from "../utils/supabase/init-db";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -42,6 +43,9 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   useEffect(() => {
     setCartItems(storage.loadCart());
     setWishlistItems(storage.loadWishlist());
+
+    // Initialize database on app startup
+    initializeDatabase();
 
     // Set up Supabase auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -407,13 +411,27 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   const fetchProducts = async (category?: string) => {
     try {
       setIsLoading(true);
+
+      // Test database connection first
+      const connectionTest = await testDatabaseConnection();
+      if (!connectionTest.connected) {
+        throw new Error(`Database connection failed: ${connectionTest.error}`);
+      }
+
       const fetchedProducts = await adminService.getProducts(category);
       setProducts(fetchedProducts);
+
     } catch (error: any) {
-      console.error("Error fetching products:", error);
-      toast.error("Failed to fetch products", {
-        description: error.message || "Please try again"
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      console.error("Error fetching products:", errorMessage, error);
+
+      // Show error message and suggest database setup
+      toast.error("Database Error", {
+        description: "Failed to fetch products. Please check database setup."
       });
+
+      // Set empty products array instead of mock data
+      setProducts([]);
     } finally {
       setIsLoading(false);
     }
@@ -426,12 +444,6 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
         try {
           const adminStatus = await adminService.checkAdminStatus(user.id);
           setIsAdmin(adminStatus);
-
-          // If admin, fetch categories
-          if (adminStatus) {
-            const fetchedCategories = await adminService.getCategories();
-            setCategories(fetchedCategories);
-          }
         } catch (error) {
           console.error("Error checking admin status:", error);
           setIsAdmin(false);
@@ -443,6 +455,30 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
 
     checkAdminStatus();
   }, [user]);
+
+  // Fetch categories independently
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const fetchedCategories = await adminService.getCategories();
+        setCategories(fetchedCategories);
+      } catch (error: any) {
+        const errorMessage = error?.message || error?.toString() || 'Unknown error';
+        console.error("Error fetching categories:", errorMessage, error);
+
+        // Use mock categories as fallback
+        const mockCategories = [
+          { id: '1', name: 'Men', slug: 'men', description: 'Men\'s clothing', order: 1 },
+          { id: '2', name: 'Women', slug: 'women', description: 'Women\'s clothing', order: 2 },
+          { id: '3', name: 'Kids', slug: 'kids', description: 'Children\'s clothing', order: 3 },
+          { id: '4', name: 'Accessories', slug: 'accessories', description: 'Fashion accessories', order: 4 }
+        ];
+        setCategories(mockCategories);
+      }
+    };
+
+    fetchCategoriesData();
+  }, []);
 
   // Computed values
   const cartTotal = cartItems.reduce(

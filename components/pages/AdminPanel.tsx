@@ -28,19 +28,19 @@ import {
 import { AnimatedEmoji } from "../animations";
 import { Product } from "../../types";
 import { toast } from "sonner";
+import { DatabaseSetup } from "../admin/DatabaseSetup";
 
 export function AdminPanel() {
-  const { 
-    user, 
-    isAdmin, 
-    products, 
-    categories, 
-    addProduct, 
-    updateProduct, 
-    deleteProduct, 
+  const {
+    user,
+    products,
+    categories,
+    addProduct,
+    updateProduct,
+    deleteProduct,
     fetchProducts,
     setCurrentPage,
-    isLoading 
+    isLoading
   } = useAppContext();
 
   const [activeTab, setActiveTab] = useState("products");
@@ -65,22 +65,12 @@ export function AdminPanel() {
     tags: [] as string[]
   });
 
-  // Check if user is admin
-  useEffect(() => {
-    if (!isAdmin) {
-      toast.error("Access Denied", {
-        description: "You don't have permission to access the admin panel"
-      });
-      setCurrentPage("home");
-    }
-  }, [isAdmin, setCurrentPage]);
+  // Removed admin access restriction - everyone can access admin panel
 
   // Fetch products on mount
   useEffect(() => {
-    if (isAdmin) {
-      fetchProducts();
-    }
-  }, [isAdmin, fetchProducts]);
+    fetchProducts();
+  }, [fetchProducts]);
 
   // Filter products based on search and category
   const filteredProducts = products.filter(product => {
@@ -171,17 +161,7 @@ export function AdminPanel() {
     { value: "summer", label: "Summer Collection" }
   ];
 
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <AnimatedEmoji emoji="🚫" size="large" animation="shake" />
-          <h2 className="text-2xl font-bold text-gray-900 mt-4">Access Denied</h2>
-          <p className="text-gray-600 mt-2">You don't have permission to access this page.</p>
-        </div>
-      </div>
-    );
-  }
+  // Removed admin access check - everyone can access admin panel
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">

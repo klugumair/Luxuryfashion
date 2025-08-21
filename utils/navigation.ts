@@ -12,6 +12,8 @@ export const VALID_PAGES = [
   "search",
   "auth",
   "account",
+  "admin",
+  "add-product",
   "size-guide",
   // Men's category pages
   "men-tshirts",

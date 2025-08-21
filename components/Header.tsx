@@ -638,34 +638,32 @@ function UserDropdown({
                 <ChevronRight className="h-4 w-4 text-amber-600 ml-auto" />
               </motion.button>
 
-              {/* Admin Panel Button (only for admins) */}
-              {isAdmin && (
-                <motion.button
-                  variants={itemFadeIn}
-                  onClick={() => onNavigate("admin")}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-200 group"
-                  whileHover={{ x: 2, scale: 1.005 }}
-                  whileTap={{ scale: 0.98 }}
+              {/* Admin Panel Button (visible to everyone) */}
+              <motion.button
+                variants={itemFadeIn}
+                onClick={() => onNavigate("admin")}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 transition-all duration-200 group"
+                whileHover={{ x: 2, scale: 1.005 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <motion.div
+                  className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-purple-600 group-hover:from-purple-200 group-hover:to-blue-200"
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <motion.div
-                    className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center text-purple-600 group-hover:from-purple-200 group-hover:to-blue-200"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Settings className="h-4 w-4" />
-                  </motion.div>
-                  <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
-                    Admin Panel
-                    <AnimatedEmoji
-                      emoji="⚡"
-                      animation="pulse"
-                      size="small"
-                      delay={0}
-                    />
-                  </span>
-                  <ChevronRight className="h-4 w-4 text-purple-600 ml-auto" />
-                </motion.button>
-              )}
+                  <Settings className="h-4 w-4" />
+                </motion.div>
+                <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
+                  Admin Panel
+                  <AnimatedEmoji
+                    emoji="⚡"
+                    animation="pulse"
+                    size="small"
+                    delay={0}
+                  />
+                </span>
+                <ChevronRight className="h-4 w-4 text-purple-600 ml-auto" />
+              </motion.button>
 
               <motion.button
                 variants={itemFadeIn}
@@ -1021,6 +1019,17 @@ export function Header({
                 <span className="hidden md:inline">Add</span>
               </motion.button>
             )}
+
+            {/* Admin Button (small, visible to everyone) */}
+            <motion.button
+              onClick={() => handleNavigation("admin")}
+              className="p-1.5 text-zinc-700 hover:text-purple-600 hover:bg-purple-50 border-2 border-purple-300 hover:border-purple-500 rounded-full transition-all duration-200 bg-white/80 backdrop-blur-sm"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Admin Panel"
+            >
+              <Settings className="h-3 w-3" />
+            </motion.button>
 
             {/* User Button */}
             <div className="relative" data-dropdown>
