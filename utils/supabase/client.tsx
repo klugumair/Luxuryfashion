@@ -95,21 +95,20 @@ export const authHelpers = {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth`,
+          redirectTo: `${window.location.origin}`,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
           },
-          skipBrowserRedirect: false,
-          scopes: 'openid email profile'
+          skipBrowserRedirect: false
         }
       })
-      
+
       if (error) {
         console.error('OAuth error:', error)
         throw error
       }
-      
+
       return { data, error }
     } catch (error) {
       console.error('OAuth sign-in error:', error)
