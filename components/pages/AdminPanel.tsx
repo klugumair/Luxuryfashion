@@ -30,17 +30,16 @@ import { Product } from "../../types";
 import { toast } from "sonner";
 
 export function AdminPanel() {
-  const { 
-    user, 
-    isAdmin, 
-    products, 
-    categories, 
-    addProduct, 
-    updateProduct, 
-    deleteProduct, 
+  const {
+    user,
+    products,
+    categories,
+    addProduct,
+    updateProduct,
+    deleteProduct,
     fetchProducts,
     setCurrentPage,
-    isLoading 
+    isLoading
   } = useAppContext();
 
   const [activeTab, setActiveTab] = useState("products");
