@@ -140,10 +140,7 @@ export const adminService = {
 
       let query = supabase
         .from('products')
-        .select(`
-          *,
-          categories!inner(name, slug)
-        `);
+        .select('*');
 
       if (category) {
         query = query.eq('category', category);
