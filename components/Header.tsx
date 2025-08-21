@@ -1008,6 +1008,20 @@ export function Header({
               )}
             </motion.button>
 
+            {/* Add Product Button (Admin Only) */}
+            {isAuthenticated && user && (
+              <motion.button
+                onClick={() => handleNavigation("add-product")}
+                className="hidden sm:flex px-3 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-full text-sm transition-all duration-200 items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                title="Add Product"
+              >
+                <span className="text-base">+</span>
+                <span className="hidden md:inline">Add</span>
+              </motion.button>
+            )}
+
             {/* User Button */}
             <div className="relative" data-dropdown>
               {isAuthenticated && user ? (
@@ -1036,8 +1050,8 @@ export function Header({
                 <UserDropdown
                   isOpen={dropdowns.user}
                   user={user}
-                  onLogout={onLogout}
                   onNavigate={handleNavigation}
+                  onLogout={onLogout}
                 />
               )}
             </div>
