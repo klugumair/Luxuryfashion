@@ -98,7 +98,7 @@ export const authHelpers = {
           redirectTo: `${window.location.origin}`,
           queryParams: {
             access_type: 'offline',
-            prompt: 'consent',
+            prompt: 'select_account', // This allows users to select different accounts
           },
           skipBrowserRedirect: false
         }
