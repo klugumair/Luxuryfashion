@@ -67,6 +67,8 @@ import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
 // Import Admin Pages
 import { AdminPanel } from "./pages/AdminPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
+// Import Test Components
+import { AuthTest } from "./test/AuthTest";
 
 interface PageRendererProps {
   currentPage: string;
@@ -104,6 +106,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <AdminPanel />;
       case "size-guide":
         return <SizeGuidePage />;
+      case "auth-test":
+        return <AuthTest />;
       // Men's category pages
       case "men-tshirts":
         return <MenTShirtsPage />;
