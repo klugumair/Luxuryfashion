@@ -20,6 +20,27 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Handle OAuth return and potential errors
+  React.useEffect(() => {
+    const handleOAuthReturn = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      const errorDescription = urlParams.get('error_description');
+      const provider = urlParams.get('provider');
+
+      if (error && provider === 'google') {
+        console.error('OAuth return error:', error, errorDescription);
+        toast.error('Google sign-in failed', {
+          description: errorDescription || error
+        });
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
+
+    handleOAuthReturn();
+  }, []);
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
