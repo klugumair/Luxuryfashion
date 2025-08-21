@@ -417,13 +417,35 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
         });
       }
     } catch (error: any) {
-      console.error("Error fetching products:", error);
-      // Try to get mock data as fallback
-      const mockProducts = adminService.getMockProducts(category);
+      // Properly log the error with detailed information
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      console.error("Error fetching products:", errorMessage, error);
+
+      // Create fallback mock data directly instead of calling adminService method
+      const mockProducts = [
+        {
+          id: '1',
+          name: 'Demo T-Shirt',
+          description: 'Sample product for demonstration',
+          price: 29.99,
+          originalPrice: 39.99,
+          images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500'],
+          category: 'men',
+          subcategory: 'tshirts',
+          sizes: ['S', 'M', 'L', 'XL'],
+          colors: ['White', 'Black', 'Blue'],
+          inStock: true,
+          featured: true,
+          tags: ['demo'],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
+      ];
+
       setProducts(mockProducts);
 
       toast.warning("Using Demo Data", {
-        description: "Database not connected. Showing sample products."
+        description: "Database connection failed. Showing sample products."
       });
     } finally {
       setIsLoading(false);
