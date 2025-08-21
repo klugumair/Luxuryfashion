@@ -143,9 +143,18 @@ export default function App() {
 
       if (error) {
         console.error('OAuth error from URL:', error, errorDescription);
-        toast.error("Authentication failed", {
-          description: errorDescription || error
-        });
+
+        // Handle specific OAuth errors
+        if (error === 'access_denied') {
+          toast.error("Sign-in cancelled", {
+            description: "You cancelled the sign-in process"
+          });
+        } else {
+          toast.error("Authentication failed", {
+            description: errorDescription || error
+          });
+        }
+
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
@@ -156,20 +165,31 @@ export default function App() {
         setIsLoading(true);
 
         try {
-          // Exchange code for session - let Supabase handle this automatically
+          // Clear any existing session first to prevent conflicts
+          await supabase.auth.signOut({ scope: 'local' });
+
+          // Small delay to ensure clean slate
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          // Exchange code for session
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
           if (exchangeError) {
             console.error('Code exchange error:', exchangeError);
             toast.error("Authentication failed", {
-              description: exchangeError.message
+              description: exchangeError.message || "Please try signing in again"
             });
           } else if (data?.session?.user) {
             console.log('OAuth successful for:', data.session.user.email);
-            // The auth state change listener will handle the user setup
-            toast.success("Authentication successful!", {
-              description: "Welcome to Outlander"
-            });
+
+            // Verify the session is properly established
+            const { data: { session: verifySession } } = await supabase.auth.getSession();
+            if (verifySession?.user) {
+              console.log('Session verified for:', verifySession.user.email);
+              toast.success("Authentication successful!", {
+                description: `Welcome, ${verifySession.user.user_metadata?.name || verifySession.user.email}`
+              });
+            }
           }
         } catch (exchangeError: any) {
           console.error('Code exchange failed:', exchangeError);
