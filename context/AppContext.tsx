@@ -438,10 +438,15 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           const adminStatus = await adminService.checkAdminStatus(user.id);
           setIsAdmin(adminStatus);
 
-          // If admin, fetch categories
-          if (adminStatus) {
+          // Fetch categories for everyone (not just admins since we removed admin restrictions)
+          try {
             const fetchedCategories = await adminService.getCategories();
             setCategories(fetchedCategories);
+          } catch (error) {
+            console.error("Error fetching categories:", error);
+            // Use mock categories as fallback
+            const mockCategories = adminService.getMockCategories();
+            setCategories(mockCategories);
           }
         } catch (error) {
           console.error("Error checking admin status:", error);
