@@ -76,6 +76,11 @@ export default function App() {
             provider: session.user.app_metadata?.provider || 'email'
           };
 
+          // Clear any existing user data before setting new user
+          if (user && user.email !== userData.email) {
+            console.log('Account switched from', user.email, 'to', userData.email);
+          }
+
           setUser(userData);
 
           // Show welcome toast for new sign-ins (not on page refresh)
@@ -88,6 +93,24 @@ export default function App() {
           // Navigate away from auth page if on it
           if (currentPage === 'auth') {
             handlePageChange('home');
+          }
+
+          // Force reload of user data from database for new account
+          if (userData.id) {
+            try {
+              // Create or update user profile
+              await fetch(`${supabase.supabaseUrl}/rest/v1/rpc/handle_new_user_profile`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${session.access_token}`,
+                  'apikey': supabase.supabaseKey
+                },
+                body: JSON.stringify({ user_id: userData.id })
+              }).catch(() => {});
+            } catch (error) {
+              console.log('Profile creation handled by trigger');
+            }
           }
         } else if (event === 'SIGNED_OUT') {
           setUser(null);
