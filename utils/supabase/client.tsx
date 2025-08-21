@@ -94,7 +94,7 @@ export const authHelpers = {
   async signInWithOAuth(provider: 'google') {
     try {
       // Clear any existing session first to prevent conflicts
-      await supabase.auth.signOut({ scope: 'local' });
+      await this.clearAuthState();
 
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
