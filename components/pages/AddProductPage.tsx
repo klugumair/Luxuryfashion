@@ -63,24 +63,33 @@ const CATEGORIES = [
   { value: 'women', label: 'Women' },
   { value: 'kids', label: 'Kids' },
   { value: 'accessories', label: 'Accessories' },
-  { value: 'summer-collection', label: 'Summer Collection' }
+  { value: 'summer', label: 'Summer Collection' }
 ];
 
 const SUBCATEGORIES = {
   men: [
-    'shirts', 'pants', 'jackets', 'shoes', 'activewear', 'underwear', 'sleepwear'
+    'men-tshirts', 'men-shirts', 'men-polos', 'men-shorts', 'men-trousers', 'men-jeans', 'men-activewear'
   ],
   women: [
-    'dresses', 'tops', 'bottoms', 'outerwear', 'shoes', 'activewear', 'intimates', 'sleepwear'
+    'women-tshirts', 'women-shirts', 'women-polos', 'women-skirts-shorts', 'women-dresses-jumpsuits',
+    'women-trousers', 'women-jeans', 'women-activewear'
   ],
   kids: [
-    'boys-clothing', 'girls-clothing', 'baby-clothing', 'kids-shoes', 'kids-accessories'
+    'kids-boys-6m5y-shirts', 'kids-boys-6m5y-tshirts-polos', 'kids-boys-6m5y-coord-sets',
+    'kids-boys-6m5y-shorts', 'kids-boys-6m5y-trousers', 'kids-boys-6m5y-jeans',
+    'kids-boys-6to14y-shirts', 'kids-boys-6to14y-tshirts-polos', 'kids-boys-6to14y-coord-sets',
+    'kids-boys-6to14y-shorts', 'kids-boys-6to14y-trousers', 'kids-boys-6to14y-jeans',
+    'kids-girls-6m5y-dresses-jumpsuits', 'kids-girls-6m5y-tshirts', 'kids-girls-6m5y-shirts',
+    'kids-girls-6m5y-shorts-skirts', 'kids-girls-6m5y-coord-sets', 'kids-girls-6m5y-jeans',
+    'kids-girls-6m5y-trousers', 'kids-girls-6to14y-shirts', 'kids-girls-6to14y-tshirts',
+    'kids-girls-6to14y-dresses-jumpsuits', 'kids-girls-6to14y-coord-sets',
+    'kids-girls-6to14y-shorts-skirts', 'kids-girls-6to14y-trousers', 'kids-girls-6to14y-jeans'
   ],
   accessories: [
-    'bags', 'jewelry', 'watches', 'sunglasses', 'hats', 'belts', 'scarves'
+    'men-accessories', 'women-accessories'
   ],
-  'summer-collection': [
-    'swimwear', 'summer-dresses', 'shorts', 'sandals', 'sun-hats', 'beach-accessories'
+  summer: [
+    'summer-mens', 'summer-womens', 'summer-kids'
   ]
 };
 
