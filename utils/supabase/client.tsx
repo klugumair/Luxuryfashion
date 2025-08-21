@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
+    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/auth?provider=google` : undefined,
     storage: {
       getItem: (key) => {
         if (typeof window !== 'undefined') {
@@ -30,7 +30,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
           window.localStorage.removeItem(key);
         }
       }
-    }
+    },
+    debug: process.env.NODE_ENV === 'development'
   },
   global: {
     headers: {
