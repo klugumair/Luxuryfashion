@@ -133,6 +133,11 @@ export const adminService = {
 
   async getProducts(category?: string): Promise<Product[]> {
     try {
+      // Check if supabase is properly configured
+      if (!supabase) {
+        throw new Error('Supabase client not configured');
+      }
+
       let query = supabase
         .from('products')
         .select(`
@@ -149,16 +154,15 @@ export const adminService = {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching products:', error);
-        // Return mock data if database is not available
-        return this.getMockProducts(category);
+        console.error('Database error fetching products:', error.message || error);
+        throw new Error(`Database error: ${error.message || 'Unknown database error'}`);
       }
 
       return data?.map(this.mapDatabaseProductToProduct) || [];
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      // Return mock data if database is not available
-      return this.getMockProducts(category);
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      console.error('Error in getProducts:', errorMessage);
+      throw new Error(`Failed to fetch products: ${errorMessage}`);
     }
   },
 
