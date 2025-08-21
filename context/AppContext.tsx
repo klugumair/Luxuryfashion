@@ -444,24 +444,6 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
         try {
           const adminStatus = await adminService.checkAdminStatus(user.id);
           setIsAdmin(adminStatus);
-
-          // Fetch categories for everyone (not just admins since we removed admin restrictions)
-          try {
-            const fetchedCategories = await adminService.getCategories();
-            setCategories(fetchedCategories);
-          } catch (error: any) {
-            const errorMessage = error?.message || error?.toString() || 'Unknown error';
-            console.error("Error fetching categories:", errorMessage, error);
-
-            // Use mock categories as fallback
-            const mockCategories = [
-              { id: '1', name: 'Men', slug: 'men', description: 'Men\'s clothing', order: 1 },
-              { id: '2', name: 'Women', slug: 'women', description: 'Women\'s clothing', order: 2 },
-              { id: '3', name: 'Kids', slug: 'kids', description: 'Children\'s clothing', order: 3 },
-              { id: '4', name: 'Accessories', slug: 'accessories', description: 'Fashion accessories', order: 4 }
-            ];
-            setCategories(mockCategories);
-          }
         } catch (error) {
           console.error("Error checking admin status:", error);
           setIsAdmin(false);
@@ -473,6 +455,30 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
 
     checkAdminStatus();
   }, [user]);
+
+  // Fetch categories independently
+  useEffect(() => {
+    const fetchCategoriesData = async () => {
+      try {
+        const fetchedCategories = await adminService.getCategories();
+        setCategories(fetchedCategories);
+      } catch (error: any) {
+        const errorMessage = error?.message || error?.toString() || 'Unknown error';
+        console.error("Error fetching categories:", errorMessage, error);
+
+        // Use mock categories as fallback
+        const mockCategories = [
+          { id: '1', name: 'Men', slug: 'men', description: 'Men\'s clothing', order: 1 },
+          { id: '2', name: 'Women', slug: 'women', description: 'Women\'s clothing', order: 2 },
+          { id: '3', name: 'Kids', slug: 'kids', description: 'Children\'s clothing', order: 3 },
+          { id: '4', name: 'Accessories', slug: 'accessories', description: 'Fashion accessories', order: 4 }
+        ];
+        setCategories(mockCategories);
+      }
+    };
+
+    fetchCategoriesData();
+  }, []);
 
   // Computed values
   const cartTotal = cartItems.reduce(
