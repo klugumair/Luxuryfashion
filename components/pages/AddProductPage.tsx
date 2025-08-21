@@ -400,7 +400,7 @@ export default function AddProductPage() {
                   <SelectContent>
                     {availableSubcategories.map((subcat) => (
                       <SelectItem key={subcat} value={subcat}>
-                        {subcat.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        {getSubcategoryLabel(subcat)}
                       </SelectItem>
                     ))}
                   </SelectContent>
