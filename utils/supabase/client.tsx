@@ -163,6 +163,31 @@ export const authHelpers = {
     return { data, error }
   },
 
+  // Clear all auth state before OAuth
+  async clearAuthState() {
+    try {
+      // Clear local session
+      await supabase.auth.signOut({ scope: 'local' });
+
+      // Clear any stored auth data
+      if (typeof window !== 'undefined') {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('sb-')) {
+            keysToRemove.push(key);
+          }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+      }
+
+      return { error: null };
+    } catch (error) {
+      console.warn('Error clearing auth state:', error);
+      return { error };
+    }
+  },
+
   async exchangeCodeForSession(authCode: string) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(authCode)
     return { data, error }
