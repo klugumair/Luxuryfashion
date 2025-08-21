@@ -70,21 +70,27 @@ export default function AuthPage() {
 
     setIsLoading(true);
     try {
+      console.log('Starting sign up process...');
       const { data, error } = await authHelpers.signUp(email, password, {
         full_name: fullName || email.split('@')[0]
       });
-      
+
+      console.log('Sign up result:', { data, error });
+
       if (error) {
+        console.error('Sign up error details:', error);
         toast.error('Sign up failed', {
-          description: error.message
+          description: error.message || 'Database error saving new user'
         });
       } else if (data?.user) {
+        console.log('Sign up successful for user:', data.user.id);
         toast.success('Account created!', {
           description: 'Welcome to Outlander! You can start shopping now.'
         });
         // Navigation will be handled by the auth state change listener
       }
     } catch (error: any) {
+      console.error('Sign up exception:', error);
       toast.error('Sign up error', {
         description: error.message || 'Please try again'
       });
