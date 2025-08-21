@@ -52,67 +52,21 @@ async function initializeCategories() {
       .select('slug')
       .limit(1);
 
-    if (selectError && selectError.code === 'PGRST116') {
-      // Table doesn't exist, skip initialization
-      console.log('Categories table does not exist, skipping initialization');
+    if (selectError) {
+      console.error('Error checking categories:', selectError.message);
       return;
     }
 
     if (existingCategories && existingCategories.length > 0) {
-      console.log('Categories already initialized');
+      console.log('Categories already exist in database');
       return;
     }
 
-    // Insert default categories
-    const defaultCategories = [
-      {
-        name: 'Men',
-        slug: 'men',
-        description: 'Men\'s clothing and accessories',
-        sort_order: 1,
-        is_active: true
-      },
-      {
-        name: 'Women',
-        slug: 'women',
-        description: 'Women\'s clothing and accessories',
-        sort_order: 2,
-        is_active: true
-      },
-      {
-        name: 'Kids',
-        slug: 'kids',
-        description: 'Children\'s clothing',
-        sort_order: 3,
-        is_active: true
-      },
-      {
-        name: 'Accessories',
-        slug: 'accessories',
-        description: 'Fashion accessories',
-        sort_order: 4,
-        is_active: true
-      },
-      {
-        name: 'Summer Collection',
-        slug: 'summer',
-        description: 'Summer collection items',
-        sort_order: 5,
-        is_active: true
-      }
-    ];
-
-    const { error } = await supabase
-      .from('categories')
-      .insert(defaultCategories);
-
-    if (error) {
-      console.error('Error inserting default categories:', error);
-    } else {
-      console.log('Default categories inserted successfully');
-    }
-  } catch (error) {
-    console.error('Error initializing categories:', error);
+    console.log('No categories found, this should not happen with current database setup');
+    // Categories should already exist based on the database schema
+  } catch (error: any) {
+    const errorMessage = error?.message || error?.toString() || 'Unknown error';
+    console.error('Error initializing categories:', errorMessage);
   }
 }
 
