@@ -69,6 +69,7 @@ import { AdminPanel } from "./pages/AdminPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
 // Import Test Components
 import { AuthTest } from "./test/AuthTest";
+import { MultiAccountTest } from "./test/MultiAccountTest";
 
 interface PageRendererProps {
   currentPage: string;
@@ -108,6 +109,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <SizeGuidePage />;
       case "auth-test":
         return <AuthTest />;
+      case "multi-account-test":
+        return <MultiAccountTest />;
       // Men's category pages
       case "men-tshirts":
         return <MenTShirtsPage />;
