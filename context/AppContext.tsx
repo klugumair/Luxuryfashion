@@ -4,6 +4,7 @@ import { CartItem, WishlistItem, User, AppContextType, Product, Category } from 
 import { storage } from "../utils/storage";
 import { adminService } from "../utils/supabase/admin";
 import { supabase } from "../utils/supabase/client";
+import { initializeDatabase, testDatabaseConnection } from "../utils/supabase/init-db";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -197,7 +198,7 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           syncDataToDatabase(user.id);
         }
         
-        toast.success("Added to cart! ✨", {
+        toast.success("Added to cart! ���", {
           description: `${item.name} has been added to your cart`,
           duration: 3000,
           action: {
