@@ -409,10 +409,21 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       setIsLoading(true);
       const fetchedProducts = await adminService.getProducts(category);
       setProducts(fetchedProducts);
+
+      // If we got mock data (indicating database is not connected), show a friendly message
+      if (fetchedProducts.length > 0 && fetchedProducts[0].id === '1') {
+        toast.info("Demo Mode", {
+          description: "Showing sample products. Connect a database for full functionality."
+        });
+      }
     } catch (error: any) {
       console.error("Error fetching products:", error);
-      toast.error("Failed to fetch products", {
-        description: error.message || "Please try again"
+      // Try to get mock data as fallback
+      const mockProducts = adminService.getMockProducts(category);
+      setProducts(mockProducts);
+
+      toast.warning("Using Demo Data", {
+        description: "Database not connected. Showing sample products."
       });
     } finally {
       setIsLoading(false);
