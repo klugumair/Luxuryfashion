@@ -9,6 +9,7 @@ import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { SearchPage } from "./pages/SearchPage";
 import AuthPage from "./pages/AuthPage";
 import { AccountPage } from "./pages/AccountPage";
+import AuthTest from "./test/AuthTest";
 import { SizeGuidePage } from "./pages/SizeGuidePage";
 import { WishlistPage } from "./pages/WishlistPage";
 // Import Men's Category Pages
