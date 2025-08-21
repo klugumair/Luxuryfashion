@@ -168,7 +168,9 @@ export default function App() {
   const initializeAuth = async () => {
     try {
       console.log('Starting auth initialization...');
-      const { session, error } = await authHelpers.getSession();
+
+      // First try to get the current session
+      const { data: { session }, error } = await supabase.auth.getSession();
 
       if (error) {
         console.error('Session initialization error:', error);
@@ -177,20 +179,24 @@ export default function App() {
       }
 
       if (session?.user) {
+        console.log('Found existing session for:', session.user.email);
         const userData = {
           id: session.user.id,
           email: session.user.email,
-          name: session.user.user_metadata?.full_name || 
-                session.user.user_metadata?.name || 
-                session.user.email?.split("@")[0] || 
+          name: session.user.user_metadata?.full_name ||
+                session.user.user_metadata?.name ||
+                session.user.email?.split("@")[0] ||
                 "User",
-          avatar: session.user.user_metadata?.avatar_url || 
-                  session.user.user_metadata?.picture || 
+          avatar: session.user.user_metadata?.avatar_url ||
+                  session.user.user_metadata?.picture ||
                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
           provider: session.user.app_metadata?.provider || 'email'
         };
-        
+
         setUser(userData);
+        console.log('User initialized from session:', userData.email);
+      } else {
+        console.log('No existing session found');
       }
     } catch (error) {
       console.error('Auth initialization error:', error);
