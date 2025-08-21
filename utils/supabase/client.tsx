@@ -92,13 +92,17 @@ export const authHelpers = {
 
   async signInWithOAuth(provider: 'google') {
     try {
+      // Clear any existing session first to prevent conflicts
+      await supabase.auth.signOut({ scope: 'local' });
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}`,
+          redirectTo: `${window.location.origin}/auth?provider=google`,
           queryParams: {
             access_type: 'offline',
-            prompt: 'select_account', // This allows users to select different accounts
+            prompt: 'select_account', // Force account selection
+            hd: undefined, // Remove any domain restrictions
           },
           skipBrowserRedirect: false
         }
