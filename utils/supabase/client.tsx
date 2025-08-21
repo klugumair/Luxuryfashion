@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
+    redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/auth?provider=google` : undefined,
     storage: {
       getItem: (key) => {
         if (typeof window !== 'undefined') {
@@ -30,7 +30,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
           window.localStorage.removeItem(key);
         }
       }
-    }
+    },
+    debug: process.env.NODE_ENV === 'development'
   },
   global: {
     headers: {
@@ -92,13 +93,17 @@ export const authHelpers = {
 
   async signInWithOAuth(provider: 'google') {
     try {
+      // Clear any existing session first to prevent conflicts
+      await this.clearAuthState();
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}`,
+          redirectTo: `${window.location.origin}/auth?provider=google`,
           queryParams: {
             access_type: 'offline',
-            prompt: 'select_account', // This allows users to select different accounts
+            prompt: 'select_account', // Force account selection
+            hd: undefined, // Remove any domain restrictions
           },
           skipBrowserRedirect: false
         }
@@ -156,6 +161,31 @@ export const authHelpers = {
   async refreshSession() {
     const { data, error } = await supabase.auth.refreshSession()
     return { data, error }
+  },
+
+  // Clear all auth state before OAuth
+  async clearAuthState() {
+    try {
+      // Clear local session
+      await supabase.auth.signOut({ scope: 'local' });
+
+      // Clear any stored auth data
+      if (typeof window !== 'undefined') {
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('sb-')) {
+            keysToRemove.push(key);
+          }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+      }
+
+      return { error: null };
+    } catch (error) {
+      console.warn('Error clearing auth state:', error);
+      return { error };
+    }
   },
 
   async exchangeCodeForSession(authCode: string) {

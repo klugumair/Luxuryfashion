@@ -20,6 +20,27 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Handle OAuth return and potential errors
+  React.useEffect(() => {
+    const handleOAuthReturn = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      const errorDescription = urlParams.get('error_description');
+      const provider = urlParams.get('provider');
+
+      if (error && provider === 'google') {
+        console.error('OAuth return error:', error, errorDescription);
+        toast.error('Google sign-in failed', {
+          description: errorDescription || error
+        });
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
+
+    handleOAuthReturn();
+  }, []);
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -98,23 +119,39 @@ export default function AuthPage() {
     setIsLoading(true);
     try {
       console.log('Initiating Google OAuth...');
+
+      // Clear any potential error messages
+      toast.dismiss();
+
       const { data, error } = await authHelpers.signInWithOAuth('google');
 
       if (error) {
         console.error('Google OAuth error:', error);
+
+        // Handle specific OAuth errors
+        let errorMessage = 'Please try again';
+        if (error.message?.includes('code') && error.message?.includes('verifier')) {
+          errorMessage = 'Authentication flow error. Please clear your browser cache and try again.';
+        } else if (error.message?.includes('popup')) {
+          errorMessage = 'Popup was blocked. Please allow popups and try again.';
+        }
+
         toast.error('Google sign-in failed', {
-          description: error.message || 'Please try again'
+          description: errorMessage
         });
         setIsLoading(false);
       } else {
         console.log('Google OAuth initiated successfully');
+        // Show a loading message while redirecting
+        toast.loading('Redirecting to Google...', {
+          duration: 3000
+        });
         // Don't set loading to false here as we're redirecting
-        // Loading will be cleared when the redirect completes
       }
     } catch (error: any) {
       console.error('Google OAuth error:', error);
       toast.error('Google sign-in error', {
-        description: error.message || 'Please try again'
+        description: 'An unexpected error occurred. Please try again.'
       });
       setIsLoading(false);
     }

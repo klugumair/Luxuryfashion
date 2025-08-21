@@ -10,6 +10,7 @@ import { SearchPage } from "./pages/SearchPage";
 import AuthPage from "./pages/AuthPage";
 import { AccountPage } from "./pages/AccountPage";
 import AuthTest from "./test/AuthTest";
+import OAuthDebug from "./test/OAuthDebug";
 import { SizeGuidePage } from "./pages/SizeGuidePage";
 import { WishlistPage } from "./pages/WishlistPage";
 // Import Men's Category Pages
@@ -108,6 +109,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <SizeGuidePage />;
       case "auth-test":
         return <AuthTest />;
+      case "oauth-debug":
+        return <OAuthDebug />;
       // Men's category pages
       case "men-tshirts":
         return <MenTShirtsPage />;
