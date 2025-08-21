@@ -13,12 +13,8 @@ interface AdminFloatingButtonProps {
 }
 
 export function AdminFloatingButton({ category, onAddProduct }: AdminFloatingButtonProps) {
-  const { isAdmin, setCurrentPage } = useAppContext();
+  const { setCurrentPage } = useAppContext();
   const [isOpen, setIsOpen] = useState(false);
-
-  if (!isAdmin) {
-    return null;
-  }
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
