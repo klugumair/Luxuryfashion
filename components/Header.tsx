@@ -14,7 +14,8 @@ import {
   Search,
   Share2,
   Ruler,
-  Settings
+  Settings,
+  Plus
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
