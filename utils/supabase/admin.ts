@@ -47,6 +47,17 @@ export const adminService = {
   // Product CRUD operations
   async createProduct(product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product | null> {
     try {
+      // Validate category exists
+      const { data: categoryExists } = await supabase
+        .from('categories')
+        .select('slug')
+        .eq('slug', product.category)
+        .single();
+
+      if (!categoryExists) {
+        throw new Error(`Category '${product.category}' not found in database`);
+      }
+
       // Generate slug from name
       const slug = product.name.toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
