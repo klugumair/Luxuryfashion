@@ -68,8 +68,7 @@ import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
 // Import Admin Pages
 import { AdminPanel } from "./pages/AdminPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
-// Import Test Components
-import { AuthTest } from "./test/AuthTest";
+// AuthTest already imported above as default import
 
 interface PageRendererProps {
   currentPage: string;
