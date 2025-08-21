@@ -139,7 +139,7 @@ export default function AuthPage() {
             Join our community of fashion enthusiasts
             <AnimatedEmoji emoji="💫" animation="float" size="small" delay={0.9} />
           </p>
-        </div>
+        </motion.div>
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
