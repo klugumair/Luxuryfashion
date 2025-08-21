@@ -28,6 +28,7 @@ import {
 import { AnimatedEmoji } from "../animations";
 import { Product } from "../../types";
 import { toast } from "sonner";
+import { DatabaseSetup } from "../admin/DatabaseSetup";
 
 export function AdminPanel() {
   const {
