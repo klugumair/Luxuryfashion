@@ -255,6 +255,21 @@ export default function AddProductPage() {
 
   const availableSubcategories = formData.category ? SUBCATEGORIES[formData.category as keyof typeof SUBCATEGORIES] || [] : [];
 
+  // Helper function to convert subcategory slug to readable label
+  const getSubcategoryLabel = (slug: string) => {
+    return slug
+      .replace(/^(men|women|kids|summer)-/, '') // Remove category prefix
+      .replace(/-/g, ' ') // Replace hyphens with spaces
+      .replace(/\b\w/g, l => l.toUpperCase()) // Capitalize each word
+      .replace(/6m5y/gi, '6M-5Y')
+      .replace(/6to14y/gi, '6-14Y')
+      .replace(/Tshirts/g, 'T-Shirts')
+      .replace(/Coord Sets/g, 'Coord Sets')
+      .replace(/Dresses Jumpsuits/g, 'Dresses & Jumpsuits')
+      .replace(/Shorts Skirts/g, 'Shorts & Skirts')
+      .replace(/Skirts Shorts/g, 'Skirts & Shorts');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
