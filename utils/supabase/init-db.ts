@@ -73,20 +73,23 @@ async function initializeCategories() {
 // Function to test database connection
 export async function testDatabaseConnection() {
   try {
-    // Try to select from a system table that should always exist
+    // Try to select from categories table which we know exists
     const { data, error } = await supabase
       .from('categories')
-      .select('count')
+      .select('id')
       .limit(1);
 
     if (error) {
-      console.error('Database connection test failed:', error);
-      return { connected: false, error: error.message };
+      const errorMessage = error?.message || error?.toString() || 'Unknown database error';
+      console.error('Database connection test failed:', errorMessage);
+      return { connected: false, error: errorMessage };
     }
 
+    console.log('Database connection test successful');
     return { connected: true };
-  } catch (error) {
-    console.error('Database connection test error:', error);
-    return { connected: false, error: error.message };
+  } catch (error: any) {
+    const errorMessage = error?.message || error?.toString() || 'Unknown error';
+    console.error('Database connection test error:', errorMessage);
+    return { connected: false, error: errorMessage };
   }
 }
