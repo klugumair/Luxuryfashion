@@ -117,7 +117,7 @@ export default function App() {
       const code = urlParams.get('code');
       const error = urlParams.get('error');
       const errorDescription = urlParams.get('error_description');
-      
+
       if (error) {
         console.error('OAuth error from URL:', error, errorDescription);
         toast.error("Authentication failed", {
@@ -127,15 +127,15 @@ export default function App() {
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
       }
-      
+
       if (code) {
-        console.log('Processing OAuth redirect with code');
+        console.log('Processing OAuth redirect with code:', code);
         setIsLoading(true);
-        
+
         try {
-          // Exchange code for session
-          const { data, error: exchangeError } = await authHelpers.exchangeCodeForSession(code);
-          
+          // Exchange code for session - let Supabase handle this automatically
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
           if (exchangeError) {
             console.error('Code exchange error:', exchangeError);
             toast.error("Authentication failed", {
@@ -144,14 +144,17 @@ export default function App() {
           } else if (data?.session?.user) {
             console.log('OAuth successful for:', data.session.user.email);
             // The auth state change listener will handle the user setup
+            toast.success("Authentication successful!", {
+              description: "Welcome to Outlander"
+            });
           }
         } catch (exchangeError: any) {
           console.error('Code exchange failed:', exchangeError);
           toast.error("Authentication failed", {
-            description: exchangeError.message || "Please try again"
+            description: exchangeError.message || "Please try signing in again"
           });
         }
-        
+
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
         setIsLoading(false);
