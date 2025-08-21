@@ -119,23 +119,39 @@ export default function AuthPage() {
     setIsLoading(true);
     try {
       console.log('Initiating Google OAuth...');
+
+      // Clear any potential error messages
+      toast.dismiss();
+
       const { data, error } = await authHelpers.signInWithOAuth('google');
 
       if (error) {
         console.error('Google OAuth error:', error);
+
+        // Handle specific OAuth errors
+        let errorMessage = 'Please try again';
+        if (error.message?.includes('code') && error.message?.includes('verifier')) {
+          errorMessage = 'Authentication flow error. Please clear your browser cache and try again.';
+        } else if (error.message?.includes('popup')) {
+          errorMessage = 'Popup was blocked. Please allow popups and try again.';
+        }
+
         toast.error('Google sign-in failed', {
-          description: error.message || 'Please try again'
+          description: errorMessage
         });
         setIsLoading(false);
       } else {
         console.log('Google OAuth initiated successfully');
+        // Show a loading message while redirecting
+        toast.loading('Redirecting to Google...', {
+          duration: 3000
+        });
         // Don't set loading to false here as we're redirecting
-        // Loading will be cleared when the redirect completes
       }
     } catch (error: any) {
       console.error('Google OAuth error:', error);
       toast.error('Google sign-in error', {
-        description: error.message || 'Please try again'
+        description: 'An unexpected error occurred. Please try again.'
       });
       setIsLoading(false);
     }
