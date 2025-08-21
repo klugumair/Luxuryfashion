@@ -198,7 +198,7 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           syncDataToDatabase(user.id);
         }
         
-        toast.success("Added to cart! ���", {
+        toast.success("Added to cart! ✨", {
           description: `${item.name} has been added to your cart`,
           duration: 3000,
           action: {
@@ -408,46 +408,27 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   const fetchProducts = async (category?: string) => {
     try {
       setIsLoading(true);
+
+      // Test database connection first
+      const connectionTest = await testDatabaseConnection();
+      if (!connectionTest.connected) {
+        throw new Error(`Database connection failed: ${connectionTest.error}`);
+      }
+
       const fetchedProducts = await adminService.getProducts(category);
       setProducts(fetchedProducts);
 
-      // If we got mock data (indicating database is not connected), show a friendly message
-      if (fetchedProducts.length > 0 && fetchedProducts[0].id === '1') {
-        toast.info("Demo Mode", {
-          description: "Showing sample products. Connect a database for full functionality."
-        });
-      }
     } catch (error: any) {
-      // Properly log the error with detailed information
       const errorMessage = error?.message || error?.toString() || 'Unknown error';
       console.error("Error fetching products:", errorMessage, error);
 
-      // Create fallback mock data directly instead of calling adminService method
-      const mockProducts = [
-        {
-          id: '1',
-          name: 'Demo T-Shirt',
-          description: 'Sample product for demonstration',
-          price: 29.99,
-          originalPrice: 39.99,
-          images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500'],
-          category: 'men',
-          subcategory: 'tshirts',
-          sizes: ['S', 'M', 'L', 'XL'],
-          colors: ['White', 'Black', 'Blue'],
-          inStock: true,
-          featured: true,
-          tags: ['demo'],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      ];
-
-      setProducts(mockProducts);
-
-      toast.warning("Using Demo Data", {
-        description: "Database connection failed. Showing sample products."
+      // Show error message and suggest database setup
+      toast.error("Database Error", {
+        description: "Failed to fetch products. Please check database setup."
       });
+
+      // Set empty products array instead of mock data
+      setProducts([]);
     } finally {
       setIsLoading(false);
     }
