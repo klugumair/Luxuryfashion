@@ -7,7 +7,7 @@ import { SocialHandlePage } from "./pages/SocialHandlePage";
 import { CartPage } from "./pages/CartPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { SearchPage } from "./pages/SearchPage";
-import { AuthPage } from "./pages/AuthPage";
+import AuthPage from "./pages/AuthPage";
 import { AccountPage } from "./pages/AccountPage";
 import { SizeGuidePage } from "./pages/SizeGuidePage";
 import { WishlistPage } from "./pages/WishlistPage";
