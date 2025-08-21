@@ -1132,6 +1132,17 @@ export function Header({
                 {/* Mobile Additional Options */}
                 <div className="pt-2 border-t border-amber-200/50 space-y-2">
                   <motion.button
+                    onClick={() => handleNavigation("add-product")}
+                    className="w-full text-left px-4 py-2 rounded-lg text-sm text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 flex items-center gap-2 font-bold"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Product
+                  </motion.button>
+
+                  <motion.button
                     onClick={() => handleNavigation("size-guide")}
                     className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
                     initial={{ opacity: 0, x: -20 }}
