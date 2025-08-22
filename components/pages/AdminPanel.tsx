@@ -11,15 +11,15 @@ import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Separator } from "../ui/separator";
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Save, 
-  X, 
-  Upload, 
-  Package, 
-  Users, 
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Upload,
+  Package,
+  Users,
   BarChart3,
   Settings,
   ShoppingBag,
@@ -29,6 +29,8 @@ import { AnimatedEmoji } from "../animations";
 import { Product } from "../../types";
 import { toast } from "sonner";
 import { DatabaseSetup } from "../admin/DatabaseSetup";
+import { ImageUpload } from "../ui/image-upload";
+import { menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "../constants";
 
 export function AdminPanel() {
   const {
@@ -412,11 +414,6 @@ export function AdminPanel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => {
-              setIsAddingProduct(false);
-              setEditingProduct(null);
-              resetProductForm();
-            }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -433,10 +430,13 @@ export function AdminPanel() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => {
-                      setIsAddingProduct(false);
-                      setEditingProduct(null);
-                      resetProductForm();
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
+                        setIsAddingProduct(false);
+                        setEditingProduct(null);
+                        resetProductForm();
+                      }
                     }}
                   >
                     <X className="w-4 h-4" />
@@ -444,7 +444,7 @@ export function AdminPanel() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">Product Name *</label>
                       <Input
@@ -457,7 +457,11 @@ export function AdminPanel() {
                       <label className="block text-sm font-medium mb-2">Category *</label>
                       <Select
                         value={productForm.category}
-                        onValueChange={(value) => setProductForm(prev => ({ ...prev, category: value }))}
+                        onValueChange={(value) => setProductForm(prev => ({
+                          ...prev,
+                          category: value,
+                          subcategory: "" // Reset subcategory when category changes
+                        }))}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
@@ -468,6 +472,48 @@ export function AdminPanel() {
                               {cat.label}
                             </SelectItem>
                           ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Subcategory</label>
+                      <Select
+                        value={productForm.subcategory}
+                        onValueChange={(value) => setProductForm(prev => ({ ...prev, subcategory: value }))}
+                        disabled={!productForm.category}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select subcategory" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {/* Men's subcategories */}
+                          {productForm.category === "men" && menSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Women's subcategories */}
+                          {productForm.category === "women" && womenSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Accessories subcategories */}
+                          {productForm.category === "accessories" && accessoriesSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Kids subcategories - flatten the nested structure */}
+                          {productForm.category === "kids" && kidsSubcategories.flatMap(category =>
+                            category.ageGroups.flatMap(ageGroup =>
+                              ageGroup.subcategories.map(sub => (
+                                <SelectItem key={sub.page} value={`${category.category} ${ageGroup.name} ${sub.name}`}>
+                                  {sub.emoji} {category.category} {ageGroup.name} - {sub.name}
+                                </SelectItem>
+                              ))
+                            )
+                          )}
                         </SelectContent>
                       </Select>
                     </div>
@@ -513,36 +559,62 @@ export function AdminPanel() {
                       <label className="block text-sm font-medium mb-2">Sizes (comma-separated)</label>
                       <Input
                         value={productForm.sizes.join(", ")}
-                        onChange={(e) => setProductForm(prev => ({ 
-                          ...prev, 
-                          sizes: e.target.value.split(",").map(s => s.trim()).filter(Boolean)
-                        }))}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Better parsing: split by comma, trim spaces, filter empty, and remove duplicates
+                          const parsedSizes = value
+                            .split(/[,\s]+/)
+                            .map(s => s.trim())
+                            .filter(Boolean)
+                            .filter((size, index, arr) => arr.indexOf(size) === index);
+                          setProductForm(prev => ({ ...prev, sizes: parsedSizes }));
+                        }}
                         placeholder="S, M, L, XL"
                       />
+                      {productForm.sizes.length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {productForm.sizes.map((size, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {size}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Colors (comma-separated)</label>
                       <Input
                         value={productForm.colors.join(", ")}
-                        onChange={(e) => setProductForm(prev => ({ 
-                          ...prev, 
-                          colors: e.target.value.split(",").map(c => c.trim()).filter(Boolean)
-                        }))}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Better parsing: split by comma, trim spaces, filter empty, and remove duplicates
+                          const parsedColors = value
+                            .split(/[,]+/)
+                            .map(c => c.trim())
+                            .filter(Boolean)
+                            .filter((color, index, arr) => arr.indexOf(color) === index);
+                          setProductForm(prev => ({ ...prev, colors: parsedColors }));
+                        }}
                         placeholder="Red, Blue, Green"
                       />
+                      {productForm.colors.length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {productForm.colors.map((color, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {color}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Image URLs (comma-separated)</label>
-                    <Textarea
-                      value={productForm.images.join(", ")}
-                      onChange={(e) => setProductForm(prev => ({ 
-                        ...prev, 
-                        images: e.target.value.split(",").map(url => url.trim()).filter(Boolean)
-                      }))}
-                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
-                      rows={2}
+                    <label className="block text-sm font-medium mb-2">Product Images</label>
+                    <ImageUpload
+                      images={productForm.images}
+                      onImagesChange={(images) => setProductForm(prev => ({ ...prev, images }))}
+                      maxImages={5}
                     />
                   </div>
 
@@ -571,10 +643,13 @@ export function AdminPanel() {
                 <div className="flex justify-end gap-3 mt-6 pt-6 border-t">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      setIsAddingProduct(false);
-                      setEditingProduct(null);
-                      resetProductForm();
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
+                        setIsAddingProduct(false);
+                        setEditingProduct(null);
+                        resetProductForm();
+                      }
                     }}
                   >
                     Cancel

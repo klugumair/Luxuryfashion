@@ -79,14 +79,36 @@ export default function AuthPage() {
 
       if (error) {
         console.error('Sign up error details:', error);
-        toast.error('Sign up failed', {
-          description: error.message || 'Database error saving new user'
-        });
+
+        // Handle rate limiting error specifically
+        if (error.message.includes('can only request this after')) {
+          const timeMatch = error.message.match(/(\d+) seconds/);
+          const waitTime = timeMatch ? timeMatch[1] : '60';
+          toast.error('Too many signup attempts', {
+            description: `Please wait ${waitTime} seconds before trying again.`
+          });
+        } else if (error.message.includes('User already registered')) {
+          toast.error('Account already exists', {
+            description: 'Please try signing in instead.'
+          });
+        } else {
+          toast.error('Sign up failed', {
+            description: error.message || 'Please try again'
+          });
+        }
       } else if (data?.user) {
         console.log('Sign up successful for user:', data.user.id);
-        toast.success('Account created!', {
-          description: 'Welcome to Outlander! You can start shopping now.'
-        });
+
+        // Check if email confirmation is required
+        if (data.user.email_confirmed_at) {
+          toast.success('Account created!', {
+            description: 'Welcome to Outlander! You can start shopping now.'
+          });
+        } else {
+          toast.success('Account created!', {
+            description: 'Please check your email to verify your account, then you can start shopping.'
+          });
+        }
         // Navigation will be handled by the auth state change listener
       }
     } catch (error: any) {
