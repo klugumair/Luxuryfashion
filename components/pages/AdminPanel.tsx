@@ -512,23 +512,53 @@ export function AdminPanel() {
                       <label className="block text-sm font-medium mb-2">Sizes (comma-separated)</label>
                       <Input
                         value={productForm.sizes.join(", ")}
-                        onChange={(e) => setProductForm(prev => ({ 
-                          ...prev, 
-                          sizes: e.target.value.split(",").map(s => s.trim()).filter(Boolean)
-                        }))}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Better parsing: split by comma, trim spaces, filter empty, and remove duplicates
+                          const parsedSizes = value
+                            .split(/[,\s]+/)
+                            .map(s => s.trim())
+                            .filter(Boolean)
+                            .filter((size, index, arr) => arr.indexOf(size) === index);
+                          setProductForm(prev => ({ ...prev, sizes: parsedSizes }));
+                        }}
                         placeholder="S, M, L, XL"
                       />
+                      {productForm.sizes.length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {productForm.sizes.map((size, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {size}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Colors (comma-separated)</label>
                       <Input
                         value={productForm.colors.join(", ")}
-                        onChange={(e) => setProductForm(prev => ({ 
-                          ...prev, 
-                          colors: e.target.value.split(",").map(c => c.trim()).filter(Boolean)
-                        }))}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Better parsing: split by comma, trim spaces, filter empty, and remove duplicates
+                          const parsedColors = value
+                            .split(/[,]+/)
+                            .map(c => c.trim())
+                            .filter(Boolean)
+                            .filter((color, index, arr) => arr.indexOf(color) === index);
+                          setProductForm(prev => ({ ...prev, colors: parsedColors }));
+                        }}
                         placeholder="Red, Blue, Green"
                       />
+                      {productForm.colors.length > 0 && (
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {productForm.colors.map((color, index) => (
+                            <Badge key={index} variant="secondary" className="text-xs">
+                              {color}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
