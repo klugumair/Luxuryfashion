@@ -533,15 +533,11 @@ export function AdminPanel() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Image URLs (comma-separated)</label>
-                    <Textarea
-                      value={productForm.images.join(", ")}
-                      onChange={(e) => setProductForm(prev => ({ 
-                        ...prev, 
-                        images: e.target.value.split(",").map(url => url.trim()).filter(Boolean)
-                      }))}
-                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
-                      rows={2}
+                    <label className="block text-sm font-medium mb-2">Product Images</label>
+                    <ImageUpload
+                      images={productForm.images}
+                      onImagesChange={(images) => setProductForm(prev => ({ ...prev, images }))}
+                      maxImages={5}
                     />
                   </div>
 
