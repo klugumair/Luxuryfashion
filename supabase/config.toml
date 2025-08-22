@@ -43,6 +43,8 @@ enable_confirmations = false
 # Secure email change requires manual confirmation.
 secure_email_change_enabled = true
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
+# Reduced to 30 seconds for better user experience
+min_interval = 30
 template = {}
 
 [auth.sms]
