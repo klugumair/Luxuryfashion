@@ -30,6 +30,7 @@ import { Product } from "../../types";
 import { toast } from "sonner";
 import { DatabaseSetup } from "../admin/DatabaseSetup";
 import { ImageUpload } from "../ui/image-upload";
+import { menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "../constants";
 
 export function AdminPanel() {
   const {
@@ -443,7 +444,7 @@ export function AdminPanel() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">Product Name *</label>
                       <Input
@@ -456,7 +457,11 @@ export function AdminPanel() {
                       <label className="block text-sm font-medium mb-2">Category *</label>
                       <Select
                         value={productForm.category}
-                        onValueChange={(value) => setProductForm(prev => ({ ...prev, category: value }))}
+                        onValueChange={(value) => setProductForm(prev => ({
+                          ...prev,
+                          category: value,
+                          subcategory: "" // Reset subcategory when category changes
+                        }))}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Select category" />
@@ -467,6 +472,48 @@ export function AdminPanel() {
                               {cat.label}
                             </SelectItem>
                           ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Subcategory</label>
+                      <Select
+                        value={productForm.subcategory}
+                        onValueChange={(value) => setProductForm(prev => ({ ...prev, subcategory: value }))}
+                        disabled={!productForm.category}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select subcategory" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {/* Men's subcategories */}
+                          {productForm.category === "men" && menSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Women's subcategories */}
+                          {productForm.category === "women" && womenSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Accessories subcategories */}
+                          {productForm.category === "accessories" && accessoriesSubcategories.map(sub => (
+                            <SelectItem key={sub.page} value={sub.name}>
+                              {sub.emoji} {sub.name}
+                            </SelectItem>
+                          ))}
+                          {/* Kids subcategories - flatten the nested structure */}
+                          {productForm.category === "kids" && kidsSubcategories.flatMap(category =>
+                            category.ageGroups.flatMap(ageGroup =>
+                              ageGroup.subcategories.map(sub => (
+                                <SelectItem key={sub.page} value={`${category.category} ${ageGroup.name} ${sub.name}`}>
+                                  {sub.emoji} {category.category} {ageGroup.name} - {sub.name}
+                                </SelectItem>
+                              ))
+                            )
+                          )}
                         </SelectContent>
                       </Select>
                     </div>
