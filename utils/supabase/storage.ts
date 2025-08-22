@@ -7,31 +7,27 @@ export class SupabaseStorage {
   async initializeBucket() {
     try {
       const { data: buckets, error: listError } = await supabase.storage.listBuckets();
-      
+
       if (listError) {
         console.error('Error listing buckets:', listError);
-        return false;
+        // If we can't list buckets, assume bucket exists and try to use it
+        return true;
       }
 
       const bucketExists = buckets?.some(bucket => bucket.name === this.bucketName);
-      
-      if (!bucketExists) {
-        const { error: createError } = await supabase.storage.createBucket(this.bucketName, {
-          public: true,
-          allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
-          fileSizeLimit: 5242880, // 5MB limit
-        });
 
-        if (createError) {
-          console.error('Error creating bucket:', createError);
-          return false;
-        }
+      if (!bucketExists) {
+        console.log(`Bucket '${this.bucketName}' not found, it should be created via database migration`);
+        // Don't try to create bucket here since it should be created via migration
+        // Return true to proceed with upload attempts
+        return true;
       }
 
       return true;
     } catch (error) {
       console.error('Error initializing bucket:', error);
-      return false;
+      // Return true to attempt upload even if initialization fails
+      return true;
     }
   }
 
