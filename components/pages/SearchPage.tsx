@@ -62,7 +62,7 @@ const mockProducts = [
 ];
 
 export function SearchPage() {
-  const { searchQuery, setSearchQuery, setSelectedProduct } = useAppContext();
+  const { searchQuery, setSearchQuery, setSelectedProduct, setCurrentPage } = useAppContext();
   const [filteredProducts, setFilteredProducts] = useState(mockProducts);
   const [sortBy, setSortBy] = useState("relevance");
   const [viewMode, setViewMode] = useState("grid");
