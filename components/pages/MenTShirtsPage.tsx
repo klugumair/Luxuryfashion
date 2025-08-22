@@ -408,11 +408,11 @@ export function MenTShirtsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <ProductGrid 
-            title="Men's T-Shirts Collection" 
-            subtitle="Essential Comfort & Style"
-            products={menTShirtsProducts} 
-          />
+          <ProductGrid
+    title="Men's T-Shirts Collection"
+    subtitle={loading ? "Loading products..." : "Essential Comfort & Style"}
+    products={allProducts}
+  />
         </motion.div>
       </main>
     </div>
