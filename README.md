@@ -1,8 +1,5 @@
 # 👗 **Outlander Fashion**  
 [![Website](https://img.shields.io/badge/Website-Live-brightgreen?style=for-the-badge&logo=netlify)](https://outlanderfashion.netlify.app/)  
-[![Deployment](https://img.shields.io/netlify/STATUS-ID?style=for-the-badge&logo=netlify)](https://outlanderfashion.netlify.app/)  
-[![Issues](https://img.shields.io/github/issues/yourusername/outlanderfashion?style=for-the-badge&logo=github)](https://github.com/yourusername/outlanderfashion/issues)  
-[![Code Quality](https://img.shields.io/codefactor/grade/github/yourusername/outlanderfashion/main?style=for-the-badge&logo=codefactor)](https://www.codefactor.io/repository/github/yourusername/outlanderfashion)  
 
 > **A modern, stylish clothing e-commerce platform built with TypeScript, Supabase, and Builder.io.**  
 
