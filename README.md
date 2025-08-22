@@ -47,10 +47,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📬 **Contact**
-📧 **Email:** your.email@example.com  
-🌐 **Website:** [outlanderfashion.netlify.app](https://outlanderfashion.netlify.app/)  
-
 ---
 
 ⭐ If you like this project, **give it a star** on GitHub!
