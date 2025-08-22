@@ -412,11 +412,6 @@ export function AdminPanel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => {
-              setIsAddingProduct(false);
-              setEditingProduct(null);
-              resetProductForm();
-            }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -433,10 +428,13 @@ export function AdminPanel() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => {
-                      setIsAddingProduct(false);
-                      setEditingProduct(null);
-                      resetProductForm();
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
+                        setIsAddingProduct(false);
+                        setEditingProduct(null);
+                        resetProductForm();
+                      }
                     }}
                   >
                     <X className="w-4 h-4" />
@@ -571,10 +569,13 @@ export function AdminPanel() {
                 <div className="flex justify-end gap-3 mt-6 pt-6 border-t">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      setIsAddingProduct(false);
-                      setEditingProduct(null);
-                      resetProductForm();
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (confirm("Are you sure you want to cancel? All unsaved changes will be lost.")) {
+                        setIsAddingProduct(false);
+                        setEditingProduct(null);
+                        resetProductForm();
+                      }
                     }}
                   >
                     Cancel
