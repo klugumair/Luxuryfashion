@@ -57,8 +57,27 @@ export function ImageUpload({ images, onImagesChange, maxImages = 5, className }
       }
     } catch (error: any) {
       console.error('Upload error:', error);
-      toast.error('Upload failed', {
-        description: error.message || 'Please try again'
+
+      // Provide specific error messages for common issues
+      let errorMessage = 'Upload failed';
+      let errorDescription = 'Please try again';
+
+      if (error.message?.includes('Bucket not found')) {
+        errorMessage = 'Storage not ready';
+        errorDescription = 'Please wait a moment and try again';
+      } else if (error.message?.includes('File must be an image')) {
+        errorMessage = 'Invalid file type';
+        errorDescription = 'Please select a valid image file (JPEG, PNG, WebP, or GIF)';
+      } else if (error.message?.includes('must be less than 5MB')) {
+        errorMessage = 'File too large';
+        errorDescription = 'Please select an image smaller than 5MB';
+      } else if (error.message?.includes('row-level security policy')) {
+        errorMessage = 'Permission denied';
+        errorDescription = 'Please make sure you are logged in and try again';
+      }
+
+      toast.error(errorMessage, {
+        description: errorDescription
       });
     } finally {
       setUploading(false);
