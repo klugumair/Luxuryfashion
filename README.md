@@ -1,11 +1,10 @@
 # 👗 **Outlander Fashion**  
 [![Website](https://img.shields.io/badge/Website-Live-brightgreen?style=for-the-badge&logo=netlify)](https://outlanderfashion.netlify.app/)  
-![GitHub stars](https://img.shields.io/github/stars/yourusername/outlanderfashion?style=social)  
-![GitHub forks](https://img.shields.io/github/forks/yourusername/outlanderfashion?style=social)  
+[![Deployment](https://img.shields.io/netlify/STATUS-ID?style=for-the-badge&logo=netlify)](https://outlanderfashion.netlify.app/)  
+[![Issues](https://img.shields.io/github/issues/yourusername/outlanderfashion?style=for-the-badge&logo=github)](https://github.com/yourusername/outlanderfashion/issues)  
+[![Code Quality](https://img.shields.io/codefactor/grade/github/yourusername/outlanderfashion/main?style=for-the-badge&logo=codefactor)](https://www.codefactor.io/repository/github/yourusername/outlanderfashion)  
 
 > **A modern, stylish clothing e-commerce platform built with TypeScript, Supabase, and Builder.io.**  
-
-![Outlander Fashion Banner](https://user-images.githubusercontent.com/yourimage.png) <!-- Replace with a screenshot of your site -->
 
 ---
 
@@ -41,24 +40,20 @@
 
 ---
 
-## 📷 **Screenshots**
-
-![Screenshot 1](https://user-images.githubusercontent.com/yourimage1.png)  
-![Screenshot 2](https://user-images.githubusercontent.com/yourimage2.png)  
+## 🤝 **Contributing**
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
-## 🛠️ **Setup & Installation**
+## 📜 **License**
+This project is licensed under the [MIT License](LICENSE).
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/outlanderfashion.git
+---
 
-# Navigate to the project folder
-cd outlanderfashion
+## 📬 **Contact**
+📧 **Email:** your.email@example.com  
+🌐 **Website:** [outlanderfashion.netlify.app](https://outlanderfashion.netlify.app/)  
 
-# Install dependencies
-npm install
+---
 
-# Start development server
-npm run dev
+⭐ If you like this project, **give it a star** on GitHub!
