@@ -11,15 +11,15 @@ import { Textarea } from "../ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Separator } from "../ui/separator";
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Save, 
-  X, 
-  Upload, 
-  Package, 
-  Users, 
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Upload,
+  Package,
+  Users,
   BarChart3,
   Settings,
   ShoppingBag,
@@ -29,6 +29,7 @@ import { AnimatedEmoji } from "../animations";
 import { Product } from "../../types";
 import { toast } from "sonner";
 import { DatabaseSetup } from "../admin/DatabaseSetup";
+import { ImageUpload } from "../ui/image-upload";
 
 export function AdminPanel() {
   const {
