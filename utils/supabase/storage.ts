@@ -64,25 +64,52 @@ export class SupabaseStorage {
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `products/${fileName}`;
 
-      // Upload file
-      const { data, error } = await supabase.storage
-        .from(this.bucketName)
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+      // Upload file with retry logic
+      let uploadAttempts = 0;
+      const maxAttempts = 3;
 
-      if (error) {
-        console.error('Upload error:', error);
-        throw error;
+      while (uploadAttempts < maxAttempts) {
+        try {
+          const { data, error } = await supabase.storage
+            .from(this.bucketName)
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (error) {
+            console.error(`Upload attempt ${uploadAttempts + 1} failed:`, error);
+
+            // If bucket not found, wait and retry
+            if (error.message.includes('Bucket not found')) {
+              console.log('Bucket not found, waiting before retry...');
+              await new Promise(resolve => setTimeout(resolve, 1000 * (uploadAttempts + 1)));
+              uploadAttempts++;
+              continue;
+            }
+
+            throw error;
+          }
+
+          // Get public URL
+          const { data: urlData } = supabase.storage
+            .from(this.bucketName)
+            .getPublicUrl(filePath);
+
+          console.log('Successfully uploaded image:', urlData.publicUrl);
+          return urlData.publicUrl;
+
+        } catch (retryError) {
+          uploadAttempts++;
+          if (uploadAttempts >= maxAttempts) {
+            throw retryError;
+          }
+          console.log(`Upload attempt ${uploadAttempts} failed, retrying...`);
+          await new Promise(resolve => setTimeout(resolve, 1000 * uploadAttempts));
+        }
       }
 
-      // Get public URL
-      const { data: urlData } = supabase.storage
-        .from(this.bucketName)
-        .getPublicUrl(filePath);
-
-      return urlData.publicUrl;
+      throw new Error('Max upload attempts exceeded');
     } catch (error) {
       console.error('Error uploading single image:', error);
       return null;
