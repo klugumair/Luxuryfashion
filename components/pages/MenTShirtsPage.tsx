@@ -173,6 +173,28 @@ const menTShirtsProducts = [
 // Men's T-Shirts Page Component
 export function MenTShirtsPage() {
   const { setCurrentPage } = useAppContext();
+  const [allProducts, setAllProducts] = useState<CategoryProduct[]>(menTShirtsProducts);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch database products and merge with mock products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const dbProducts = await ProductHelper.fetchProductsByCategory('men', 'T-Shirts');
+        const mergedProducts = ProductHelper.mergeWithMockProducts(dbProducts, menTShirtsProducts);
+        setAllProducts(mergedProducts);
+      } catch (error) {
+        console.error('Error fetching T-shirts:', error);
+        // Fallback to mock products on error
+        setAllProducts(menTShirtsProducts);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-amber-50 via-purple-50 to-rose-50">
       <main className="flex-1">
