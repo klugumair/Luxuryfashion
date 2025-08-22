@@ -130,9 +130,36 @@ export function SearchPage() {
   }, [searchQuery, filters, sortBy]);
 
   const handleProductClick = (product: any) => {
-    setSelectedProduct(product);
-    // Navigate to product detail page
-    window.history.pushState({}, '', `/product/${product.id}`);
+    // Convert product format to match ProductDetailPage expectations
+    const detailProduct = {
+      id: product.id || `${product.name.toLowerCase().replace(/\s+/g, '-')}-001`,
+      name: product.name,
+      price: typeof product.price === 'string' ? parseFloat(product.price.replace('$', '')) : product.price,
+      originalPrice: (typeof product.price === 'string' ? parseFloat(product.price.replace('$', '')) : product.price) * 1.25,
+      images: [
+        product.image,
+        product.image,
+        product.image,
+        product.image
+      ],
+      category: product.category || "general",
+      description: product.description || `${product.name} - Experience premium quality and exceptional style with this carefully crafted piece.`,
+      features: product.features || [
+        "Premium Quality Materials",
+        "Comfortable Fit",
+        "Durable Construction",
+        "Easy Care Instructions",
+        "Versatile Style"
+      ],
+      sizes: product.sizes || ["XS", "S", "M", "L", "XL"],
+      colors: product.colors || ["Black", "White", "Gray"],
+      inStock: product.inStock !== false,
+      featured: product.featured || false,
+      tags: product.tags || []
+    };
+
+    setSelectedProduct(detailProduct);
+    setCurrentPage("product-detail");
   };
 
   return (
