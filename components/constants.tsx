@@ -385,7 +385,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Cargo Shorts",
     icon: <Mountain className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/a2/4c/59/a24c59acf5215cb3642f7ec62304b179.jpg",
     description: "Durable shorts with multiple pockets",
     itemCount: "15+ styles",
     price: "$45",
