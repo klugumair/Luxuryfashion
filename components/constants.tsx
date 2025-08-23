@@ -404,7 +404,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Board Shorts",
     icon: <Waves className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/23/aa/45/23aa453c225b0e752634477f7961f572.jpg",
     description: "Quick-dry shorts perfect for beach days",
     itemCount: "12+ patterns",
     price: "$35",
