@@ -265,11 +265,6 @@ export function WomenPage() {
         </motion.div>
       </main>
 
-      {/* Admin Features */}
-      <AdminFloatingButton
-        category="Women's Clothing"
-        onAddProduct={() => setShowQuickAdd(true)}
-      />
 
       <QuickAddProduct
         isOpen={showQuickAdd}
