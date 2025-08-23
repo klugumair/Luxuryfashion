@@ -2,7 +2,6 @@ import { HomePage } from "./pages/HomePage";
 import { SummerPage } from "./pages/SummerPage";
 import { MenPage } from "./pages/MenPage";
 import { WomenPage } from "./pages/WomenPage";
-import { KidsPage } from "./pages/KidsPage";
 import { SocialHandlePage } from "./pages/SocialHandlePage";
 import { CartPage } from "./pages/CartPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
@@ -85,8 +84,6 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <MenPage />;
       case "women":
         return <WomenPage />;
-      case "kids":
-        return <KidsPage />;
       case "accessories":
         return <AccessoriesPage setCurrentPage={handlePageChange} />;
       case "summer":
