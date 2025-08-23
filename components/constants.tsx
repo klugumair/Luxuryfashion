@@ -431,7 +431,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Athletic Shorts",
     icon: <TrendingUp className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/e0/5e/57/e05e5716dd4fa771e2876bbbee57eb2f.jpg",
     description: "Performance shorts for active lifestyle",
     itemCount: "22+ options",
     price: "$32",
