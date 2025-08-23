@@ -750,7 +750,7 @@ export const kidsProducts: ProductCategory[] = [
   {
     name: "Fun T-Shirts",
     icon: <Heart className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/ce/79/c8/ce79c8e7af79d7c56c22d5f0b6f09d67.jpg",
     description: "Colorful tees with playful prints",
     itemCount: "35+ designs",
     price: "$18",
