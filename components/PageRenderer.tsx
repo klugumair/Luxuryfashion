@@ -95,6 +95,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <SocialHandlePage />;
       case "cart":
         return <CartPage />;
+      case "checkout":
+        return <CheckoutPage setCurrentPage={handlePageChange} />;
       case "wishlist":
         return <WishlistPage />;
       case "product-detail":
