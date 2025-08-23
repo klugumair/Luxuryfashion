@@ -5,7 +5,7 @@ const menAccessoriesProducts = [
     id: "ma-001",
     name: "Chronograph Steel Watch",
     price: "$245",
-    image: "https://images.unsplash.com/photo-1740704407322-9cad53777a52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW4lMjBhY2Nlc3NvcmllcyUyMHdhdGNoZXMlMjBzdW5nbGFzc2VzfGVufDF8fHx8MTc1NTE5MjM2M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "https://www.analogshift.com/cdn/shop/files/AS09205_40960209_OMEGA_SPEEDMASTERPROFESSIONAL_310.30.41.50.01.001-6.jpg?v=1699634934&width=1445",
     description: "Premium chronograph watch with stainless steel band",
     category: "Watches",
     sizes: ["One Size"],
