@@ -94,7 +94,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
       name: "Kids Adventure Set",
       price: 69.99,
       originalPrice: 89.99,
-      image: "https://i.pinimg.com/736x/ed/fb/99/edfb996d0fc9957a3590e846fc0",
+      image: "https://i.pinimg.com/736x/11/27/b2/1127b2430d5fa17da37ce8391b33b8d3.jpg",
       rating: 4.7,
       reviews: 156,
       badge: "🎈 New Arrival",
@@ -278,17 +278,24 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
 
   const handleProductClick = (product: any) => {
     // Convert featured product to detailed product format
+    let productImages = [product.image, product.image, product.image, product.image];
+
+    // Special handling for Kids Adventure Set with multiple image variants
+    if (product.name === "Kids Adventure Set") {
+      productImages = [
+        "https://i.pinimg.com/736x/11/27/b2/1127b2430d5fa17da37ce8391b33b8d3.jpg",
+        "https://i.pinimg.com/736x/16/cd/3d/16cd3d9d33c03226b4230090d0e3ec10.jpg",
+        "https://i.pinimg.com/1200x/a6/a9/49/a6a9492cf4915675168e81c888d19507.jpg",
+        "https://i.pinimg.com/736x/a4/9c/15/a49c15c204acb979e5e324f6111c9292.jpg"
+      ];
+    }
+
     const detailProduct = {
       id: `${product.name.toLowerCase().replace(/\s+/g, '-')}-001`,
       name: product.name,
       price: product.price,
       originalPrice: product.originalPrice,
-      images: [
-        product.image,
-        product.image,
-        product.image,
-        product.image
-      ],
+      images: productImages,
       category: product.category,
       description: `${product.name} - Experience premium quality and exceptional style with this carefully crafted piece. Made with attention to detail and superior materials for lasting comfort and durability.`,
       features: [

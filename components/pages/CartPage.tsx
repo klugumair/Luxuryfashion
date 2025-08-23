@@ -6,7 +6,11 @@ import { Separator } from "../ui/separator";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
 
-export function CartPage() {
+interface CartPageProps {
+  setCurrentPage?: (page: string) => void;
+}
+
+export function CartPage({ setCurrentPage }: CartPageProps) {
   const { 
     cartItems, 
     removeFromCart, 
@@ -229,7 +233,12 @@ export function CartPage() {
                 </div>
               </div>
 
-              <Button 
+              <Button
+                onClick={() => {
+                  if (setCurrentPage) {
+                    setCurrentPage("checkout");
+                  }
+                }}
                 className="w-full mt-6 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 font-bold h-12 rounded-full"
                 size="lg"
               >
