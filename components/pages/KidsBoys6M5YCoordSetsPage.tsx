@@ -1,6 +1,6 @@
 import { ProductGrid } from "../ProductGrid";
 
-const coOrdSets = [
+const kidsBoys6M5YCoordSetsProducts = [
   {
     id: "kb6m5y-cs-001",
     name: "Sailor Coord Set",
