@@ -169,6 +169,7 @@ const menJeansProducts = [
   }
 ];
 
+
 // Men's Jeans Page Component
 export function MenJeansPage() {
   return (

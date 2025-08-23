@@ -168,6 +168,7 @@ const menTrousersProducts = [
     features: ["Travel Friendly", "Wrinkle Resistant", "Stretch Comfort"],
     icon: <Briefcase className="w-6 h-6" />,
     itemCount: "Travel Ready",
+   
   }
 ];
 
