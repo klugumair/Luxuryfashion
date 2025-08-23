@@ -395,7 +395,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Polo Shirts",
     icon: <Crown className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=2087&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/c8/25/f6/c825f6349acce996cd8c016ee02fe327.jpg",
     description: "Classic polo shirts for casual elegance",
     itemCount: "20+ colors",
     price: "$39",
