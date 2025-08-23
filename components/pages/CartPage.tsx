@@ -235,13 +235,8 @@ export function CartPage({ setCurrentPage }: CartPageProps) {
 
               <Button
                 onClick={() => {
-                  console.log("Checkout button clicked, setCurrentPage:", setCurrentPage);
                   if (setCurrentPage) {
                     setCurrentPage("checkout");
-                  } else {
-                    console.error("setCurrentPage is not available");
-                    // Fallback navigation
-                    window.location.hash = "#checkout";
                   }
                 }}
                 className="w-full mt-6 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 font-bold h-12 rounded-full"
