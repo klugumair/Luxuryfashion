@@ -27,7 +27,7 @@ const menTShirtsProducts = [
     itemCount: "Best Seller",
   },
   {
-    id: "mt-002", 
+    id: "mt-002",
     name: "Vintage Graphic Tee",
     price: 35,
     image: "https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
@@ -44,7 +44,7 @@ const menTShirtsProducts = [
   },
   {
     id: "mt-003",
-    name: "Performance Athletic Tee", 
+    name: "Performance Athletic Tee",
     price: 42,
     image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     description: "Moisture-wicking performance tee perfect for workouts and active days",
@@ -64,7 +64,7 @@ const menTShirtsProducts = [
     price: 38,
     image: "https://i.pinimg.com/1200x/e9/e1/41/e9e1417aa3857cbe32818ae2cbc6fb59.jpg",
     description: "Sustainable organic cotton V-neck with modern slim fit",
-    category: "T-Shirts", 
+    category: "T-Shirts",
     sizes: ["S", "M", "L", "XL"],
     colors: ["Forest", "Slate", "Cream", "Midnight"],
     brand: "EcoWear",
@@ -81,7 +81,7 @@ const menTShirtsProducts = [
     image: "https://i.pinimg.com/1200x/93/73/09/93730982113e9d58fb3b37feccd19f2e.jpg",
     description: "Classic striped henley with three-button placket and relaxed fit",
     category: "T-Shirts",
-    sizes: ["M", "L", "XL", "XXL"], 
+    sizes: ["M", "L", "XL", "XXL"],
     colors: ["Navy/White", "Gray/White", "Black/Gray"],
     brand: "Maritime Co",
     rating: 4.5,
@@ -107,7 +107,7 @@ const menTShirtsProducts = [
     itemCount: "Premium Quality",
   },
   {
-    id: "mt-007", 
+    id: "mt-007",
     name: "Pocket Crew Tee",
     price: 32,
     image: "https://i.pinimg.com/1200x/ec/d4/36/ecd43637ddc5f96e60c19b874484adb3.jpg",
@@ -140,7 +140,7 @@ const menTShirtsProducts = [
   },
   {
     id: "mt-009",
-    name: "Mesh Detail Sport Tee", 
+    name: "Mesh Detail Sport Tee",
     price: 55,
     image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     description: "Performance tee with mesh panels for enhanced breathability",

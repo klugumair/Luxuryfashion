@@ -24,7 +24,7 @@ const menPolosProducts = [
     itemCount: "Best Seller",
   },
   {
-    id: "mp-002", 
+    id: "mp-002",
     name: "Performance Golf Polo",
     price: 75,
     image: "https://i.pinimg.com/736x/88/9f/9b/889f9b5ce2494818c5a2582c87cfd995.jpg",
@@ -41,7 +41,7 @@ const menPolosProducts = [
   },
   {
     id: "mp-003",
-    name: "Mercerized Cotton Polo", 
+    name: "Mercerized Cotton Polo",
     price: 68,
     image: "https://i.pinimg.com/736x/df/0a/90/df0a90f14f1854f23c487598569c3bef.jpg",
     description: "Luxurious mercerized cotton polo with silk-like sheen and softness",
@@ -61,7 +61,7 @@ const menPolosProducts = [
     price: 62,
     image: "https://i.pinimg.com/736x/23/ff/1b/23ff1b77851c812ed6062e4a864e427b.jpg",
     description: "Classic rugby-style striped polo with contrast collar and cuffs",
-    category: "Polos", 
+    category: "Polos",
     sizes: ["M", "L", "XL", "XXL"],
     colors: ["Navy/White", "Red/White", "Green/White", "Black/Gray"],
     brand: "Rugby Heritage",
@@ -78,7 +78,7 @@ const menPolosProducts = [
     image: "https://i.pinimg.com/1200x/f5/32/a8/f532a8f10d5e10245efe2e666f06031d.jpg",
     description: "Eco-friendly bamboo polo with natural temperature regulation",
     category: "Polos",
-    sizes: ["S", "M", "L", "XL"], 
+    sizes: ["S", "M", "L", "XL"],
     colors: ["Natural", "Sage", "Charcoal", "Stone"],
     brand: "Eco Sport",
     rating: 4.8,
@@ -104,7 +104,7 @@ const menPolosProducts = [
     itemCount: "Slim Cut",
   },
   {
-    id: "mp-007", 
+    id: "mp-007",
     name: "Long Sleeve Polo",
     price: 72,
     image: "https://i.pinimg.com/736x/60/b6/f1/60b6f1b46b46a82f18ac5fdde1b98fba.jpg",
@@ -137,7 +137,7 @@ const menPolosProducts = [
   },
   {
     id: "mp-009",
-    name: "Vintage Wash Polo", 
+    name: "Vintage Wash Polo",
     price: 65,
     image: "https://i.pinimg.com/736x/6a/ca/d8/6acad8461a8c35834835c53c83e9741d.jpg",
     description: "Vintage-washed polo with faded colors and soft hand feel",

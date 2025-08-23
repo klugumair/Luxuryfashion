@@ -24,7 +24,7 @@ const menShortsProducts = [
     itemCount: "Best Seller",
   },
   {
-    id: "msh-002", 
+    id: "msh-002",
     name: "Board Shorts",
     price: 65,
     image: "https://i.pinimg.com/736x/c6/af/69/c6af69877ca28bcf1551f6ddb6206ed9.jpg",
@@ -41,7 +41,7 @@ const menShortsProducts = [
   },
   {
     id: "msh-003",
-    name: "Athletic Performance Shorts", 
+    name: "Athletic Performance Shorts",
     price: 52,
     image: "https://i.pinimg.com/736x/19/7f/94/197f94282940491944de8dff29f0f804.jpg",
     description: "Lightweight athletic shorts with moisture-wicking and 4-way stretch",
@@ -61,7 +61,7 @@ const menShortsProducts = [
     price: 58,
     image: "https://i.pinimg.com/1200x/17/6b/d3/176bd3a4dca8da976892b4926ca6235b.jpg",
     description: "Durable cargo shorts with multiple pockets and rugged construction",
-    category: "Shorts", 
+    category: "Shorts",
     sizes: ["M", "L", "XL", "XXL"],
     colors: ["Khaki", "Olive", "Black", "Tan"],
     brand: "Outdoor Gear",
@@ -78,7 +78,7 @@ const menShortsProducts = [
     image: "https://i.pinimg.com/1200x/60/06/9f/60069f54dfebcc549a1af29e3036f241.jpg",
     description: "Breathable linen blend shorts perfect for summer comfort",
     category: "Shorts",
-    sizes: ["S", "M", "L", "XL"], 
+    sizes: ["S", "M", "L", "XL"],
     colors: ["Natural", "White", "Light Blue", "Sage"],
     brand: "Summer Breeze",
     rating: 4.4,
@@ -104,7 +104,7 @@ const menShortsProducts = [
     itemCount: "Classic Style",
   },
   {
-    id: "msh-007", 
+    id: "msh-007",
     name: "Golf Performance Shorts",
     price: 75,
     image: "https://i.pinimg.com/1200x/48/71/ca/4871caf7879614f88a07a10722e2834e.jpg",
@@ -137,7 +137,7 @@ const menShortsProducts = [
   },
   {
     id: "msh-009",
-    name: "Hybrid Shorts", 
+    name: "Hybrid Shorts",
     price: 62,
     image: "https://i.pinimg.com/1200x/50/a9/5a/50a95ac2f66a10561670e29daf918624.jpg",
     description: "Versatile hybrid shorts that work for land and water activities",
