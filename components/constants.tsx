@@ -449,7 +449,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Denim Jeans",
     icon: <Zap className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=2126&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/7a/2e/da/7a2eda6da119e8e3caab83b63124d8b7.jpg",
     description: "Classic fit jeans in multiple washes",
     itemCount: "12+ washes",
     price: "$65",
@@ -459,7 +459,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Chino Pants",
     icon: <Shirt className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/94/54/ec/9454ecc148b768536ee4e3aea7b36cbc.jpg",
     description: "Smart casual chinos for versatile styling",
     itemCount: "16+ colors",
     price: "$52",
@@ -486,7 +486,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Swim Trunks",
     icon: <Waves className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1564859228273-274232fdb516?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/38/e4/d6/38e4d6e84de2b76b5ae23b05b61a8409.jpg",
     description: "Stylish swimwear for beach and pool",
     itemCount: "14+ patterns",
     price: "$38",
@@ -495,7 +495,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Flannel Shirts",
     icon: <Shield className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/ab/44/73/ab44736245c77fe9bd1e88ed3c659f6a.jpg",
     description: "Cozy flannel for layering and warmth",
     itemCount: "10+ plaids",
     price: "$42",
@@ -504,7 +504,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Track Pants",
     icon: <Activity className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/93/ca/12/93ca12ccab3332cd1fe369e66301b63b.jpg",
     description: "Comfortable pants for sports and leisure",
     itemCount: "12+ styles",
     price: "$36",
@@ -513,7 +513,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "V-Neck Sweaters",
     icon: <Crown className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/18/86/84/188684363bc4b06ac20c0281e6b299e2.jpg",
     description: "Elegant sweaters for smart casual looks",
     itemCount: "8+ colors",
     price: "$58",
@@ -522,7 +522,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Cargo Pants",
     icon: <Mountain className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=2080&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/4f/51/40/4f514026dba75a9f860e99900ebfecbb.jpg",
     description: "Utility pants with multiple pockets",
     itemCount: "6+ colors",
     price: "$48",
@@ -531,7 +531,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Compression Shirts",
     icon: <TrendingUp className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/2b/80/fb/2b80fbbaa0fc017c16d7f4e342e02d7c.jpg",
     description: "Performance wear for intense workouts",
     itemCount: "10+ colors",
     price: "$44",
@@ -540,7 +540,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Windbreaker Jackets",
     icon: <Shield className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/57/9d/ed/579deddecfdd96e68debcb9ac51e242f.jpg",
     description: "Lightweight protection from wind and rain",
     itemCount: "8+ designs",
     price: "$62",
@@ -550,7 +550,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Jogger Pants",
     icon: <Activity className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/fd/93/d0/fd93d08f4a6be9d6b88c515d8fefa7ae.jpg",
     description: "Trendy joggers for casual comfort",
     itemCount: "14+ styles",
     price: "$40",
