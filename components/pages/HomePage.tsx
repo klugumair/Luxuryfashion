@@ -94,7 +94,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
       name: "Kids Adventure Set",
       price: 69.99,
       originalPrice: 89.99,
-      image: "https://i.pinimg.com/736x/ed/fb/99/edfb996d0fc9957a3590e846fc0",
+      image: "https://i.pinimg.com/736x/11/27/b2/1127b2430d5fa17da37ce8391b33b8d3.jpg",
       rating: 4.7,
       reviews: 156,
       badge: "🎈 New Arrival",
