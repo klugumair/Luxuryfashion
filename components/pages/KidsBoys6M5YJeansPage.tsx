@@ -54,7 +54,7 @@ const kidsBoys6M5YJeansProducts = [
     id: "kb6m5y-j-004",
     name: "Straight Leg Jeans",
     price: "$25",
-    image: 'https://i.pinimg.com/736x/a7/24/04/a724043111330c24e7d955e6f3343251.jpg",
+    image: "https://i.pinimg.com/736x/a7/24/04/a724043111330c24e7d955e6f3343251.jpg",
     description: "Classic straight leg cut perfect for everyday wear",
     category: "Jeans",
     sizes: ["6M", "12M", "18M", "2T", "3T", "4T", "5T"],
