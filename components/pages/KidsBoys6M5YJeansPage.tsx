@@ -113,8 +113,7 @@ const kidsBoys6M5YJeansProducts = [
     features: ["Pull-On Style", "Jeggings", "Easy Dressing"],
     icon: "👖",
     itemCount: "Easy",
-  },
-
+  }
 ];
 
 export function KidsBoys6M5YJeansPage() {
