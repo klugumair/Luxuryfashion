@@ -6,7 +6,11 @@ import { Separator } from "../ui/separator";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
 
-export function CartPage() {
+interface CartPageProps {
+  setCurrentPage?: (page: string) => void;
+}
+
+export function CartPage({ setCurrentPage }: CartPageProps = {}) {
   const { 
     cartItems, 
     removeFromCart, 
