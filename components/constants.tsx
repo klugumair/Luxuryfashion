@@ -468,7 +468,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Graphic Tees",
     icon: <Star className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1503341338985-b4c2a0c3e15b?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/c1/13/cb/c113cb7f840da6b0bd52c808547cf612.jpg",
     description: "Trendy graphic designs for casual wear",
     itemCount: "30+ graphics",
     price: "$26",
