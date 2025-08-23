@@ -233,7 +233,8 @@ export function CartPage({ setCurrentPage }: CartPageProps = {}) {
                 </div>
               </div>
 
-              <Button 
+              <Button
+                onClick={() => setCurrentPage?.("checkout")}
                 className="w-full mt-6 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 font-bold h-12 rounded-full"
                 size="lg"
               >
