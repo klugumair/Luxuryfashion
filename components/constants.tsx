@@ -263,7 +263,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Beach T-Shirts",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2080&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
     description: "Ultra-light tees perfect for beach days",
     itemCount: "30+ designs",
     price: "$25",
@@ -336,7 +336,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Tank Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/09/75/69/097569ac525058a175c27f13fedbda22.jpg",
     description: "Breathable tanks for hot weather",
     itemCount: "28+ colors",
     price: "$22",
@@ -376,7 +376,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Summer T-Shirts",
     icon: <Shirt className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2080&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
     description: "Breathable cotton tees for everyday comfort",
     itemCount: "25+ designs",
     price: "$29",
@@ -385,7 +385,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Cargo Shorts",
     icon: <Mountain className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/a2/4c/59/a24c59acf5215cb3642f7ec62304b179.jpg",
     description: "Durable shorts with multiple pockets",
     itemCount: "15+ styles",
     price: "$45",
@@ -395,7 +395,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Polo Shirts",
     icon: <Crown className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=2087&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/c8/25/f6/c825f6349acce996cd8c016ee02fe327.jpg",
     description: "Classic polo shirts for casual elegance",
     itemCount: "20+ colors",
     price: "$39",
@@ -404,7 +404,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Board Shorts",
     icon: <Waves className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/23/aa/45/23aa453c225b0e752634477f7961f572.jpg",
     description: "Quick-dry shorts perfect for beach days",
     itemCount: "12+ patterns",
     price: "$35",
@@ -413,7 +413,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Tank Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/09/75/69/097569ac525058a175c27f13fedbda22.jpg",
     description: "Lightweight tanks for hot summer days",
     itemCount: "18+ styles",
     price: "$22",
@@ -422,7 +422,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Linen Shirts",
     icon: <Palmtree className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/d8/50/6e/d8506ea4d7ad5e99b6ed3887f79928ee.jpg",
     description: "Breathable linen for tropical vibes",
     itemCount: "10+ colors",
     price: "$55",
@@ -431,7 +431,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Athletic Shorts",
     icon: <TrendingUp className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/e0/5e/57/e05e5716dd4fa771e2876bbbee57eb2f.jpg",
     description: "Performance shorts for active lifestyle",
     itemCount: "22+ options",
     price: "$32",
@@ -468,7 +468,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Graphic Tees",
     icon: <Star className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1503341338985-b4c2a0c3e15b?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/c1/13/cb/c113cb7f840da6b0bd52c808547cf612.jpg",
     description: "Trendy graphic designs for casual wear",
     itemCount: "30+ graphics",
     price: "$26",
