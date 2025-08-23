@@ -1,9 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Shirt, ArrowRight, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { AnimatedEmoji } from "../animations";
 import { ProductGrid } from "../ProductGrid";
-import { useAppContext } from "../../App";
+import { useAppContext } from "../../context/AppContext";
+import { ProductHelper, CategoryProduct } from "../../utils/product-helpers";
 
 // Men's T-Shirts Products Data
 const menTShirtsProducts = [
