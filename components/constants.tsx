@@ -263,7 +263,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Beach T-Shirts",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2080&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
     description: "Ultra-light tees perfect for beach days",
     itemCount: "30+ designs",
     price: "$25",
@@ -376,7 +376,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Summer T-Shirts",
     icon: <Shirt className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2080&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
     description: "Breathable cotton tees for everyday comfort",
     itemCount: "25+ designs",
     price: "$29",
