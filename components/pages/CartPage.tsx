@@ -10,7 +10,7 @@ interface CartPageProps {
   setCurrentPage?: (page: string) => void;
 }
 
-export function CartPage({ setCurrentPage }: CartPageProps = {}) {
+export function CartPage({ setCurrentPage }: CartPageProps) {
   const { 
     cartItems, 
     removeFromCart, 
