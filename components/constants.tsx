@@ -573,7 +573,7 @@ export const womenProducts: ProductCategory[] = [
   {
     name: "Crop Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2070&auto=format&fit=crop",
+    image: "https://m.media-amazon.com/images/I/61p1++lRy8L._AC_SL1500_.jpg",
     description: "Trendy crop tops for layering",
     itemCount: "25+ designs",
     price: "$28",
