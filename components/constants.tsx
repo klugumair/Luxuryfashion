@@ -422,7 +422,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Linen Shirts",
     icon: <Palmtree className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/d8/50/6e/d8506ea4d7ad5e99b6ed3887f79928ee.jpg",
     description: "Breathable linen for tropical vibes",
     itemCount: "10+ colors",
     price: "$55",
