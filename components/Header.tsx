@@ -518,28 +518,6 @@ function KidsDropdown({
               ))}
             </motion.div>
             
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-4 pt-3 border-t border-rose-200"
-            >
-              <motion.button
-                onClick={() => onNavigate('kids')}
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200 flex items-center justify-center gap-2"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <AnimatedEmoji 
-                  emoji="🛍️"
-                  animation="bounce"
-                  size="small"
-                  delay={0}
-                />
-                View All Kids
-                <ArrowRight className="h-4 w-4" />
-              </motion.button>
-            </motion.div>
           </div>
         </motion.div>
       )}
