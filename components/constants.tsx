@@ -336,7 +336,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Tank Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/09/75/69/097569ac525058a175c27f13fedbda22.jpg",
     description: "Breathable tanks for hot weather",
     itemCount: "28+ colors",
     price: "$22",
@@ -413,7 +413,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Tank Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1622470953794-aa9c70b0fb9d?q=80&w=2070&auto=format&fit=crop",
+    image: "https://i.pinimg.com/1200x/09/75/69/097569ac525058a175c27f13fedbda22.jpg",
     description: "Lightweight tanks for hot summer days",
     itemCount: "18+ styles",
     price: "$22",
