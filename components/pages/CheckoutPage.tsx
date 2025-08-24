@@ -176,10 +176,20 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                 <div
                   className={`flex items-center justify-center w-12 rounded-full border-2 transition-all ${
                     currentStep >= step
-                      ? 'bg-gradient-to-r from-amber-500 to-purple-500 border-transparent text-white'
+                      ? 'border-transparent text-white'
                       : 'border-gray-300 text-gray-400'
                   }`}
-                  style={{ height: '38px', marginLeft: '-2px' }}
+                  style={{
+                    height: '38px',
+                    width: '42px',
+                    ...(currentStep >= step && {
+                      backgroundImage: 'url(https://m.media-amazon.com/images/I/41tfInzWFKL._UF350,350_QL50_.jpg)',
+                      backgroundColor: 'rgba(255, 255, 255, 1)',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      backgroundSize: 'cover'
+                    })
+                  }}
                 >
                   <Icon className="w-5 h-5" />
                 </div>
