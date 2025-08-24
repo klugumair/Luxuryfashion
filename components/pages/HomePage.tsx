@@ -55,7 +55,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
           setCurrentPage("women");
           break;
         case "4":
-          setCurrentPage("kids");
+          setCurrentPage("kids-boys-6m5y-shirts");
           break;
         case "5":
           setCurrentPage("accessories");
@@ -165,7 +165,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
       icon: RefreshCcw,
       title: "Easy Returns",
       description: "30-day return policy",
-      emoji: "↩️"
+      emoji: "���️"
     },
     {
       icon: Users,
