@@ -151,8 +151,26 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
   // Database sync functions
   const syncDataToDatabase = async (userId: string) => {
     try {
+      // Check if user is authenticated
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        console.log('User not authenticated, skipping database sync');
+        return;
+      }
+
+      // Test database connection first
+      const connectionTest = await testDatabaseConnection();
+      if (!connectionTest.connected) {
+        console.log('Database not connected, skipping sync:', connectionTest.error);
+        return;
+      }
+
+      console.log('Starting database sync for user:', userId);
+
       // Sync cart to database
       await adminService.saveCartToDatabase(userId, cartItems);
+
+      console.log('Database sync completed successfully');
     } catch (error: any) {
       const errorMessage = error?.message || error?.toString() || 'Unknown error';
       const errorDetails = {
@@ -165,6 +183,12 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       };
       console.error("Error syncing data to database:", errorDetails);
       console.error("Full error object:", error);
+
+      // Show user-friendly error message
+      toast.error('Failed to sync cart to cloud', {
+        description: 'Your cart is saved locally. Try refreshing the page.',
+        duration: 5000,
+      });
     }
   };
 
