@@ -980,8 +980,8 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
-                  // Navigate to a product page where user can write a review
-                  setCurrentPage("summer");
+                  // Navigate to the dedicated write review page
+                  setCurrentPage("write-review");
                   // Scroll to top after navigation
                   setTimeout(() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
