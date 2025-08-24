@@ -142,6 +142,29 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
     }
   };
 
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    // Add the product to cart
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: `${product.id}-${Date.now()}-${i}`,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        size: selectedSize,
+        color: selectedColor.name,
+        category: product.category
+      });
+    }
+
+    // Navigate to cart page
+    setCurrentPage("cart");
+  };
+
   const handleWishlistToggle = () => {
     const wishlistItem = {
       id: product.id,
