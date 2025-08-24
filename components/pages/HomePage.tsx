@@ -979,7 +979,16 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white px-8 py-3 rounded-full font-bold transition-all duration-200 flex items-center gap-2 mx-auto"
+                onClick={() => {
+                  console.log('Write a Review button clicked - navigating to write-review page');
+                  // Navigate to the dedicated write review page
+                  setCurrentPage("write-review");
+                  // Scroll to top after navigation
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }, 100);
+                }}
+                className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white px-8 py-3 rounded-full font-bold transition-all duration-200 flex items-center gap-2 mx-auto cursor-pointer"
               >
                 <AnimatedEmoji emoji="📝" animation="bounce" size="small" delay={0} />
                 Write a Review
