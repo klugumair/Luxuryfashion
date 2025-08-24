@@ -173,11 +173,14 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
               { step: 3, title: "Confirmation", icon: CheckCircle },
             ].map(({ step, title, icon: Icon }) => (
               <div key={step} className="flex items-center">
-                <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all ${
-                  currentStep >= step 
-                    ? 'bg-gradient-to-r from-amber-500 to-purple-500 border-transparent text-white' 
-                    : 'border-gray-300 text-gray-400'
-                }`}>
+                <div
+                  className={`flex items-center justify-center w-12 rounded-full border-2 transition-all ${
+                    currentStep >= step
+                      ? 'bg-gradient-to-r from-amber-500 to-purple-500 border-transparent text-white'
+                      : 'border-gray-300 text-gray-400'
+                  }`}
+                  style={{ height: '38px', marginLeft: '-2px' }}
+                >
                   <Icon className="w-5 h-5" />
                 </div>
                 <span className={`ml-2 font-medium ${
@@ -302,21 +305,6 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                           required
                           className="mt-1"
                         />
-                      </div>
-                      <div>
-                        <Label htmlFor="state">State *</Label>
-                        <Select onValueChange={(value) => updateShippingForm('state', value)}>
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select state" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="CA">California</SelectItem>
-                            <SelectItem value="NY">New York</SelectItem>
-                            <SelectItem value="TX">Texas</SelectItem>
-                            <SelectItem value="FL">Florida</SelectItem>
-                            <SelectItem value="IL">Illinois</SelectItem>
-                          </SelectContent>
-                        </Select>
                       </div>
                       <div>
                         <Label htmlFor="zipCode">ZIP Code *</Label>
