@@ -318,7 +318,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Summer Sandals",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2012&auto=format&fit=crop",
+    image: "https://www.retrowalk.com/cdn/shop/files/Ilana-2.png?v=1749039645",
     description: "Comfortable sandals for warm weather",
     itemCount: "12+ styles",
     price: "$38",
@@ -327,7 +327,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Sun Hats",
     icon: <Umbrella className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?q=80&w=2070&auto=format&fit=crop",
+    image: "https://americanhatmakers.com/cdn/shop/products/Soaker-Brown-Men-SunHat-AmericanHatMakers-_13.jpg?v=1715219448&width=1000",
     description: "Stylish protection from the sun",
     itemCount: "16+ styles",
     price: "$28",
@@ -336,7 +336,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Tank Tops",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://i.pinimg.com/1200x/09/75/69/097569ac525058a175c27f13fedbda22.jpg",
+    image: "https://malibushirts.com/cdn/shop/files/Endless-Summer-Men-s-Tank__S_1.jpg?v=1698282189",
     description: "Breathable tanks for hot weather",
     itemCount: "28+ colors",
     price: "$22",
@@ -345,7 +345,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Beach Bags",
     icon: <ShoppingBag className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1974&auto=format&fit=crop",
+    image: "https://www.adairs.com.au/globalassets/13.-ecommerce/03.-product-images/2024_images/bathroom/beach/58244_naturalcre_01.jpg?width=1920&mode=crop&heightratio=1&quality=80",
     description: "Waterproof bags for beach essentials",
     itemCount: "10+ designs",
     price: "$32",
@@ -354,7 +354,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Flip Flops",
     icon: <Waves className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1506629905607-45ce0a5b39b8?q=80&w=2070&auto=format&fit=crop",
+    image: "https://www.flojos.com/cdn/shop/articles/cute-sandals-trends-1.jpg?v=1649928949&width=2048",
     description: "Classic flip flops for beach days",
     itemCount: "20+ colors",
     price: "$18",
