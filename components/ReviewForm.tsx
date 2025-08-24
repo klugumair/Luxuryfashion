@@ -68,11 +68,12 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       });
 
       if (result.success) {
-        toast.success('Review submitted successfully!');
+        toast.success('Review submitted successfully! Thank you for your feedback.');
         onReviewSubmitted();
         onClose();
       } else {
-        toast.error(result.error || 'Failed to submit review');
+        console.error('Review submission error:', result.error);
+        toast.error(result.error || 'Failed to submit review. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting review:', error);
