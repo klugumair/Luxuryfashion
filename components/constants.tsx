@@ -263,7 +263,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Beach T-Shirts",
     icon: <Sun className="w-5 h-5" />,
-    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
+    image: "https://nautunkee.com/cdn/shop/products/main_fd084d56-ee08-4d6b-acee-0cd189690967.png?v=1609917509&width=1445",
     description: "Ultra-light tees perfect for beach days",
     itemCount: "30+ designs",
     price: "$25",
@@ -273,7 +273,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Swim Shorts",
     icon: <Waves className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.teemill.com/o6phksh84m4mrewckbadfucbowochigwim6g4wrwfojcu81m.jpeg.jpg?w=1080&h=1080&v=2",
     description: "Quick-dry board shorts for water activities",
     itemCount: "20+ patterns",
     price: "$42",
@@ -282,7 +282,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Sun Dresses",
     icon: <Crown className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=2088&auto=format&fit=crop",
+    image: "https://i.pinimg.com/736x/71/90/7c/71907cba72b854d1574393f30bee71ec.jpg",
     description: "Flowing dresses for hot summer days",
     itemCount: "25+ styles",
     price: "$58",
@@ -291,7 +291,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Linen Pants",
     icon: <Palmtree className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.pwtapi.com/60514.jpg?mediaformatid=50108&destinationid=10016&timestamp=2023-06-19T18:00:41.077+00:00&function=resize&mimeType=image%2Fjpeg&aspectType=1&quality=75&cH=2880&cW=1920&gravity=Center",
     description: "Breathable linen pants for comfort",
     itemCount: "15+ colors",
     price: "$65",
@@ -300,7 +300,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Beach Cover-ups",
     icon: <Umbrella className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1566479179817-c970b1ad9d8c?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.squarespace-cdn.com/content/v1/606db47af1026038e2fd5c6c/1634327208730-9784HSF2B2GAU88K8PM0/Screen+Shot+2021-10-15+at+3.44.21+PM.png",
     description: "Lightweight cover-ups for beach lounging",
     itemCount: "18+ designs",
     price: "$35",
@@ -309,7 +309,7 @@ export const summerProducts: ProductCategory[] = [
   {
     name: "Hawaiian Shirts",
     icon: <Palmtree className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=2070&auto=format&fit=crop",
+    image: "https://m.media-amazon.com/images/I/71ch6dW5opL._UY1000_.jpg",
     description: "Tropical prints for vacation vibes",
     itemCount: "22+ prints",
     price: "$48",
