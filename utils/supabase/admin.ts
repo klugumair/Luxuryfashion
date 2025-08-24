@@ -326,33 +326,57 @@ export const adminService = {
   // Cart operations
   async saveCartToDatabase(userId: string, cartItems: any[]) {
     try {
+      console.log('Attempting to save cart to database:', { userId, itemCount: cartItems.length });
+
+      // Check if supabase is properly configured
+      if (!supabase) {
+        throw new Error('Supabase client not configured');
+      }
+
       // Clear existing cart items
-      await supabase
+      const { error: deleteError } = await supabase
         .from('cart_items')
         .delete()
         .eq('user_id', userId);
 
+      if (deleteError) {
+        console.error('Error clearing existing cart items:', deleteError);
+        throw new Error(`Failed to clear existing cart: ${deleteError.message}`);
+      }
+
       // Insert new cart items
       if (cartItems.length > 0) {
-        const { error } = await supabase
-          .from('cart_items')
-          .insert(
-            cartItems.map(item => ({
-              user_id: userId,
-              product_id: item.productId || item.id,
-              quantity: item.quantity,
-              size: item.size,
-              color: item.color
-            }))
-          );
+        const cartData = cartItems.map(item => ({
+          user_id: userId,
+          product_id: item.productId || item.id,
+          quantity: item.quantity,
+          size: item.size,
+          color: item.color
+        }));
 
-        if (error) {
-          // Silently handle database errors
-          throw error;
+        console.log('Inserting cart items:', cartData);
+
+        const { error: insertError } = await supabase
+          .from('cart_items')
+          .insert(cartData);
+
+        if (insertError) {
+          console.error('Error inserting cart items:', insertError);
+          throw new Error(`Failed to save cart items: ${insertError.message}`);
         }
       }
-    } catch (error) {
-      // Silently handle database errors
+
+      console.log('Cart saved successfully to database');
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      console.error('Error in saveCartToDatabase:', {
+        message: errorMessage,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+        userId,
+        cartItemsCount: cartItems.length
+      });
       throw error;
     }
   },
