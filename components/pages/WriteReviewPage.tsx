@@ -101,6 +101,8 @@ export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
   const handleProductSelect = (product: any) => {
     setSelectedProductForReview(product);
     setShowReviewForm(true);
+    // Also set the selected product in the app context for other components to use
+    setSelectedProduct(product);
   };
 
   const handleReviewSubmitted = () => {
@@ -237,7 +239,10 @@ export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
                             ${product.price}
                           </span>
                           <Button
-                            onClick={() => handleProductSelect(product)}
+                            onClick={() => {
+                              handleProductSelect(product);
+                              setCurrentPage("write-review");
+                            }}
                             className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white px-4 py-2 rounded-full"
                           >
                             Review This

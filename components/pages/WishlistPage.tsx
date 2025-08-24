@@ -151,8 +151,14 @@ export function WishlistPage() {
                   </p>
                 </div>
                 <Button
-                  onClick={() => window.history.back()}
-                  className="bg-gradient-to-r from-amber-500 to-purple-500 text-white hover:from-amber-600 hover:to-purple-600 transition-all duration-200 px-8 py-3 rounded-full font-bold flex items-center gap-2"
+                  onClick={() => {
+                    if (setCurrentPage) {
+                      setCurrentPage("home");
+                    } else {
+                      window.history.back();
+                    }
+                  }}
+                  className="bg-gradient-to-r from-amber-500 to-purple-500 text-white hover:from-amber-600 hover:to-purple-600 transition-all duration-200 px-8 py-3 rounded-full font-bold flex items-center gap-2 mx-auto"
                 >
                   <AnimatedEmoji emoji="🏪" animation="bounce" size="small" delay={0} />
                   Continue Shopping
@@ -417,7 +423,13 @@ export function WishlistPage() {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       variant="outline"
-                      onClick={() => window.history.back()}
+                      onClick={() => {
+                        if (setCurrentPage) {
+                          setCurrentPage("home");
+                        } else {
+                          window.history.back();
+                        }
+                      }}
                       className="border-amber-300 text-amber-700 hover:bg-amber-50 px-6 py-3 rounded-full font-bold flex items-center gap-2"
                     >
                       <AnimatedEmoji emoji="🛍️" animation="bounce" size="small" delay={0} />

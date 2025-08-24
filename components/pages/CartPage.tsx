@@ -40,7 +40,13 @@ export function CartPage({ setCurrentPage }: CartPageProps) {
               Let's find some amazing pieces for you!
             </p>
             <Button 
-              onClick={() => window.history.back()}
+              onClick={() => {
+                if (setCurrentPage) {
+                  setCurrentPage("home");
+                } else {
+                  window.history.back();
+                }
+              }}
               size="lg"
               className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 rounded-full font-bold"
             >
