@@ -347,12 +347,12 @@ export const adminService = {
           );
 
         if (error) {
-          console.error('Error saving cart to database:', error);
+          // Silently handle database errors
           throw error;
         }
       }
     } catch (error) {
-      console.error('Error saving cart to database:', error);
+      // Silently handle database errors
       throw error;
     }
   },
@@ -368,7 +368,7 @@ export const adminService = {
         .eq('user_id', userId);
 
       if (error) {
-        console.error('Error loading cart from database:', error);
+        // Silently handle database errors
         throw error;
       }
 
@@ -383,7 +383,7 @@ export const adminService = {
         category: item.products.category
       })) || [];
     } catch (error) {
-      console.error('Error loading cart from database:', error);
+      // Silently handle database errors
       return [];
     }
   },
@@ -396,11 +396,11 @@ export const adminService = {
         .insert({ user_id: userId, product_id: productId });
 
       if (error) {
-        console.error('Error saving to wishlist:', error);
+        // Silently handle database errors
         throw error;
       }
     } catch (error) {
-      console.error('Error saving to wishlist:', error);
+      // Silently handle database errors
       throw error;
     }
   },
@@ -414,11 +414,11 @@ export const adminService = {
         .eq('product_id', productId);
 
       if (error) {
-        console.error('Error removing from wishlist:', error);
+        // Silently handle database errors
         throw error;
       }
     } catch (error) {
-      console.error('Error removing from wishlist:', error);
+      // Silently handle database errors
       throw error;
     }
   },
@@ -434,7 +434,7 @@ export const adminService = {
         .eq('user_id', userId);
 
       if (error) {
-        console.error('Error loading wishlist from database:', error);
+        // Silently handle database errors
         throw error;
       }
 
@@ -447,7 +447,7 @@ export const adminService = {
         description: item.products.description
       })) || [];
     } catch (error) {
-      console.error('Error loading wishlist from database:', error);
+      // Silently handle database errors
       return [];
     }
   },
