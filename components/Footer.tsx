@@ -89,42 +89,54 @@ export function Footer({ setCurrentPage }: { setCurrentPage: (page: string) => v
               />
             </h3>
             <nav className="mt-4 flex flex-col space-y-2 text-sm">
-              <a href="#" className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1">
+              <button
+                onClick={() => setCurrentPage('men')}
+                className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1 text-left"
+              >
                 Men's Collection
-                <AnimatedEmoji 
+                <AnimatedEmoji
                   emoji="👨"
                   animation="pulse"
                   size="small"
                   delay={0}
                 />
-              </a>
-              <a href="#" className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1">
+              </button>
+              <button
+                onClick={() => setCurrentPage('women')}
+                className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1 text-left"
+              >
                 Women's Collection
-                <AnimatedEmoji 
+                <AnimatedEmoji
                   emoji="👩"
                   animation="pulse"
                   size="small"
                   delay={0.1}
                 />
-              </a>
-              <a href="#" className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1">
+              </button>
+              <button
+                onClick={() => setCurrentPage('kids')}
+                className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1 text-left"
+              >
                 Kids Collection
-                <AnimatedEmoji 
+                <AnimatedEmoji
                   emoji="🧒"
                   animation="pulse"
                   size="small"
                   delay={0.2}
                 />
-              </a>
-              <a href="#" className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1">
+              </button>
+              <button
+                onClick={() => setCurrentPage('summer')}
+                className="text-zinc-600 hover:text-amber-600 font-medium transition-colors duration-200 flex items-center gap-1 text-left"
+              >
                 Summer Collection
-                <AnimatedEmoji 
+                <AnimatedEmoji
                   emoji="🌞"
                   animation="pulse"
                   size="small"
                   delay={0.3}
                 />
-              </a>
+              </button>
             </nav>
           </div>
           <div>
