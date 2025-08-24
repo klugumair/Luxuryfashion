@@ -69,6 +69,7 @@ import { WomenAccessoriesPage } from "./pages/WomenAccessoriesPage";
 // Import Admin Pages
 import { AdminPanel } from "./pages/AdminPanel";
 import AddProductPage from "./pages/AddProductPage";
+import { WriteReviewPage } from "./pages/WriteReviewPage";
 import { ErrorBoundary } from "./ErrorBoundary";
 // AuthTest already imported above as default import
 
@@ -114,6 +115,8 @@ export function PageRenderer({ currentPage, handlePageChange }: PageRendererProp
         return <AuthTest />;
       case "oauth-debug":
         return <OAuthDebug />;
+      case "write-review":
+        return <WriteReviewPage setCurrentPage={handlePageChange} />;
       // Men's category pages
       case "men-tshirts":
         return <MenTShirtsPage />;
