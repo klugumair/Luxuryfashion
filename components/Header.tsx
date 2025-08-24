@@ -1023,7 +1023,7 @@ export function Header({
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
             >
-              <Mountain className="h-6 w-6 text-white" />
+              <Mountain className="h-6 w-6 text-white" style={{ marginLeft: '-2px' }} />
             </motion.div>
             <div className="hidden sm:block">
               <TypewriterText
@@ -1068,12 +1068,6 @@ export function Header({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <AnimatedEmoji
-                    emoji={item.emoji}
-                    animation="bounce"
-                    size="small"
-                    delay={index * 0.1}
-                  />
                   {item.name}
                   {item.hasDropdown && (
                     <motion.div
@@ -1230,11 +1224,12 @@ export function Header({
                 <motion.button
                   onClick={onLogin}
                   className="px-4 py-2 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white font-bold rounded-full text-sm transition-all duration-200 flex items-center gap-2"
+                  style={{ marginRight: '1px', padding: '7px 14px 5px' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="h-4 w-4" />
-                  Sign In
+                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>Sign In</span>
                 </motion.button>
               )}
 
@@ -1310,12 +1305,6 @@ export function Header({
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center gap-3">
-                      <AnimatedEmoji
-                        emoji={item.emoji}
-                        animation="bounce"
-                        size="small"
-                        delay={index * 0.1}
-                      />
                       {item.name}
                     </div>
                     {item.hasDropdown && (
