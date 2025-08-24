@@ -38,10 +38,6 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       return;
     }
 
-    if (!userName.trim()) {
-      toast.error('Please enter your name');
-      return;
-    }
 
     if (!comment.trim()) {
       toast.error('Please write a review comment');
@@ -54,9 +50,22 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
       // Get current user if logged in, otherwise create a guest review
       const { data: { user } } = await supabase.auth.getUser();
       
-      // For now, we'll create a temporary user ID for guest reviews
-      // In a production app, you might want to require login or handle guest reviews differently
-      const userId = user?.id || `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      let userId: string;
+      let reviewUserName: string;
+      
+      if (user) {
+        // User is logged in
+        userId = user.id;
+        reviewUserName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Anonymous User';
+      } else {
+        // Guest review - require name
+        if (!userName.trim()) {
+          toast.error('Please enter your name or sign in to continue');
+          return;
+        }
+        userId = `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        reviewUserName = userName.trim();
+      }
 
       const result = await reviewService.createReview({
         productId,
@@ -64,7 +73,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
         rating,
         title: title.trim() || undefined,
         comment: comment.trim(),
-        userName: userName.trim()
+        userName: reviewUserName
       });
 
       if (result.success) {
@@ -83,6 +92,17 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
     }
   };
 
+  // Check if user is logged in to auto-fill name
+  React.useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || '';
+        setUserName(displayName);
+      }
+    };
+    checkUser();
+  }, []);
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <motion.div
@@ -142,7 +162,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
               {/* Name Input */}
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium">
-                  Your Name *
+                  Your Name {userName ? '(auto-filled)' : '*'}
                 </Label>
                 <Input
                   id="name"
@@ -151,7 +171,13 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
                   placeholder="Enter your name"
                   className="w-full"
                   maxLength={50}
+                  disabled={!!userName && userName !== ''}
                 />
+                {userName && (
+                  <p className="text-xs text-gray-500">
+                    Name auto-filled from your account. You can edit it if needed.
+                  </p>
+                )}
               </div>
 
               {/* Title Input (Optional) */}
@@ -201,7 +227,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
                 <Button
                   type="submit"
                   className="flex-1 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600"
-                  disabled={isSubmitting || !rating || !userName.trim() || !comment.trim()}
+                  disabled={isSubmitting || !rating || !comment.trim()}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center gap-2">

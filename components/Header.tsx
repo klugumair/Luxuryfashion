@@ -20,11 +20,24 @@ import { Button } from "./ui/button";
 import { AnimatedEmoji, TypewriterText } from "./animations";
 import { staggerContainer, itemFadeIn, navigationItems, menSubcategories, womenSubcategories, kidsSubcategories, accessoriesSubcategories } from "./constants";
 import { useAppContext } from "../App";
+import { adminService } from "../utils/supabase/admin";
+import { Card } from "./ui/card";
+import { Badge } from "./ui/badge";
 
 // User interface
 interface User {
   email: string;
   name: string;
+}
+
+// Search result interface
+interface SearchResult {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
 }
 
 // Men's Subcategory Dropdown Component
@@ -525,6 +538,92 @@ function KidsDropdown({
   );
 }
 
+// Search Dropdown Component
+function SearchDropdown({ 
+  isOpen, 
+  searchResults, 
+  onProductSelect,
+  isLoading 
+}: { 
+  isOpen: boolean; 
+  searchResults: SearchResult[];
+  onProductSelect: (product: SearchResult) => void;
+  isLoading: boolean;
+}) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -8, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.95 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-md border-2 border-amber-200 rounded-2xl shadow-[4px_4px_0px_0px] shadow-amber-600/20 z-50 overflow-hidden max-h-96"
+        >
+          {isLoading ? (
+            <div className="p-4 text-center">
+              <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              <p className="text-sm text-gray-600">Searching products...</p>
+            </div>
+          ) : searchResults.length === 0 ? (
+            <div className="p-4 text-center">
+              <Search className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+              <p className="text-sm text-gray-600">No products found</p>
+              <p className="text-xs text-gray-500">Try different keywords</p>
+            </div>
+          ) : (
+            <div className="max-h-80 overflow-y-auto">
+              <div className="p-2">
+                <p className="text-xs font-medium text-gray-500 mb-2 px-2">
+                  {searchResults.length} product{searchResults.length !== 1 ? 's' : ''} found
+                </p>
+                <div className="space-y-1">
+                  {searchResults.map((product, index) => (
+                    <motion.button
+                      key={product.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      onClick={() => onProductSelect(product)}
+                      className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-amber-50 hover:to-purple-50 transition-all duration-200 group"
+                      whileHover={{ x: 2, scale: 1.005 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=100';
+                          }}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0 text-left">
+                        <h4 className="font-semibold text-sm text-zinc-900 truncate group-hover:text-amber-600 transition-colors">
+                          {product.name}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="secondary" className="text-xs">
+                            {product.category}
+                          </Badge>
+                          <span className="font-bold text-amber-600">${product.price}</span>
+                        </div>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-amber-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // User Dropdown Component
 function UserDropdown({
   isOpen,
@@ -633,7 +732,7 @@ function UserDropdown({
                 <span className="font-semibold text-zinc-900 text-sm flex items-center gap-1">
                   My Orders
                   <AnimatedEmoji 
-                    emoji="����"
+                    emoji="📦"
                     animation="bounce"
                     size="small"
                     delay={0.1}
@@ -641,6 +740,34 @@ function UserDropdown({
                 </span>
                 <ChevronRight className="h-4 w-4 text-amber-600 ml-auto" />
               </motion.button>
+
+              {isAdmin && (
+                <motion.button
+                  variants={itemFadeIn}
+                  onClick={() => onNavigate("admin")}
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-200 group"
+                  whileHover={{ x: 2, scale: 1.005 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <motion.div
+                    className="w-8 h-8 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center text-green-600 group-hover:from-green-200 group-hover:to-emerald-200"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Settings className="h-4 w-4" />
+                  </motion.div>
+                  <span className="font-semibold text-green-600 text-sm flex items-center gap-1">
+                    Admin Panel
+                    <AnimatedEmoji 
+                      emoji="⚡"
+                      animation="bounce"
+                      size="small"
+                      delay={0.2}
+                    />
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-green-600 ml-auto" />
+                </motion.button>
+              )}
 
               <motion.button
                 variants={itemFadeIn}
@@ -659,7 +786,7 @@ function UserDropdown({
                 <span className="font-semibold text-red-600 text-sm flex items-center gap-1">
                   Sign Out
                   <AnimatedEmoji 
-                    emoji="��"
+                    emoji="👋"
                     animation="wiggle"
                     size="small"
                     delay={0.2}
@@ -697,7 +824,7 @@ export function Header({
   onLogin,
   onLogout
 }: HeaderProps) {
-  const { cartCount, searchQuery, setSearchQuery, wishlistCount } = useAppContext();
+  const { cartCount, searchQuery, setSearchQuery, wishlistCount, setSelectedProduct } = useAppContext();
   
   // Navigation dropdown states
   const [dropdowns, setDropdowns] = useState({
@@ -710,7 +837,63 @@ export function Header({
 
   // Search functionality
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Search products function
+  const searchProducts = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowSearchDropdown(false);
+      return;
+    }
+
+    setIsSearchLoading(true);
+    setShowSearchDropdown(true);
+
+    try {
+      // Search in database products
+      const products = await adminService.getProducts();
+      const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase()) ||
+        product.tags?.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+      );
+
+      const searchResults: SearchResult[] = filteredProducts.slice(0, 8).map(product => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images?.[0] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=200',
+        category: product.category,
+        description: product.description
+      }));
+
+      setSearchResults(searchResults);
+    } catch (error) {
+      console.error('Search error:', error);
+      setSearchResults([]);
+    } finally {
+      setIsSearchLoading(false);
+    }
+  };
+
+  // Debounced search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchQuery.trim()) {
+        searchProducts(searchQuery);
+      } else {
+        setSearchResults([]);
+        setShowSearchDropdown(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   // Dropdown handlers
   const toggleDropdown = (dropdown: keyof typeof dropdowns) => {
@@ -732,6 +915,7 @@ export function Header({
       accessories: false,
       user: false
     });
+    setShowSearchDropdown(false);
   }, []);
 
   // Search handlers
@@ -739,6 +923,9 @@ export function Header({
     setIsSearchOpen(!isSearchOpen);
     if (!isSearchOpen) {
       setTimeout(() => searchInputRef.current?.focus(), 100);
+    } else {
+      setShowSearchDropdown(false);
+      setSearchResults([]);
     }
   };
 
@@ -747,8 +934,53 @@ export function Header({
     if (searchQuery.trim()) {
       setCurrentPage("search");
       setIsSearchOpen(false);
+      setShowSearchDropdown(false);
       closeAllDropdowns();
     }
+  };
+
+  const handleProductSelect = (product: SearchResult) => {
+    // Convert search result to detailed product format
+    const detailProduct = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.price * 1.25,
+      images: [
+        product.image,
+        product.image,
+        product.image,
+        product.image
+      ],
+      category: product.category,
+      description: product.description,
+      features: [
+        "Premium Quality Materials",
+        "Comfortable Fit",
+        "Durable Construction",
+        "Easy Care Instructions",
+        "Versatile Style"
+      ],
+      sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+      colors: [
+        { name: "Navy Blue", value: "#1e3a8a", available: true },
+        { name: "Charcoal Gray", value: "#374151", available: true },
+        { name: "Forest Green", value: "#166534", available: true },
+        { name: "Burgundy", value: "#991b1b", available: false }
+      ],
+      rating: 4.6 + Math.random() * 0.4,
+      reviews: Math.floor(Math.random() * 200) + 50,
+      inStock: true,
+      fastShipping: true,
+      brand: "Outlander"
+    };
+
+    setSelectedProduct(detailProduct);
+    setCurrentPage("product-detail");
+    setIsSearchOpen(false);
+    setShowSearchDropdown(false);
+    setSearchQuery("");
+    closeAllDropdowns();
   };
 
   // Click outside handlers
@@ -760,6 +992,7 @@ export function Header({
       }
       if (!target.closest('[data-search]')) {
         setIsSearchOpen(false);
+        setShowSearchDropdown(false);
       }
     };
 
@@ -891,22 +1124,44 @@ export function Header({
             <div className="relative" data-search>
               <AnimatePresence>
                 {isSearchOpen ? (
-                  <motion.form
-                    onSubmit={handleSearchSubmit}
+                  <motion.div
+                    className="relative"
                     initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: "200px" }}
+                    animate={{ opacity: 1, width: "300px" }}
                     exit={{ opacity: 0, width: 0 }}
-                    className="overflow-hidden"
                   >
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search products..."
-                      className="w-full px-4 py-2 text-sm border-2 border-amber-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white/90 backdrop-blur-sm"
+                    <form
+                      onSubmit={handleSearchSubmit}
+                      className="relative"
+                    >
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          if (e.target.value.trim()) {
+                            setShowSearchDropdown(true);
+                          }
+                        }}
+                        onFocus={() => {
+                          if (searchQuery.trim()) {
+                            setShowSearchDropdown(true);
+                          }
+                        }}
+                        placeholder="Search products..."
+                        className="w-full px-4 py-2 text-sm border-2 border-amber-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 bg-white/90 backdrop-blur-sm"
+                      />
+                    </form>
+                    
+                    {/* Search Dropdown */}
+                    <SearchDropdown
+                      isOpen={showSearchDropdown}
+                      searchResults={searchResults}
+                      onProductSelect={handleProductSelect}
+                      isLoading={isSearchLoading}
                     />
-                  </motion.form>
+                  </motion.div>
                 ) : (
                   <motion.button
                     onClick={handleSearchToggle}

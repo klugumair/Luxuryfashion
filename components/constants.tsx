@@ -67,12 +67,12 @@ export interface ProductCategory {
 
 // Navigation items
 export const navigationItems = [
-  { name: "Men", page: "men", hasDropdown: true, dropdownType: "men" },
-  { name: "Women", page: "women", hasDropdown: true, dropdownType: "women" },
-  { name: "Kids", page: "kids", hasDropdown: true, dropdownType: "kids" },
-  { name: "Accessories", page: "accessories", hasDropdown: true, dropdownType: "accessories" },
-  { name: "Summer Collection", page: "summer" },
-  { name: "Contact", page: "social-handle" }
+  { name: "Men", page: "men", hasDropdown: true, dropdownType: "men", emoji: "👨" },
+  { name: "Women", page: "women", hasDropdown: true, dropdownType: "women", emoji: "👩" },
+  { name: "Kids", page: "kids", hasDropdown: true, dropdownType: "kids", emoji: "👶" },
+  { name: "Accessories", page: "accessories", hasDropdown: true, dropdownType: "accessories", emoji: "💎" },
+  { name: "Summer Collection", page: "summer", emoji: "☀️" },
+  { name: "Contact", page: "social-handle", emoji: "📞" }
 ];
 
 // Men's subcategories

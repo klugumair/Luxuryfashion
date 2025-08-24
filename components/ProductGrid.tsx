@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { AnimatedEmoji } from "./animations";
 import { fadeIn, staggerContainer, itemFadeIn } from "./constants";
 import { useAppContext } from "../App";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, Star, MessageSquare } from "lucide-react";
 
 // Enhanced Product Grid Component with flexible product format support
 export function ProductGrid({ title, subtitle, products }: {
@@ -66,6 +66,53 @@ export function ProductGrid({ title, subtitle, products }: {
     }
   };
 
+  const handleWriteReview = (product: any, event?: React.MouseEvent) => {
+    if (event) {
+      event.stopPropagation(); // Prevent triggering product click
+    }
+
+    // Set the selected product for review
+    const reviewProduct = {
+      id: product.id || `${product.name.toLowerCase().replace(/\s+/g, '-')}-001`,
+      name: product.name,
+      price: typeof product.price === 'string' ? parseFloat(product.price.replace('$', '')) : product.price,
+      originalPrice: (typeof product.price === 'string' ? parseFloat(product.price.replace('$', '')) : product.price) * 1.25,
+      images: [
+        product.image,
+        product.image,
+        product.image,
+        product.image
+      ],
+      category: product.category || getProductCategoryName(product),
+      description: product.description || `${product.name} - Experience premium quality and exceptional style with this carefully crafted piece.`,
+      features: product.features || [
+        "Premium Quality Materials",
+        "Comfortable Fit",
+        "Durable Construction",
+        "Easy Care Instructions",
+        "Versatile Style"
+      ],
+      sizes: product.sizes || ["XS", "S", "M", "L", "XL", "XXL"],
+      colors: product.colors ? product.colors.map((color: string, index: number) => ({
+        name: color,
+        value: getColorValue(color, index),
+        available: true
+      })) : [
+        { name: "Navy Blue", value: "#1e3a8a", available: true },
+        { name: "Charcoal Gray", value: "#374151", available: true },
+        { name: "Forest Green", value: "#166534", available: true },
+        { name: "Burgundy", value: "#991b1b", available: false }
+      ],
+      rating: product.rating || (4.6 + Math.random() * 0.4),
+      reviews: product.reviews || (Math.floor(Math.random() * 200) + 50),
+      inStock: true,
+      fastShipping: true,
+      brand: product.brand || "Outlander"
+    };
+
+    setSelectedProduct(reviewProduct);
+    setCurrentPage("write-review");
+  };
   const handleProductClick = (product: any) => {
     // Handle different price formats
     let price = 0;
@@ -365,7 +412,7 @@ export function ProductGrid({ title, subtitle, products }: {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
@@ -394,21 +441,22 @@ export function ProductGrid({ title, subtitle, products }: {
                       </Button>
                     </motion.div>
                     
-                    <motion.div
+                    <div className="grid grid-cols-2 gap-2">
+                      <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
                       <Button
                         onClick={(e) => handleWishlistToggle(product, e)}
                         variant="outline"
-                        className={`w-full h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-2 border-2 ${
+                          className={`w-full h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 text-xs ${
                           inWishlist
                             ? "border-rose-400 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-500"
                             : "border-amber-400 bg-white text-amber-700 hover:bg-amber-50 hover:border-amber-500"
                         }`}
                       >
-                        <Heart className={`w-4 h-4 ${inWishlist ? "fill-current" : ""}`} />
-                        {inWishlist ? "In Wishlist" : "Add to Wishlist"}
+                          <Heart className={`w-3 h-3 ${inWishlist ? "fill-current" : ""}`} />
+                          {inWishlist ? "Saved" : "Save"}
                         <AnimatedEmoji 
                           emoji={inWishlist ? "💕" : "💖"}
                           animation={inWishlist ? "pulse" : "bounce"}
@@ -416,7 +464,28 @@ export function ProductGrid({ title, subtitle, products }: {
                           delay={0}
                         />
                       </Button>
-                    </motion.div>
+                      </motion.div>
+                      
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Button
+                          onClick={(e) => handleWriteReview(product, e)}
+                          variant="outline"
+                          className="w-full h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 border-blue-400 bg-white text-blue-700 hover:bg-blue-50 hover:border-blue-500 text-xs"
+                        >
+                          <MessageSquare className="w-3 h-3" />
+                          Review
+                          <AnimatedEmoji 
+                            emoji="⭐"
+                            animation="bounce"
+                            size="small"
+                            delay={0}
+                          />
+                        </Button>
+                      </motion.div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
