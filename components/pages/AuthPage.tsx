@@ -37,9 +37,7 @@ export default function AuthPage() {
           description: error.message
         });
       } else if (data?.user) {
-        toast.success('Welcome back!', {
-          description: 'You have been signed in successfully'
-        });
+        // Welcome toast removed to avoid duplicates
         // Navigation will be handled by the auth state change listener
       }
     } catch (error: any) {
