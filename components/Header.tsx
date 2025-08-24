@@ -1023,7 +1023,7 @@ export function Header({
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
             >
-              <Mountain className="h-6 w-6 text-white" />
+              <Mountain className="h-6 w-6 text-white" style={{ marginLeft: '-2px' }} />
             </motion.div>
             <div className="hidden sm:block">
               <TypewriterText
@@ -1068,12 +1068,6 @@ export function Header({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <AnimatedEmoji
-                    emoji={item.emoji}
-                    animation="bounce"
-                    size="small"
-                    delay={index * 0.1}
-                  />
                   {item.name}
                   {item.hasDropdown && (
                     <motion.div
