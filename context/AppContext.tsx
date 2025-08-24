@@ -332,12 +332,18 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       }
 
       setWishlistItems((prev) => [...prev, item]);
-      
+
       // Sync to database if user is logged in
       if (user?.id) {
-        adminService.saveWishlistToDatabase(user.id, item.id);
+        adminService.saveWishlistToDatabase(user.id, item.id).catch((error: any) => {
+          console.error('Error syncing wishlist to database:', {
+            message: error?.message || error?.toString(),
+            userId: user.id,
+            itemId: item.id
+          });
+        });
       }
-      
+
       toast.success("Added to wishlist! 💝", {
         description: `${item.name} has been saved to your wishlist`,
         duration: 3000,
@@ -346,8 +352,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           onClick: () => setCurrentPage("wishlist"),
         },
       });
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
+    } catch (error: any) {
+      console.error("Error adding to wishlist:", {
+        message: error?.message || error?.toString(),
+        item: item.name
+      });
       toast.error("Failed to add item to wishlist");
     }
   };
@@ -359,7 +368,13 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
 
       // Sync to database if user is logged in
       if (user?.id) {
-        adminService.removeFromWishlistDatabase(user.id, itemId);
+        adminService.removeFromWishlistDatabase(user.id, itemId).catch((error: any) => {
+          console.error('Error removing from wishlist in database:', {
+            message: error?.message || error?.toString(),
+            userId: user.id,
+            itemId
+          });
+        });
       }
 
       if (item) {
@@ -368,8 +383,11 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           duration: 3000,
         });
       }
-    } catch (error) {
-      console.error("Error removing from wishlist:", error);
+    } catch (error: any) {
+      console.error("Error removing from wishlist:", {
+        message: error?.message || error?.toString(),
+        itemId
+      });
       toast.error("Failed to remove item from wishlist");
     }
   };
