@@ -376,7 +376,7 @@ export const menProducts: ProductCategory[] = [
   {
     name: "Summer T-Shirts",
     icon: <Shirt className="w-5 h-5" />,
-    image: "https://i.pinimg.com/736x/67/e5/b9/67e5b9a1b2370ee25972a3da55e3f5f3.jpg",
+    image: "https://nautunkee.com/cdn/shop/products/main_fd084d56-ee08-4d6b-acee-0cd189690967.png?v=1609917509&width=1445",
     description: "Breathable cotton tees for everyday comfort",
     itemCount: "25+ designs",
     price: "$29",
