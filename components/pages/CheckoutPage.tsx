@@ -180,8 +180,9 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
                       : 'border-gray-300 text-gray-400'
                   }`}
                   style={{
-                    height: '38px',
+                    height: '40px',
                     width: '42px',
+                    flexGrow: '1',
                     ...(currentStep >= step && {
                       backgroundImage: 'url(https://m.media-amazon.com/images/I/41tfInzWFKL._UF350,350_QL50_.jpg)',
                       backgroundColor: 'rgba(255, 255, 255, 1)',
