@@ -65,7 +65,7 @@ export class ProductHelper {
       }));
 
     } catch (error) {
-      console.error('Error fetching products:', error);
+      // Silently handle database connection issues
       return [];
     }
   }
