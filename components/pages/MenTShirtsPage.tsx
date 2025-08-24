@@ -187,8 +187,7 @@ export function MenTShirtsPage() {
         const mergedProducts = ProductHelper.mergeWithMockProducts(dbProducts, menTShirtsProducts);
         setAllProducts(mergedProducts);
       } catch (error) {
-        console.error('Error fetching T-shirts:', error);
-        // Fallback to mock products on error
+        // Silently fallback to mock products on error
         setAllProducts(menTShirtsProducts);
       } finally {
         setLoading(false);
@@ -391,7 +390,7 @@ export function MenTShirtsPage() {
                     />
                     Size Guide
                     <AnimatedEmoji 
-                      emoji="📖"
+                      emoji="���"
                       animation="wiggle"
                       size="small"
                       className="ml-2"
