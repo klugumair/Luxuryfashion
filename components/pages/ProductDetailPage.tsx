@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ShoppingCart, Star, ArrowLeft, Share, Truck, Shield, RotateCcw } from "lucide-react";
 import { Button } from "../ui/button";
@@ -7,6 +7,10 @@ import { Badge } from "../ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { useAppContext } from "../../App";
 import { AnimatedEmoji } from "../animations";
+import { reviewService } from "../../utils/supabase/reviews";
+import { ReviewForm } from "../ReviewForm";
+import { ProductReview } from "../../types";
+import { toast } from "sonner";
 
 // Mock product data
 const mockProduct = {
@@ -61,9 +65,55 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
   const [selectedColor, setSelectedColor] = useState(mockProduct.colors[0]);
   const [quantity, setQuantity] = useState(1);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+  const [reviewStats, setReviewStats] = useState({
+    averageRating: 0,
+    totalReviews: 0,
+    ratingDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+  });
+  const [loadingReviews, setLoadingReviews] = useState(true);
 
   // Use mock data if no product is selected
   const product = selectedProduct || mockProduct;
+
+  // Load reviews when component mounts or product changes
+  useEffect(() => {
+    loadReviews();
+  }, [product.id]);
+
+  const loadReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const [reviewsData, statsData] = await Promise.all([
+        reviewService.getProductReviews(product.id),
+        reviewService.getReviewStats(product.id)
+      ]);
+      setReviews(reviewsData);
+      setReviewStats(statsData);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+      toast.error('Failed to load reviews');
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  const handleReviewSubmitted = () => {
+    loadReviews(); // Reload reviews after submission
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.ceil(diffDays / 7)} week${Math.ceil(diffDays / 7) > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+  };
 
   // Set default color if product has colors
   if (product.colors && product.colors.length > 0 && selectedColor.name !== product.colors[0].name) {
@@ -475,7 +525,7 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
               <TabsList className="w-full mb-8 bg-gray-100 rounded-full p-1">
                 <TabsTrigger value="description" className="flex-1 rounded-full transition-all duration-300">Description</TabsTrigger>
                 <TabsTrigger value="features" className="flex-1 rounded-full transition-all duration-300">Features</TabsTrigger>
-                <TabsTrigger value="reviews" className="flex-1 rounded-full transition-all duration-300">Reviews ({product.reviews})</TabsTrigger>
+                <TabsTrigger value="reviews" className="flex-1 rounded-full transition-all duration-300">Reviews ({reviewStats.totalReviews})</TabsTrigger>
                 <TabsTrigger value="shipping" className="flex-1 rounded-full transition-all duration-300">Shipping</TabsTrigger>
               </TabsList>
 
@@ -514,44 +564,96 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
                     Customer Reviews
                     <AnimatedEmoji emoji="💬" animation="wiggle" size="small" />
                   </h3>
-                  <Button variant="outline" className="rounded-full border-2 border-amber-300 hover:border-amber-500">
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-2 border-amber-300 hover:border-amber-500"
+                    onClick={() => setShowReviewForm(true)}
+                  >
                     Write a Review
                   </Button>
                 </div>
                 
-                {/* Mock Reviews */}
-                <div className="space-y-6">
-                  {[
-                    { name: "Sarah M.", rating: 5, comment: "Amazing quality and super comfortable! Perfect for summer.", date: "2 days ago" },
-                    { name: "Mike R.", rating: 4, comment: "Great shirt, fits perfectly. Will buy again.", date: "1 week ago" },
-                    { name: "Emma K.", rating: 5, comment: "Love the fabric and the color is beautiful. Highly recommend!", date: "2 weeks ago" }
-                  ].map((review, index) => (
-                    <motion.div 
-                      key={index} 
-                      className="p-6 bg-gray-50 rounded-2xl border-2 border-amber-100"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="font-bold">{review.name}</span>
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < review.rating 
-                                  ? 'text-yellow-400 fill-current' 
-                                  : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-sm text-gray-500">{review.date}</span>
+                {/* Review Statistics */}
+                {reviewStats.totalReviews > 0 && (
+                  <div className="bg-amber-50 p-6 rounded-2xl border-2 border-amber-200 mb-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-3xl font-bold text-amber-600">
+                        {reviewStats.averageRating.toFixed(1)}
                       </div>
-                      <p className="text-gray-600">{review.comment}</p>
-                    </motion.div>
-                  ))}
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-5 h-5 ${
+                              i < Math.round(reviewStats.averageRating)
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-gray-600">
+                        Based on {reviewStats.totalReviews} review{reviewStats.totalReviews !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Reviews List */}
+                <div className="space-y-6">
+                  {loadingReviews ? (
+                    <div className="flex justify-center py-8">
+                      <div className="w-8 h-8 border-4 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : reviews.length === 0 ? (
+                    <div className="text-center py-12">
+                      <div className="text-gray-400 mb-4">
+                        <Star className="w-12 h-12 mx-auto mb-2" />
+                      </div>
+                      <h4 className="text-lg font-medium text-gray-600 mb-2">No reviews yet</h4>
+                      <p className="text-gray-500">Be the first to review this product!</p>
+                    </div>
+                  ) : (
+                    reviews.map((review, index) => (
+                      <motion.div
+                        key={review.id}
+                        className="p-6 bg-gray-50 rounded-2xl border-2 border-amber-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="font-bold">
+                            {(review as any).users?.name || 'Anonymous'}
+                          </span>
+                          <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < review.rating
+                                    ? 'text-yellow-400 fill-current'
+                                    : 'text-gray-300'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-sm text-gray-500">
+                            {formatDate(review.createdAt)}
+                          </span>
+                          {review.verifiedPurchase && (
+                            <Badge variant="secondary" className="text-xs">
+                              Verified Purchase
+                            </Badge>
+                          )}
+                        </div>
+                        {review.title && (
+                          <h4 className="font-semibold text-gray-800 mb-2">{review.title}</h4>
+                        )}
+                        <p className="text-gray-600">{review.comment}</p>
+                      </motion.div>
+                    ))
+                  )}
                 </div>
               </TabsContent>
 
@@ -591,6 +693,18 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
           </Card>
         </motion.div>
       </div>
+
+      {/* Review Form Modal */}
+      <AnimatePresence>
+        {showReviewForm && (
+          <ReviewForm
+            productId={product.id}
+            productName={product.name}
+            onClose={() => setShowReviewForm(false)}
+            onReviewSubmitted={handleReviewSubmitted}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
