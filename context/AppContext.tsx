@@ -463,10 +463,8 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
         const fetchedCategories = await adminService.getCategories();
         setCategories(fetchedCategories);
       } catch (error: any) {
-        const errorMessage = error?.message || error?.toString() || 'Unknown error';
-        console.error("Error fetching categories:", errorMessage, error);
-
-        // Use mock categories as fallback
+        // Silently use mock categories as fallback
+        // Error logging is now handled in adminService.getCategories()
         const mockCategories = [
           { id: '1', name: 'Men', slug: 'men', description: 'Men\'s clothing', order: 1 },
           { id: '2', name: 'Women', slug: 'women', description: 'Women\'s clothing', order: 2 },
