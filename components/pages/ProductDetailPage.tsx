@@ -142,6 +142,29 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
     }
   };
 
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    // Add the product to cart
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: `${product.id}-${Date.now()}-${i}`,
+        name: product.name,
+        price: product.price,
+        image: product.images[0],
+        size: selectedSize,
+        color: selectedColor.name,
+        category: product.category
+      });
+    }
+
+    // Navigate to cart page
+    setCurrentPage("cart");
+  };
+
   const handleWishlistToggle = () => {
     const wishlistItem = {
       id: product.id,
@@ -477,8 +500,10 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
+                    onClick={handleBuyNow}
+                    disabled={!product.inStock || !selectedSize}
                     className="h-12 rounded-full font-bold hover:bg-purple-50 w-full border-2 border-amber-300 hover:border-purple-400"
                   >
                     Buy Now
