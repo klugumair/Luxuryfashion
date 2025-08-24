@@ -567,7 +567,10 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
                   <Button
                     variant="outline"
                     className="rounded-full border-2 border-amber-300 hover:border-amber-500"
-                    onClick={() => setShowReviewForm(true)}
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setCurrentPage("write-review");
+                    }}
                   >
                     Write a Review
                   </Button>

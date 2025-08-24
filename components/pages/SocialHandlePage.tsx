@@ -16,7 +16,8 @@ const socialPlatforms = [
     description: "Daily fashion inspiration & behind-the-scenes",
     verified: true,
     engagement: "12.8%",
-    emoji: "📸"
+    emoji: "📸",
+    url: "https://www.instagram.com/"
   },
   {
     name: "TikTok",
@@ -32,7 +33,8 @@ const socialPlatforms = [
     description: "Trendy outfit transitions & style tips",
     verified: true,
     engagement: "15.2%",
-    emoji: "🎵"
+    emoji: "🎵",
+    url: "https://www.tiktok.com/"
   },
   {
     name: "Twitter",
@@ -44,7 +46,8 @@ const socialPlatforms = [
     description: "Latest updates & customer support",
     verified: true,
     engagement: "8.3%",
-    emoji: "🐦"
+    emoji: "🐦",
+    url: "https://x.com/"
   },
   {
     name: "Facebook",
@@ -56,7 +59,8 @@ const socialPlatforms = [
     description: "Community discussions & events",
     verified: true,
     engagement: "6.7%",
-    emoji: "👥"
+    emoji: "👥",
+    url: "https://www.facebook.com/"
   },
   {
     name: "YouTube",
@@ -68,7 +72,8 @@ const socialPlatforms = [
     description: "Fashion hauls & styling tutorials",
     verified: true,
     engagement: "9.1%",
-    emoji: "🎥"
+    emoji: "🎥",
+    url: "https://www.youtube.com/"
   },
   {
     name: "Pinterest",
@@ -84,7 +89,8 @@ const socialPlatforms = [
     description: "Style boards & fashion inspiration",
     verified: true,
     engagement: "11.4%",
-    emoji: "📌"
+    emoji: "📌",
+    url: "https://it.pinterest.com/"
   }
 ];
 
@@ -210,7 +216,8 @@ export function SocialHandlePage() {
 
                   {/* Follow Button */}
                   <Button 
-                    className={`w-full bg-gradient-to-r ${platform.color} hover:scale-105 font-bold text-white border-0 transition-transform`}
+                    onClick={() => window.open(platform.url, '_blank', 'noopener,noreferrer')}
+                    className={`w-full bg-gradient-to-r ${platform.color} hover:scale-105 font-bold text-white border-0 transition-transform cursor-pointer`}
                   >
                     Follow Us
                     <AnimatedEmoji emoji="👋" animation="wiggle" size="small" className="ml-2" />
@@ -287,7 +294,11 @@ export function SocialHandlePage() {
             Share your style, get inspired, and connect with thousands of fashion lovers worldwide.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 rounded-full font-bold px-8">
+            <Button 
+              size="lg" 
+              onClick={() => window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer')}
+              className="bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 rounded-full font-bold px-8 cursor-pointer"
+            >
               <Instagram className="w-5 h-5 mr-2" />
               Follow on Instagram
             </Button>

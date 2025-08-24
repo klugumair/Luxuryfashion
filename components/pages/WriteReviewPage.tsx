@@ -72,11 +72,19 @@ const featuredProducts = [
 ];
 
 export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
-  const { setSelectedProduct } = useAppContext();
+  const { setSelectedProduct, selectedProduct } = useAppContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProductForReview, setSelectedProductForReview] = useState<any>(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(featuredProducts);
+
+  // If we have a selected product from navigation, show review form immediately
+  useEffect(() => {
+    if (selectedProduct) {
+      setSelectedProductForReview(selectedProduct);
+      setShowReviewForm(true);
+    }
+  }, [selectedProduct]);
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
@@ -98,6 +106,7 @@ export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
   const handleReviewSubmitted = () => {
     setShowReviewForm(false);
     setSelectedProductForReview(null);
+    setSelectedProduct(null); // Clear selected product
     // You could show a success message or navigate somewhere
   };
 
@@ -277,6 +286,7 @@ export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
           onClose={() => {
             setShowReviewForm(false);
             setSelectedProductForReview(null);
+            setSelectedProduct(null); // Clear selected product when closing
           }}
           onReviewSubmitted={handleReviewSubmitted}
         />
