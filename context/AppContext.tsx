@@ -153,8 +153,18 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
     try {
       // Sync cart to database
       await adminService.saveCartToDatabase(userId, cartItems);
-    } catch (error) {
-      console.error("Error syncing data to database:", error);
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      const errorDetails = {
+        message: errorMessage,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+        userId,
+        cartItemsCount: cartItems.length
+      };
+      console.error("Error syncing data to database:", errorDetails);
+      console.error("Full error object:", error);
     }
   };
 
@@ -171,8 +181,17 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
       if (dbWishlist.length > 0) {
         setWishlistItems(dbWishlist);
       }
-    } catch (error) {
-      console.error("Error loading user data from database:", error);
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.toString() || 'Unknown error';
+      const errorDetails = {
+        message: errorMessage,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+        userId
+      };
+      console.error("Error loading user data from database:", errorDetails);
+      console.error("Full error object:", error);
     }
   };
 
