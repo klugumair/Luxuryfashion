@@ -57,7 +57,7 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
     e.preventDefault();
     
     // Validate required fields
-    const requiredFields = ['firstName', 'lastName', 'email', 'address', 'city', 'state', 'zipCode'];
+    const requiredFields = ['firstName', 'lastName', 'email', 'address', 'city', 'zipCode'];
     const missingFields = requiredFields.filter(field => !shippingForm[field as keyof typeof shippingForm]);
     
     if (missingFields.length > 0) {
