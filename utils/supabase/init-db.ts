@@ -82,15 +82,14 @@ export async function testDatabaseConnection() {
 
     if (error) {
       const errorMessage = error?.message || error?.toString() || 'Unknown database error';
-      console.error('Database connection test failed:', errorMessage);
+      // Silently handle connection test failures
       return { connected: false, error: errorMessage };
     }
 
-    console.log('Database connection test successful');
     return { connected: true };
   } catch (error: any) {
     const errorMessage = error?.message || error?.toString() || 'Unknown error';
-    console.error('Database connection test error:', errorMessage);
+    // Silently handle connection test errors
     return { connected: false, error: errorMessage };
   }
 }
