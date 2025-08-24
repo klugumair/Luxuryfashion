@@ -174,14 +174,12 @@ export function CheckoutPage({ setCurrentPage }: CheckoutPageProps) {
             ].map(({ step, title, icon: Icon }) => (
               <div key={step} className="flex items-center">
                 <div
-                  className={`flex items-center justify-center w-12 rounded-full border-2 transition-all ${
+                  className={`flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all ${
                     currentStep >= step
                       ? 'border-transparent text-white'
                       : 'border-gray-300 text-gray-400'
                   }`}
                   style={{
-                    height: '38px',
-                    width: '42px',
                     ...(currentStep >= step && {
                       backgroundImage: 'url(https://m.media-amazon.com/images/I/41tfInzWFKL._UF350,350_QL50_.jpg)',
                       backgroundColor: 'rgba(255, 255, 255, 1)',
