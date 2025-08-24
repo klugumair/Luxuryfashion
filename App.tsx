@@ -78,12 +78,7 @@ export default function App() {
 
           setUser(userData);
 
-          // Show welcome toast for new sign-ins (not on page refresh)
-          if (!user && event === 'SIGNED_IN') {
-            toast.success("Welcome to Outlander!", {
-              description: `Signed in as ${userData.name}`,
-            });
-          }
+          // Welcome toast removed to avoid duplicates
 
           // Navigate away from auth page if on it
           if (currentPage === 'auth') {
@@ -144,9 +139,7 @@ export default function App() {
           } else if (data?.session?.user) {
             console.log('OAuth successful for:', data.session.user.email);
             // The auth state change listener will handle the user setup
-            toast.success("Authentication successful!", {
-              description: "Welcome to Outlander"
-            });
+            // Toast message removed to avoid duplicates
           }
         } catch (exchangeError: any) {
           console.error('Code exchange failed:', exchangeError);

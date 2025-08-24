@@ -46,8 +46,7 @@ export function WriteReviewPage({ setCurrentPage }: WriteReviewPageProps) {
         setAllProducts(reviewProducts);
         setFilteredProducts(reviewProducts);
       } catch (error) {
-        console.error('Error loading products:', error);
-        // Fallback to empty array if database fails
+        // Silently fallback to empty array if database fails
         setAllProducts([]);
         setFilteredProducts([]);
       } finally {

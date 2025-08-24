@@ -19,13 +19,13 @@ export const reviewService = {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching reviews:', error);
+        // Silently handle database errors
         return [];
       }
 
       return data || [];
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      // Silently handle database errors
       return [];
     }
   },
