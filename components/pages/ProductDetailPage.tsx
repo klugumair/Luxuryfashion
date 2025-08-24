@@ -500,8 +500,10 @@ export function ProductDetailPage({ setCurrentPage }: ProductDetailPageProps) {
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
+                    onClick={handleBuyNow}
+                    disabled={!product.inStock || !selectedSize}
                     className="h-12 rounded-full font-bold hover:bg-purple-50 w-full border-2 border-amber-300 hover:border-purple-400"
                   >
                     Buy Now
