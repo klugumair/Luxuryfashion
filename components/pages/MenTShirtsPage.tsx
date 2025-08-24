@@ -13,7 +13,7 @@ const menTShirtsProducts = [
     id: "mt-001",
     name: "Classic Cotton Crew Neck",
     price: 29,
-    image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZW5zJTIwY290dG9uJTIwdC1zaGlydHxlbnwxfHx8fDE3NTUwODY2MjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "https://myer-media.com.au/wcsstore/MyerCatalogAssetStore/images/70/705/3856/100/1/948104020/948104020_1_720x928.webp?w=1920&q=75",
     description: "Premium 100% cotton crew neck tee with perfect fit and lasting comfort",
     category: "T-Shirts",
     sizes: ["S", "M", "L", "XL", "XXL"],
