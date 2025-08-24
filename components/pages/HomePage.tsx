@@ -980,6 +980,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
+                  console.log('Write a Review button clicked - navigating to write-review page');
                   // Navigate to the dedicated write review page
                   setCurrentPage("write-review");
                   // Scroll to top after navigation
