@@ -253,8 +253,12 @@ export function AppProvider({ children, setCurrentPage, setUser: setUserFromProp
           },
         });
       }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
+    } catch (error: any) {
+      console.error("Error adding to cart:", {
+        message: error?.message || error?.toString(),
+        item: item.name,
+        userId: user?.id
+      });
       toast.error("Failed to add item to cart");
     }
   };
