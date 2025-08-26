@@ -1000,6 +1000,25 @@ export function Header({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [closeAllDropdowns]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMenuOpen]);
+
   // Navigation handler
   const handleNavigation = (page: string) => {
     setCurrentPage(page);
