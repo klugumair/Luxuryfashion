@@ -1281,64 +1281,77 @@ export function Header({
         {/* Mobile Navigation Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.nav
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden border-t border-amber-200/50 py-4"
-            >
-              <div className="space-y-3">
-                {navigationItems.map((item, index) => (
-                  <motion.button
-                    key={item.name}
-                    onClick={() => handleNavigation(item.page)}
-                    className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 flex items-center justify-between group ${
-                      currentPage === item.page
-                        ? "bg-gradient-to-r from-amber-500 to-purple-500 text-white shadow-lg"
-                        : "text-zinc-700 hover:text-amber-600 hover:bg-amber-50"
-                    }`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex items-center gap-3">
-                      {item.name}
-                    </div>
-                    {item.hasDropdown && (
-                      <ChevronRight className="h-4 w-4 opacity-50 group-hover:opacity-100" />
-                    )}
-                  </motion.button>
-                ))}
-                
-                {/* Mobile Additional Options */}
-                <div className="pt-2 border-t border-amber-200/50 space-y-2">
-                  <motion.button
-                    onClick={() => handleNavigation("size-guide")}
-                    className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8 }}
-                  >
-                    <Ruler className="h-4 w-4" />
-                    Size Guide
-                  </motion.button>
-                  
-                  <motion.button
-                    onClick={() => handleNavigation("social-handle")}
-                    className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.9 }}
-                  >
-                    <Share2 className="h-4 w-4" />
-                    Social Media
-                  </motion.button>
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMenuOpen(false)}
+                className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+                style={{ top: '64px' }}
+              />
+
+              {/* Mobile Menu */}
+              <motion.nav
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="lg:hidden fixed left-4 right-4 top-20 bg-white/95 backdrop-blur-md border-2 border-amber-200 rounded-2xl shadow-[4px_4px_0px_0px] shadow-amber-600/20 z-50 max-h-[calc(100vh-120px)] overflow-y-auto"
+              >
+                <div className="p-4 space-y-3">
+                  {navigationItems.map((item, index) => (
+                    <motion.button
+                      key={item.name}
+                      onClick={() => handleNavigation(item.page)}
+                      className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 flex items-center justify-between group ${
+                        currentPage === item.page
+                          ? "bg-gradient-to-r from-amber-500 to-purple-500 text-white shadow-lg"
+                          : "text-zinc-700 hover:text-amber-600 hover:bg-amber-50"
+                      }`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="flex items-center gap-3">
+                        {item.name}
+                      </div>
+                      {item.hasDropdown && (
+                        <ChevronRight className="h-4 w-4 opacity-50 group-hover:opacity-100" />
+                      )}
+                    </motion.button>
+                  ))}
+
+                  {/* Mobile Additional Options */}
+                  <div className="pt-2 border-t border-amber-200/50 space-y-2">
+                    <motion.button
+                      onClick={() => handleNavigation("size-guide")}
+                      className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 }}
+                    >
+                      <Ruler className="h-4 w-4" />
+                      Size Guide
+                    </motion.button>
+
+                    <motion.button
+                      onClick={() => handleNavigation("social-handle")}
+                      className="w-full text-left px-4 py-2 rounded-lg text-sm text-zinc-600 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.9 }}
+                    >
+                      <Share2 className="h-4 w-4" />
+                      Social Media
+                    </motion.button>
+                  </div>
                 </div>
-              </div>
-            </motion.nav>
+              </motion.nav>
+            </>
           )}
         </AnimatePresence>
       </div>
