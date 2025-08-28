@@ -315,10 +315,11 @@ export function ProductGrid({ title, subtitle, products }: {
                       ease: "easeInOut"
                     }}
                   >
-                    <AnimatedEmoji 
+                    <AnimatedEmoji
                       emoji="🔥"
                       animation="pulse"
                       size="small"
+                      className="text-[9px] sm:text-xl"
                       delay={0}
                     />
                     Best Seller!
@@ -342,7 +343,7 @@ export function ProductGrid({ title, subtitle, products }: {
                           className="w-10 h-10 rounded-full
                           flex items-center justify-center
                           border-2 border-white bg-white/90 backdrop-blur-sm
-                          text-amber-600 text-xs sm:text-xl"
+                          text-amber-600 text-[9px] sm:text-xl"
                           whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.3 }}
                         >
@@ -366,10 +367,11 @@ export function ProductGrid({ title, subtitle, products }: {
                       
                       <div className="absolute bottom-4 right-4">
                         <div className="bg-black/70 text-white px-2 py-1 rounded-full text-sm font-bold flex items-center gap-1">
-                          <AnimatedEmoji 
+                          <AnimatedEmoji
                             emoji="💰"
                             animation="bounce"
                             size="small"
+                            className="text-[9px] sm:text-xl"
                             delay={0.5}
                           />
                           {formatPrice(product.price)}
@@ -401,10 +403,11 @@ export function ProductGrid({ title, subtitle, products }: {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.05 + 0.2 }}
                     >
-                      <AnimatedEmoji 
+                      <AnimatedEmoji
                         emoji="📦"
                         animation="wiggle"
                         size="small"
+                        className="text-[9px] sm:text-xl"
                         delay={0.8}
                       />
                       {product.itemCount}
@@ -430,10 +433,11 @@ export function ProductGrid({ title, subtitle, products }: {
                             : "bg-gradient-to-br from-amber-50 to-purple-50 dark:from-zinc-800 dark:to-zinc-700 text-zinc-900 dark:text-white hover:from-amber-100 hover:to-purple-100 dark:hover:from-zinc-700 dark:hover:to-zinc-600"
                         }`}
                       >
-                        <AnimatedEmoji 
+                        <AnimatedEmoji
                           emoji="🛒"
                           animation="bounce"
                           size="small"
+                          className="text-[9px] sm:text-xl"
                           delay={0}
                         />
                         Add to Cart
@@ -457,10 +461,11 @@ export function ProductGrid({ title, subtitle, products }: {
                       >
                           <Heart className={`w-3 h-3 ${inWishlist ? "fill-current" : ""}`} />
                           {inWishlist ? "Saved" : "Save"}
-                        <AnimatedEmoji 
+                        <AnimatedEmoji
                           emoji={inWishlist ? "💕" : "💖"}
                           animation={inWishlist ? "pulse" : "bounce"}
                           size="small"
+                          className="text-[9px] sm:text-xl"
                           delay={0}
                         />
                       </Button>
@@ -477,10 +482,11 @@ export function ProductGrid({ title, subtitle, products }: {
                         >
                           <MessageSquare className="w-3 h-3" />
                           Review
-                          <AnimatedEmoji 
+                          <AnimatedEmoji
                             emoji="⭐"
                             animation="bounce"
                             size="small"
+                            className="text-[9px] sm:text-xl"
                             delay={0}
                           />
                         </Button>
