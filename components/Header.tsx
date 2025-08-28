@@ -1475,14 +1475,6 @@ export function Header({
                                   })}
                                 </div>
                               ))}
-                              <motion.button
-                                onClick={() => handleNavigation('kids')}
-                                className="w-full mt-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                              >
-                                View All Kids
-                              </motion.button>
                             </motion.div>
                           )}
 
