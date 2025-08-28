@@ -357,7 +357,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
               />
               
               <motion.h1 
-                className="relative text-4xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
+                className="relative text-2xl sm:text-3xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 120 }}
@@ -401,24 +401,29 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                     }}
                   >
                     {/* Typewriter Effect */}
-                    {"Welcome to Outlander".split("").map((char, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.1,
-                          delay: 0.8 + index * 0.04,
-                          ease: "easeOut"
-                        }}
-                        whileHover={{
-                          y: -2,
-                          transition: { duration: 0.2 }
-                        }}
-                        className="inline-block cursor-pointer"
-                      >
-                        {char === " " ? "\u00A0" : char}
-                      </motion.span>
+                    {["Welcome", "to", "Outlander"].map((word, wIndex, arr) => (
+                      <span key={wIndex} className={word === "Outlander" ? "inline-flex whitespace-nowrap" : "inline-flex"}>
+                        {word.split("").map((char, index) => (
+                          <motion.span
+                            key={`${wIndex}-${index}`}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.1,
+                              delay: 0.8 + wIndex * 0.2 + index * 0.04,
+                              ease: "easeOut"
+                            }}
+                            whileHover={{
+                              y: -2,
+                              transition: { duration: 0.2 }
+                            }}
+                            className="inline-block cursor-pointer"
+                          >
+                            {char}
+                          </motion.span>
+                        ))}
+                        {wIndex < arr.length - 1 && <span className="inline-block">&nbsp;</span>}
+                      </span>
                     ))}
                   </motion.span>
 
@@ -618,7 +623,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {featuredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
@@ -634,7 +639,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                   <ImageWithFallback
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-40 sm:h-56 md:h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-bold text-amber-600">
                     {product.badge}
@@ -652,7 +657,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                   </motion.button>
                 </div>
                 
-                <div className="px-6 pt-6 pb-6" style={{ paddingBottom: '23px' }}>
+                <div className="px-4 pt-4 pb-5 sm:px-6 sm:pt-6 sm:pb-6" style={{ paddingBottom: '23px' }}>
                   <div className="flex items-center gap-2 mb-2">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
@@ -672,17 +677,17 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                   </div>
                   
                   <motion.h3 
-                    className="text-lg font-black text-zinc-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-amber-600 group-hover:to-purple-600"
+                    className="text-base sm:text-lg font-black text-zinc-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-amber-600 group-hover:to-purple-600"
                     whileHover={{ scale: 1.05 }}
                   >
                     {product.name}
                   </motion.h3>
                   
-                  <p className="text-sm text-gray-600 mb-4">{product.category}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-4">{product.category}</p>
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-purple-600">
+                      <span className="text-lg sm:text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-purple-600">
                         ${product.price}
                       </span>
                       <span className="text-sm text-gray-500 line-through">
@@ -701,7 +706,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                       e.stopPropagation();
                       handleAddToCart(product);
                     }}
-                    className="w-full bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+                    className="w-full bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white py-2.5 sm:py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     Add to Cart
