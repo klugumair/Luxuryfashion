@@ -835,6 +835,8 @@ export function Header({
     user: false
   });
 
+  const [mobileKidsAgeOpen, setMobileKidsAgeOpen] = useState<{[key: string]: boolean}>({});
+
   // Search functionality
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -1024,6 +1026,10 @@ export function Header({
     setCurrentPage(page);
     closeAllDropdowns();
     setIsMenuOpen(false);
+  };
+
+  const toggleMobileKidsAge = (key: string) => {
+    setMobileKidsAgeOpen(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   return (
@@ -1321,27 +1327,216 @@ export function Header({
               >
                 <div className="p-4 space-y-3">
                   {navigationItems.map((item, index) => (
-                    <motion.button
-                      key={item.name}
-                      onClick={() => handleNavigation(item.page)}
-                      className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 flex items-center justify-between group ${
-                        currentPage === item.page
-                          ? "bg-gradient-to-r from-amber-500 to-purple-500 text-white shadow-lg"
-                          : "text-zinc-700 hover:text-amber-600 hover:bg-amber-50"
-                      }`}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ x: 4 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className="flex items-center gap-3">
-                        {item.name}
+                    item.hasDropdown ? (
+                      <div key={item.name} data-dropdown className="space-y-2">
+                        <motion.button
+                          onClick={() => toggleDropdown(item.name.toLowerCase() as keyof typeof dropdowns)}
+                          className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 flex items-center justify-between ${
+                            currentPage === item.page
+                              ? "bg-gradient-to-r from-amber-500 to-purple-500 text-white shadow-lg"
+                              : "text-zinc-700 hover:text-amber-600 hover:bg-amber-50"
+                          }`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ x: 4 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex items-center gap-3">{item.name}</div>
+                          <motion.div
+                            animate={{ rotate: dropdowns[item.name.toLowerCase() as keyof typeof dropdowns] ? 90 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ChevronRight className="h-4 w-4" />
+                          </motion.div>
+                        </motion.button>
+
+                        <AnimatePresence>
+                          {/* Men */}
+                          {item.name === "Men" && dropdowns.men && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-2 pl-3 border-l-2 border-amber-200 space-y-1 overflow-hidden"
+                            >
+                              {menSubcategories.map((sub) => (
+                                <motion.button
+                                  key={sub.page}
+                                  onClick={() => handleNavigation(sub.page)}
+                                  className="w-full text-left px-3 py-2 rounded-lg text-sm text-zinc-700 hover:text-amber-600 hover:bg-amber-50 transition-all duration-200 flex items-center gap-2"
+                                  whileHover={{ x: 2 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <span className="w-6 h-6 rounded-full bg-amber-50 flex items-center justify-center text-amber-600">{sub.icon}</span>
+                                  {sub.name}
+                                </motion.button>
+                              ))}
+                              <motion.button
+                                onClick={() => handleNavigation('men')}
+                                className="w-full mt-2 bg-gradient-to-r from-amber-500 to-purple-500 hover:from-amber-600 hover:to-purple-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                View All Men's
+                              </motion.button>
+                            </motion.div>
+                          )}
+
+                          {/* Women */}
+                          {item.name === "Women" && dropdowns.women && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-2 pl-3 border-l-2 border-purple-200 space-y-1 overflow-hidden"
+                            >
+                              {womenSubcategories.map((sub) => (
+                                <motion.button
+                                  key={sub.page}
+                                  onClick={() => handleNavigation(sub.page)}
+                                  className="w-full text-left px-3 py-2 rounded-lg text-sm text-zinc-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 flex items-center gap-2"
+                                  whileHover={{ x: 2 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <span className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">{sub.icon}</span>
+                                  {sub.name}
+                                </motion.button>
+                              ))}
+                              <motion.button
+                                onClick={() => handleNavigation('women')}
+                                className="w-full mt-2 bg-gradient-to-r from-purple-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                View All Women's
+                              </motion.button>
+                            </motion.div>
+                          )}
+
+                          {/* Kids */}
+                          {item.name === "Kids" && dropdowns.kids && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-2 pl-3 border-l-2 border-rose-200 space-y-2 overflow-hidden"
+                            >
+                              {kidsSubcategories.map((category) => (
+                                <div key={category.category} className="space-y-1">
+                                  <div className="text-xs font-bold text-rose-500 uppercase tracking-wide px-2">{category.category}</div>
+                                  {category.ageGroups?.map((ageGroup) => {
+                                    const key = `${category.category}-${ageGroup.name}`;
+                                    const isOpen = mobileKidsAgeOpen[key];
+                                    return (
+                                      <div key={key} className="space-y-1">
+                                        <motion.button
+                                          onClick={() => toggleMobileKidsAge(key)}
+                                          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-left hover:bg-rose-50 text-sm"
+                                          whileTap={{ scale: 0.98 }}
+                                        >
+                                          <div className="flex items-center gap-2">
+                                            <span className="w-6 h-6 rounded-full bg-rose-50 flex items-center justify-center text-rose-600">{ageGroup.icon}</span>
+                                            <span className="text-zinc-800">{ageGroup.name}</span>
+                                          </div>
+                                          <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
+                                            <ChevronRight className="h-3 w-3 text-rose-600" />
+                                          </motion.div>
+                                        </motion.button>
+                                        <AnimatePresence>
+                                          {isOpen && (
+                                            <motion.div
+                                              initial={{ opacity: 0, height: 0 }}
+                                              animate={{ opacity: 1, height: "auto" }}
+                                              exit={{ opacity: 0, height: 0 }}
+                                              transition={{ duration: 0.2 }}
+                                              className="ml-5 space-y-1"
+                                            >
+                                              {ageGroup.subcategories?.map((sub) => (
+                                                <motion.button
+                                                  key={sub.page}
+                                                  onClick={() => handleNavigation(sub.page)}
+                                                  className="w-full text-left px-3 py-1.5 rounded-md text-sm text-zinc-700 hover:text-rose-600 hover:bg-rose-50 transition-all duration-200 flex items-center gap-2"
+                                                  whileHover={{ x: 2 }}
+                                                  whileTap={{ scale: 0.98 }}
+                                                >
+                                                  <span className="w-5 h-5 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">{sub.icon}</span>
+                                                  {sub.name}
+                                                </motion.button>
+                                              ))}
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              ))}
+                              <motion.button
+                                onClick={() => handleNavigation('kids')}
+                                className="w-full mt-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                View All Kids
+                              </motion.button>
+                            </motion.div>
+                          )}
+
+                          {/* Accessories */}
+                          {item.name === "Accessories" && dropdowns.accessories && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="ml-2 pl-3 border-l-2 border-emerald-200 space-y-1 overflow-hidden"
+                            >
+                              {accessoriesSubcategories.map((sub) => (
+                                <motion.button
+                                  key={sub.page}
+                                  onClick={() => handleNavigation(sub.page)}
+                                  className="w-full text-left px-3 py-2 rounded-lg text-sm text-zinc-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-200 flex items-center gap-2"
+                                  whileHover={{ x: 2 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <span className="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">{sub.icon}</span>
+                                  {sub.name}
+                                </motion.button>
+                              ))}
+                              <motion.button
+                                onClick={() => handleNavigation('accessories')}
+                                className="w-full mt-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-all duration-200"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                View All Accessories
+                              </motion.button>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
-                      {item.hasDropdown && (
-                        <ChevronRight className="h-4 w-4 opacity-50 group-hover:opacity-100" />
-                      )}
-                    </motion.button>
+                    ) : (
+                      <motion.button
+                        key={item.name}
+                        onClick={() => handleNavigation(item.page)}
+                        className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 flex items-center justify-between group ${
+                          currentPage === item.page
+                            ? "bg-gradient-to-r from-amber-500 to-purple-500 text-white shadow-lg"
+                            : "text-zinc-700 hover:text-amber-600 hover:bg-amber-50"
+                        }`}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        whileHover={{ x: 4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <div className="flex items-center gap-3">{item.name}</div>
+                      </motion.button>
+                    )
                   ))}
 
                   {/* Mobile Additional Options */}
