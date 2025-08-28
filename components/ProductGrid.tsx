@@ -342,7 +342,7 @@ export function ProductGrid({ title, subtitle, products }: {
                           className="w-10 h-10 rounded-full
                           flex items-center justify-center
                           border-2 border-white bg-white/90 backdrop-blur-sm
-                          text-amber-600 text-base sm:text-xl"
+                          text-amber-600 text-xs sm:text-xl"
                           whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.3 }}
                         >
