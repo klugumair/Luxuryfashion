@@ -325,8 +325,8 @@ export function ProductGrid({ title, subtitle, products }: {
                   </motion.div>
                 )}
 
-                <div className="relative p-4 sm:p-6">
-                  <div className="mb-6">
+                <div className="relative p-3 sm:p-6">
+                  <div className="mb-4 sm:mb-6">
                     <div className="relative h-40 sm:h-56 md:h-64 w-full rounded-lg overflow-hidden mb-3 sm:mb-4">
                       <motion.img
                         src={product.image}
@@ -377,7 +377,7 @@ export function ProductGrid({ title, subtitle, products }: {
                       </div>
                     </div>
                     <motion.h3 
-                      className="font-bold text-base sm:text-xl text-zinc-900 dark:text-white text-center mb-2"
+                      className="font-bold text-sm sm:text-xl text-zinc-900 dark:text-white text-center mb-2"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
@@ -419,7 +419,7 @@ export function ProductGrid({ title, subtitle, products }: {
                     >
                       <Button
                         onClick={(e) => handleAddToCart(product, e)}
-                        className={`w-full h-9 sm:h-10 font-bold relative
+                        className={`w-full h-8 sm:h-10 font-bold relative
                         border-2 border-amber-600 dark:border-amber-400
                         transition-all duration-200 flex items-center justify-center gap-2
                         shadow-[4px_4px_0px_0px] shadow-amber-600 dark:shadow-amber-400
