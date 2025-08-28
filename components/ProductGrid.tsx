@@ -486,7 +486,7 @@ export function ProductGrid({ title, subtitle, products }: {
                             emoji="⭐"
                             animation="bounce"
                             size="small"
-                            className="text-[9px] sm:text-xl"
+                            className="text-[7px] sm:text-xl"
                             delay={0}
                           />
                         </Button>
