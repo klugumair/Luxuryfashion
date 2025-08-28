@@ -95,15 +95,15 @@ export const HeroCarousel = ({
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
-          centerMode: false,
-          centerPadding: "0px",
+          slidesToShow: 1,
+          centerMode: true,
+          centerPadding: "40px",
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           centerMode: false,
           centerPadding: "0px",
         }
@@ -302,10 +302,10 @@ export const HeroCarousel = ({
           transform: scale(0.95);
         }
       `}</style>
-      <div className="relative hero-carousel h-[360px] sm:h-[420px] md:h-[480px] lg:h-[500px]">
+      <div className="h-[500px] relative hero-carousel">
         <Slider {...settings} className="h-full">
           {slides.map((slide, index) => (
-            <div key={slide.id} className="h-full px-1.5 sm:px-2 md:px-3">
+            <div key={slide.id} className="px-3 h-[500px]">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -276,7 +276,7 @@ export function ProductGrid({ title, subtitle, products }: {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
         >
           {products.map((product, index) => {
             const productId = product.id || `${product.name.toLowerCase().replace(/\s+/g, '-')}-001`;
@@ -325,9 +325,9 @@ export function ProductGrid({ title, subtitle, products }: {
                   </motion.div>
                 )}
 
-                <div className="relative p-6">
+                <div className="relative p-4 sm:p-6">
                   <div className="mb-6">
-                    <div className="relative h-64 w-full rounded-lg overflow-hidden mb-4">
+                    <div className="relative h-40 sm:h-56 md:h-64 w-full rounded-lg overflow-hidden mb-3 sm:mb-4">
                       <motion.img
                         src={product.image}
                         alt={product.name}
@@ -377,7 +377,7 @@ export function ProductGrid({ title, subtitle, products }: {
                       </div>
                     </div>
                     <motion.h3 
-                      className="font-bold text-xl text-zinc-900 dark:text-white text-center mb-2"
+                      className="font-bold text-base sm:text-xl text-zinc-900 dark:text-white text-center mb-2"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
@@ -386,7 +386,7 @@ export function ProductGrid({ title, subtitle, products }: {
                       {product.name}
                     </motion.h3>
                     <motion.p 
-                      className="font-medium text-zinc-600 dark:text-zinc-400 text-center text-sm mb-2"
+                      className="font-medium text-zinc-600 dark:text-zinc-400 text-center text-xs sm:text-sm mb-2"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
@@ -395,7 +395,7 @@ export function ProductGrid({ title, subtitle, products }: {
                       {product.description}
                     </motion.p>
                     <motion.p 
-                      className="font-bold text-xs text-amber-600 text-center flex items-center justify-center gap-1"
+                      className="font-bold text-[11px] sm:text-xs text-amber-600 text-center flex items-center justify-center gap-1"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
@@ -419,7 +419,7 @@ export function ProductGrid({ title, subtitle, products }: {
                     >
                       <Button
                         onClick={(e) => handleAddToCart(product, e)}
-                        className={`w-full h-10 font-bold relative
+                        className={`w-full h-9 sm:h-10 font-bold relative
                         border-2 border-amber-600 dark:border-amber-400
                         transition-all duration-200 flex items-center justify-center gap-2
                         shadow-[4px_4px_0px_0px] shadow-amber-600 dark:shadow-amber-400
@@ -449,7 +449,7 @@ export function ProductGrid({ title, subtitle, products }: {
                       <Button
                         onClick={(e) => handleWishlistToggle(product, e)}
                         variant="outline"
-                          className={`w-full h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 text-xs ${
+                          className={`w-full h-8 sm:h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 text-xs ${
                           inWishlist
                             ? "border-rose-400 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-500"
                             : "border-amber-400 bg-white text-amber-700 hover:bg-amber-50 hover:border-amber-500"
@@ -473,7 +473,7 @@ export function ProductGrid({ title, subtitle, products }: {
                         <Button
                           onClick={(e) => handleWriteReview(product, e)}
                           variant="outline"
-                          className="w-full h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 border-blue-400 bg-white text-blue-700 hover:bg-blue-50 hover:border-blue-500 text-xs"
+                          className="w-full h-8 sm:h-9 font-bold relative transition-all duration-200 flex items-center justify-center gap-1 border-2 border-blue-400 bg-white text-blue-700 hover:bg-blue-50 hover:border-blue-500 text-xs"
                         >
                           <MessageSquare className="w-3 h-3" />
                           Review
