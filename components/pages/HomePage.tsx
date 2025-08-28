@@ -357,7 +357,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
               />
               
               <motion.h1 
-                className="relative text-3xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
+                className="relative text-2xl sm:text-3xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 120 }}
@@ -401,24 +401,29 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
                     }}
                   >
                     {/* Typewriter Effect */}
-                    {"Welcome to Outlander".split("").map((char, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.1,
-                          delay: 0.8 + index * 0.04,
-                          ease: "easeOut"
-                        }}
-                        whileHover={{
-                          y: -2,
-                          transition: { duration: 0.2 }
-                        }}
-                        className="inline-block cursor-pointer"
-                      >
-                        {char === " " ? "\u00A0" : char}
-                      </motion.span>
+                    {["Welcome", "to", "Outlander"].map((word, wIndex, arr) => (
+                      <span key={wIndex} className={word === "Outlander" ? "inline-flex whitespace-nowrap" : "inline-flex"}>
+                        {word.split("").map((char, index) => (
+                          <motion.span
+                            key={`${wIndex}-${index}`}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.1,
+                              delay: 0.8 + wIndex * 0.2 + index * 0.04,
+                              ease: "easeOut"
+                            }}
+                            whileHover={{
+                              y: -2,
+                              transition: { duration: 0.2 }
+                            }}
+                            className="inline-block cursor-pointer"
+                          >
+                            {char}
+                          </motion.span>
+                        ))}
+                        {wIndex < arr.length - 1 && <span className="inline-block">&nbsp;</span>}
+                      </span>
                     ))}
                   </motion.span>
 
