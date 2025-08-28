@@ -17,9 +17,9 @@ export const AnimatedEmoji = ({
 }) => {
   // Increased emoji sizes for better visibility
   const sizeClasses = {
-    small: "text-xl",    // was text-lg
-    medium: "text-2xl",  // was text-xl  
-    large: "text-3xl"    // was text-2xl
+    small: "text-[9px] sm:text-xl",
+    medium: "text-xs sm:text-2xl",
+    large: "text-sm sm:text-3xl"
   };
 
   // Simplified, less resource-intensive animations
@@ -100,10 +100,10 @@ export const AnimatedEmoji = ({
 
   return (
     <motion.span
-      className={`inline-block select-none ${sizeClasses[size]} ${className}`}
+      className={`inline-block select-none leading-none align-middle ${sizeClasses[size]} ${className}`}
       animate={animations[animation]}
       whileHover={{ scale: 1.1, transition: { duration: 0.15 } }}
-      style={{ 
+      style={{
         filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.1))",
         willChange: "transform"
       }}
