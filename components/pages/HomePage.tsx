@@ -357,7 +357,7 @@ export const HomePage = ({ setCurrentPage }: HomePageProps) => {
               />
               
               <motion.h1 
-                className="relative text-4xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
+                className="relative text-3xl md:text-6xl font-black mb-4 flex items-center justify-center gap-3"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 120 }}
