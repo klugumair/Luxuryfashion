@@ -17,9 +17,9 @@ export const AnimatedEmoji = ({
 }) => {
   // Increased emoji sizes for better visibility
   const sizeClasses = {
-    small: "text-xs sm:text-xl",
-    medium: "text-sm sm:text-2xl",
-    large: "text-base sm:text-3xl"
+    small: "text-[9px] sm:text-xl",
+    medium: "text-xs sm:text-2xl",
+    large: "text-sm sm:text-3xl"
   };
 
   // Simplified, less resource-intensive animations
